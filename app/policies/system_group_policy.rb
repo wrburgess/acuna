@@ -1,0 +1,1 @@
+class SystemGroupPolicy < ApplicationPolicy; end

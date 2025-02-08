@@ -1,0 +1,1 @@
+class MaintenanceTasksRunPolicy < ApplicationPolicy; end

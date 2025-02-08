@@ -1,0 +1,82 @@
+{
+  "name": "Harvest",
+  "description": "Transaction manager for MPI Media",
+  "website": "https://harvest.mpimediagroup.com/",
+  "repository": "https://github.com/mpimedia/harvest",
+  "stack": "heroku-22",
+  "engines": {
+    "node": "23.x",
+    "yarn": "4.x"
+  },
+  "success_url": "/up",
+  "scripts": {
+    "postdeploy": "bundle exec rails db:migrate"
+  },
+  "env": {
+    "SECRET_KEY_BASE": {
+      "description": "A secret key",
+      "generator": "secret"
+    },
+    "RAILS_ENV": {
+      "description": "The server environment",
+      "value": "staging"
+    },
+    "LANG": {
+      "description": "Language/locale setting",
+      "value": "en_US.UTF-8"
+    },
+    "REVIEW": {
+      "description": "Pipeline application type",
+      "value": "true"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "standard-1x"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "standard-1x"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:basic"
+    },
+    {
+      "plan": "honeybadger:free"
+    },
+    {
+      "plan": "papertrail:choklad"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/ruby"
+    }
+  ],
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "bundle exec rspec spec"
+      },
+      "env": {
+        "RAILS_ENV": "test",
+        "RACK_ENV": "test"
+      }
+    },
+    "review": {
+      "scripts": {
+        "postdeploy": "bundle exec rake review:setup"
+      },
+      "env": {
+        "RAILS_ENV": "staging",
+        "RACK_ENV": "staging"
+      }
+    }
+  }
+}

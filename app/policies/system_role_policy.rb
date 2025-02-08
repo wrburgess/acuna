@@ -1,0 +1,1 @@
+class SystemRolePolicy < ApplicationPolicy; end

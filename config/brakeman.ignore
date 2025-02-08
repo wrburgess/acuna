@@ -1,0 +1,52 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "cdbabd4a823b615e4e1a4433b0f81ce17625fe9bf47e2a9edad0c448783cad1c",
+      "check_name": "FileAccess",
+      "message": "Parameter value used in file name",
+      "file": "app/controllers/admin/links_controller.rb",
+      "line": 114,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.open(\"#{Rails.root}/tmp/#{controller_class.find(params[:id]).class_name_singular}.xlsx\", \"wb\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::LinksController",
+        "method": "member_export_xlsx"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "HTTP Verb Confusion",
+      "warning_code": 118,
+      "fingerprint": "f298c53cdd44b9ba3fa247ef619c4e45c6754410bdb8ac85e284529f9971db11",
+      "check_name": "VerbConfusion",
+      "message": "Potential HTTP verb confusion. `HEAD` is routed like `GET` but `request.get?` will return `false`",
+      "file": "app/controllers/inbound_requests_controller.rb",
+      "line": 51,
+      "link": "https://brakemanscanner.org/docs/warning_types/http_verb_confusion/",
+      "code": "if request.get? then\n  render(default => default, { :plain => params[:challenge] })\nelse\n  request_body = request.raw_post\n  dropbox_signature = request.headers[\"X-Dropbox-Signature\"].to_s\n  client_secret = Rails.application.credentials.dig(:storage_assets, :dropbox, :client_secret)\n  signature = OpenSSL::HMAC.hexdigest(\"SHA256\", Rails.application.credentials.dig(:storage_assets, :dropbox, :client_secret), request.raw_post)\n  if request.headers[\"X-Dropbox-Signature\"].to_s.present? and ActiveSupport::SecurityUtils.secure_compare(OpenSSL::HMAC.hexdigest(\"SHA256\", Rails.application.credentials.dig(:storage_assets, :dropbox, :client_secret), request.raw_post), request.headers[\"X-Dropbox-Signature\"].to_s) then\n    StorageAssetService::Dropbox::HandleWebhookEvent.new.call\n    head(:ok)\n  else\n    render(json => { :error => \"Invalid signature\" }, { :status => :unauthorized })\n  end\nend",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "InboundRequestsController",
+        "method": "dropbox"
+      },
+      "user_input": "request.get?",
+      "confidence": "Weak",
+      "cwe_id": [
+        352
+      ],
+      "note": "Caught in inbound_requests_controller.rb"
+    }
+  ],
+  "updated": "2024-11-20 18:36:27 -0600",
+  "brakeman_version": "6.2.2"
+}

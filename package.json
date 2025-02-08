@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "@hotwired/stimulus": "3.2.2",
+    "@hotwired/turbo-rails": "8.0.12",
+    "@popperjs/core": "2.11.8",
+    "bootstrap": "5.3.3",
+    "bootstrap-icons": "1.11.3",
+    "esbuild": "0.24.2",
+    "sass": "1.84.0",
+    "tom-select": "2.4.2"
+  },
+  "name": "harvest",
+  "repository": "git@github.com:mpimedia/harvest.git",
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "build:css": "node node_modules/sass/sass.js ./app/assets/stylesheets/admin.scss:./app/assets/builds/admin.css ./app/assets/stylesheets/public.scss:./app/assets/builds/public.css --no-source-map --load-path=node_modules --style=compressed",
+    "watch": "node esbuild.config.js --watch",
+    "watch:css": "sass --watch ./app/assets/stylesheets/admin.scss:./app/assets/builds/admin.css ./app/assets/stylesheets/public.scss:./app/assets/builds/public.css --no-source-map --load-path=node_modules"
+  },
+  "version": "1.0.0",
+  "packageManager": "yarn@4.6.0"
+}
