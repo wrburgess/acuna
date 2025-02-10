@@ -50,7 +50,7 @@ end
 
 group :development do
   gem 'brakeman', '7.0.0', require: false
-  gem 'bullet', '8.0.0'
+  gem 'bullet', '8.0.1'
   gem 'bundler-audit', '0.9.2', require: false
   gem 'lookbook', '2.3.4'
   gem 'rubocop', '1.71.2', require: false
