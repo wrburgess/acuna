@@ -39,7 +39,7 @@ gem 'tzinfo-data', '1.2025.1'
 gem 'view_component', '3.21.0'
 
 group :production, :staging do
-  gem 'honeybadger', '5.26.2'
+  gem 'honeybadger', '5.26.3'
 end
 
 group :development, :test do
