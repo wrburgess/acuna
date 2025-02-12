@@ -33,7 +33,7 @@ gem 'ransack', '4.3.0'
 gem 'roo', '2.10.1'
 gem 'simple_form', '5.3.1'
 gem 'stimulus-rails', '1.3.4'
-gem 'thruster', '0.1.10', require: false
+gem 'thruster', '0.1.11', require: false
 gem 'turbo-rails', '2.0.11'
 gem 'tzinfo-data', '1.2025.1'
 gem 'view_component', '3.21.0'
