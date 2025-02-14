@@ -1,0 +1,95 @@
+require 'net/http'
+require 'uri'
+require 'json'
+
+class AvailsApiService
+  class AuthenticationError < StandardError; end
+  class RequestError < StandardError; end
+
+  attr_reader :token, :path
+
+  def initialize(path:, domain: nil, method: :get, protocol: 'https')
+    @path = path
+    @http_method = method.to_s.downcase
+    @protocol = protocol.to_s.downcase
+    @domain = establish_domain(domain)
+    @token = fetch_token
+    validate_protocol
+  rescue StandardError => e
+    raise AuthenticationError, "Failed to authenticate: #{e.message}"
+  end
+
+  def request
+    raise AuthenticationError, 'No valid token available' unless token
+
+    uri = URI.parse("#{@protocol}://#{@domain}/#{path}")
+    request = build_request(uri)
+    request['Authorization'] = "Bearer #{@token}"
+    request['Content-Type'] = 'application/json'
+
+    response = make_request(uri, request)
+    handle_response(response)
+  rescue StandardError => e
+    { success: false, error: e.message }
+  end
+
+  private
+
+  def validate_protocol
+    return if %w[http https].include?(@protocol)
+
+    raise RequestError, "Unsupported protocol: #{@protocol}. Must be 'http' or 'https'"
+  end
+
+  def establish_domain(supplied_domain)
+    return 'localhost:8000' if Rails.env.development? && supplied_domain.nil?
+    return supplied_domain if supplied_domain.present?
+
+    Rails.application.credentials[Rails.env.to_sym].avails_api_domain
+  end
+
+  def fetch_token
+    auth_uri = URI.parse("#{@protocol}://#{@domain}/api/v1/authentication_tokens")
+
+    auth_request = Net::HTTP::Post.new(auth_uri)
+    auth_request['Content-Type'] = 'application/json'
+    auth_request.body = {
+      api_key: Rails.application.credentials[Rails.env.to_sym].avails_api_key,
+      secret_key: Rails.application.credentials[Rails.env.to_sym].avails_secret_key
+    }.to_json
+
+    auth_response = make_request(auth_uri, auth_request)
+
+    raise AuthenticationError, "Authentication failed: #{auth_response.message}" unless auth_response.is_a?(Net::HTTPSuccess)
+
+    JSON.parse(auth_response.body)['token']
+  end
+
+  def build_request(uri)
+    request_class = case @http_method
+                    when 'get'    then Net::HTTP::Get
+                    when 'post'   then Net::HTTP::Post
+                    when 'put'    then Net::HTTP::Put
+                    when 'patch'  then Net::HTTP::Patch
+                    when 'delete' then Net::HTTP::Delete
+                    else raise RequestError, "Unsupported HTTP method: #{@http_method}"
+                    end
+
+    request_class.new(uri)
+  end
+
+  def make_request(uri, request)
+    Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+      http.request(request)
+    end
+  end
+
+  def handle_response(response)
+    case response
+    when Net::HTTPSuccess
+      { success: true, data: JSON.parse(response.body) }
+    else
+      { success: false, error: response.message, status: response.code }
+    end
+  end
+end

@@ -10,6 +10,8 @@ require 'pundit/rspec'
 require 'rake'
 require 'rspec/rails'
 require 'shoulda/matchers'
+require 'vcr'
+require 'webmock/rspec'
 include RSpec::Longrun::DSL
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
@@ -95,3 +97,12 @@ Shoulda::Matchers.configure do |config|
 end
 
 DatabaseCleaner.allow_remote_database_url = true
+
+WebMock.disable_net_connect!(allow_localhost: true)
+
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/vcr_cassettes'
+  config.hook_into :webmock
+  config.configure_rspec_metadata!
+  config.ignore_localhost = true
+end
