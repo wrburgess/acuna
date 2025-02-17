@@ -368,7 +368,7 @@ GEM
     rspec-support (3.13.2)
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (1.72.1)
+    rubocop (1.72.2)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -495,7 +495,7 @@ DEPENDENCIES
   rspec-longrun (= 3.1.0)
   rspec-rails (= 7.1.1)
   rspec_junit_formatter (= 0.6.0)
-  rubocop (= 1.72.1)
+  rubocop (= 1.72.2)
   selenium-webdriver (= 4.28.0)
   shoulda-matchers (= 6.4.0)
   simple_form (= 5.3.1)
@@ -510,7 +510,7 @@ DEPENDENCIES
   webmock (= 3.25.0)
 
 RUBY VERSION
-   ruby 3.4.1p0
+   ruby 3.4.2p28
 
 BUNDLED WITH
-   2.5.10
+   2.6.3
