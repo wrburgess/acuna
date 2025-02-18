@@ -9,14 +9,13 @@ class AvailsApiService
   attr_reader :token, :path
 
   def initialize(path:, domain: nil, method: :get, protocol: 'https')
+    @domain = establish_domain(domain).to_s.downcase
     @path = path
     @http_method = method.to_s.downcase
+    validate_http_method
     @protocol = protocol.to_s.downcase
-    @domain = establish_domain(domain)
-    @token = fetch_token
     validate_protocol
-  rescue StandardError => e
-    raise AuthenticationError, "Failed to authenticate: #{e.message}"
+    @token = fetch_token
   end
 
   def request
@@ -34,6 +33,13 @@ class AvailsApiService
   end
 
   private
+
+  def validate_http_method
+    valid_methods = %w[get post put patch delete]
+    return if valid_methods.include?(@http_method)
+
+    raise RequestError, "Unsupported HTTP method: #{@http_method}. Must be one of: #{valid_methods.join(', ')}"
+  end
 
   def validate_protocol
     return if %w[http https].include?(@protocol)

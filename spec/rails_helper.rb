@@ -97,7 +97,6 @@ Shoulda::Matchers.configure do |config|
 end
 
 DatabaseCleaner.allow_remote_database_url = true
-
 WebMock.disable_net_connect!(allow_localhost: true)
 
 VCR.configure do |config|

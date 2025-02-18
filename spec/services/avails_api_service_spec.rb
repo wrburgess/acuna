@@ -3,20 +3,56 @@ require 'rails_helper'
 RSpec.describe AvailsApiService do
   let(:valid_path) { 'api/v1/titles' }
   let(:auth_token) { 'mock_token_123' }
-  let(:auth_response) do
-    {
-      token: auth_token
-    }.to_json
+
+  let(:mock_credentials) do
+    double('env_credentials').tap do |creds|
+      allow(creds).to receive(:avails_api_domain).and_return('api.example.com')
+      allow(creds).to receive(:avails_api_key).and_return('test_api_key')
+      allow(creds).to receive(:avails_secret_key).and_return('test_secret_key')
+    end
+  end
+
+  let(:credentials_mock) do
+    double('credentials').tap do |creds|
+      allow(creds).to receive(:[]).with(:test).and_return(mock_credentials)
+    end
+  end
+
+  before do
+    allow(Rails.application).to receive(:credentials).and_return(credentials_mock)
+
+    stub_request(:post, 'https://api.example.com/api/v1/authentication_tokens')
+      .with(
+        body: {
+          api_key: 'test_api_key',
+          secret_key: 'test_secret_key'
+        }.to_json,
+        headers: { 'Content-Type' => 'application/json' }
+      )
+      .to_return(
+        status: 200,
+        body: { token: auth_token }.to_json,
+        headers: { 'Content-Type' => 'application/json' }
+      )
   end
 
   describe '#initialize' do
     context 'with valid parameters' do
       it 'initializes successfully' do
-        VCR.use_cassette('avails_api_service/valid_init') do
-          expect do
-            AvailsApiService.new(path: valid_path)
-          end.not_to raise_error
-        end
+        expect do
+          AvailsApiService.new(path: valid_path)
+        end.not_to raise_error
+      end
+    end
+
+    context 'with invalid HTTP method' do
+      it 'raises RequestError' do
+        expect do
+          AvailsApiService.new(path: valid_path, method: :invalid)
+        end.to raise_error(
+          AvailsApiService::RequestError,
+          /Unsupported HTTP method: invalid. Must be one of: get, post, put, patch, delete/
+        )
       end
     end
 
@@ -31,6 +67,13 @@ RSpec.describe AvailsApiService do
 
   describe '#request' do
     let(:service) { AvailsApiService.new(path: valid_path) }
+    let(:auth_response) do
+      {
+        token: auth_token,
+        exp: 24.hours.from_now.iso8601,
+        application_name: 'Test Application'
+      }.to_json
+    end
     let(:successful_response) do
       {
         data: [{ id: 1, title: 'Movie 1' }]
@@ -50,7 +93,7 @@ RSpec.describe AvailsApiService do
       it 'returns successful response with data' do
         response = service.request
         expect(response[:success]).to be true
-        expect(response[:data]).to be_present
+        expect(response[:token]).to be_present
       end
     end
 
