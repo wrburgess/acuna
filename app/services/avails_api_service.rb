@@ -18,10 +18,12 @@ class AvailsApiService
     @token = fetch_token
   end
 
-  def request
+  def request(params: nil)
     raise AuthenticationError, 'No valid token available' unless token
 
     uri = URI.parse("#{@protocol}://#{@domain}/#{path}")
+    uri.query = encode_params(params) if params
+
     request = build_request(uri)
     request['Authorization'] = "Bearer #{@token}"
     request['Content-Type'] = 'application/json'
@@ -85,9 +87,19 @@ class AvailsApiService
   end
 
   def make_request(uri, request)
-    Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+    Net::HTTP.start(
+      uri.hostname,
+      uri.port,
+      use_ssl: use_ssl?(uri)
+    ) do |http|
       http.request(request)
     end
+  end
+
+  def use_ssl?(uri)
+    return false if ['localhost', '127.0.0.1'].include?(uri.hostname)
+
+    uri.scheme == 'https'
   end
 
   def handle_response(response)
@@ -97,5 +109,11 @@ class AvailsApiService
     else
       { success: false, error: response.message, status: response.code }
     end
+  end
+
+  def encode_params(params)
+    return nil if params.nil?
+
+    params.to_query
   end
 end
