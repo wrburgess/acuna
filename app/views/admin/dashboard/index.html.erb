@@ -5,7 +5,6 @@
     <div class="col-6">
       <%= render Admin::DashboardCard::Component.new(title: "Media") do |card| %>
         <% card.with_link(name: "Organizations", url: admin_organizations_path, policy: Organization) %>
-        <% card.with_link(name: "Screening Requests", url: admin_contacts_path, policy: ScreeningRequest) %>
         <% card.with_link(name: "Titles", url: admin_titles_path, policy: Title) %>
         <% card.with_link(name: "Venues", url: admin_venues_path, policy: Venue) %>
       <% end %>
@@ -13,8 +12,10 @@
 
     <div class="col-6">
       <%= render Admin::DashboardCard::Component.new(title: "Commerce") do |card| %>
-        <% card.with_link(name: "Screeners", url: admin_screeners_path, policy: Screener) %>
         <% card.with_link(name: "Orders", url: admin_orders_path, policy: Order) %>
+        <% card.with_link(name: "Order Items", url: admin_order_items_path, policy: OrderItem) %>
+        <% card.with_link(name: "Screening Requests", url: admin_contacts_path, policy: ScreeningRequest) %>
+        <% card.with_link(name: "Widgets", url: admin_widgets_path, policy: Widget) %>
       <% end %>
     </div>
 

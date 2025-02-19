@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @screener %>
+
+<div>
+  <%= link_to "Edit this screener", edit_screener_path(@screener) %> |
+  <%= link_to "Back to screeners", screeners_path %>
+
+  <%= button_to "Destroy this screener", @screener, method: :delete %>
+</div>

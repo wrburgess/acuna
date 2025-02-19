@@ -1,1 +1,0 @@
-class ScreenerPolicy < ApplicationPolicy; end

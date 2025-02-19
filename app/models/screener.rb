@@ -1,2 +1,0 @@
-class Screener < ApplicationRecord
-end

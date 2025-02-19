@@ -1,1 +1,0 @@
-class InboundRequestLogPolicy < ApplicationPolicy; end

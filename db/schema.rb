@@ -235,6 +235,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_010622) do
     t.index ["task_name", "status", "created_at"], name: "index_maintenance_tasks_runs", order: { created_at: :desc }
   end
 
+  create_table "order_items", force: :cascade do |t|
+    t.string "itemable_type", null: false
+    t.bigint "itemable_id", null: false
+    t.bigint "order_id", null: false
+    t.integer "amount"
+    t.text "staff_notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["itemable_type", "itemable_id"], name: "index_order_items_on_itemable"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "amount"
+    t.string "card_brand"
+    t.string "card_last4"
+    t.string "card_exp_month"
+    t.string "card_exp_year"
+    t.string "stripe_id"
+    t.text "staff_notes"
+    t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.string "name"
     t.string "organization_type"
@@ -274,37 +301,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_010622) do
     t.text "sql", null: false
     t.text "notes"
     t.datetime "archived_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "screener_order_items", force: :cascade do |t|
-    t.bigint "screener_id", null: false
-    t.bigint "screener_order_id", null: false
-    t.integer "amount"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["screener_id"], name: "index_screener_order_items_on_screener_id"
-    t.index ["screener_order_id"], name: "index_screener_order_items_on_screener_order_id"
-  end
-
-  create_table "screener_orders", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.integer "amount"
-    t.string "card_brand"
-    t.string "card_last4"
-    t.string "card_exp_month"
-    t.string "card_exp_year"
-    t.string "stripe_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_screener_orders_on_user_id"
-  end
-
-  create_table "screeners", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.integer "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -457,7 +453,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_010622) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  add_foreign_key "screener_order_items", "screener_orders"
-  add_foreign_key "screener_order_items", "screeners"
-  add_foreign_key "screener_orders", "users"
+  create_table "widgets", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "amount"
+    t.text "staff_notes"
+    t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "users"
 end

@@ -1,1 +1,0 @@
-class DataLogPolicy < ApplicationPolicy; end
