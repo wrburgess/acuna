@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_01_185407) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_19_010622) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -278,6 +278,37 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_185407) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "screener_order_items", force: :cascade do |t|
+    t.bigint "screener_id", null: false
+    t.bigint "screener_order_id", null: false
+    t.integer "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["screener_id"], name: "index_screener_order_items_on_screener_id"
+    t.index ["screener_order_id"], name: "index_screener_order_items_on_screener_order_id"
+  end
+
+  create_table "screener_orders", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "amount"
+    t.string "card_brand"
+    t.string "card_last4"
+    t.string "card_exp_month"
+    t.string "card_exp_year"
+    t.string "stripe_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_screener_orders_on_user_id"
+  end
+
+  create_table "screeners", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false
     t.binary "payload", null: false
@@ -425,4 +456,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_185407) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
+
+  add_foreign_key "screener_order_items", "screener_orders"
+  add_foreign_key "screener_order_items", "screeners"
+  add_foreign_key "screener_orders", "users"
 end

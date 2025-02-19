@@ -12,6 +12,13 @@
     </div>
 
     <div class="col-6">
+      <%= render Admin::DashboardCard::Component.new(title: "Commerce") do |card| %>
+        <% card.with_link(name: "Screeners", url: admin_screeners_path, policy: Screener) %>
+        <% card.with_link(name: "Orders", url: admin_orders_path, policy: Order) %>
+      <% end %>
+    </div>
+
+    <div class="col-6">
       <%= render Admin::DashboardCard::Component.new(title: "Management") do |card| %>
         <% card.with_link(name: "Data Logs", url: polymorphic_path([:admin, DataLog]), policy: DataLog) %>
         <% card.with_link(name: "Inbound Request Logs", url: polymorphic_path([:admin, InboundRequestLog]), policy: InboundRequestLog) %>
@@ -70,6 +77,17 @@
         <% card.with_link(name: "ViewComponent", url: 'https://viewcomponent.org/', new_window: true) %>
         <% card.with_link(name: "Yarn", url: 'https://yarnpkg.com/', new_window: true) %>
       <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6 col-lg-3">
+      <%= render Admin::DashboardCard::Component.new(
+        title: 'Screeners',
+        count: Screener.count,
+        active_count: Screener.actives.count,
+        path: admin_screeners_path
+      ) %>
     </div>
   </div>
 <% end %>

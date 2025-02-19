@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :screeners
   draw :external_urls
 
   devise_for :users
@@ -81,6 +82,17 @@ Rails.application.routes.draw do
 
       collection do
         post :stop_impersonating
+      end
+    end
+
+    resources :screeners do
+      member do
+        get :archive
+        get :unarchive
+        get :member_export_xlsx
+      end
+      collection do
+        get :collection_export_xlsx
       end
     end
   end
