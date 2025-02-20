@@ -1,1 +1,1 @@
-class Admin::ScreeningRequestsPolicy < AdminApplicationPolicy; end
+class Admin::ScreeningRequestPolicy < AdminApplicationPolicy; end

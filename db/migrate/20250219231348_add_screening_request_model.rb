@@ -1,6 +1,18 @@
 class AddScreeningRequestModel < ActiveRecord::Migration[8.0]
   def change
-    drop_table :screening_requests, if_exists: true
+    create_table :labels, id: false, force: :cascade do |t|
+      t.bigint :id, null: false, primary_key: true
+      t.string :name
+      t.timestamps
+    end
+
+    create_table :titles, id: false, force: :cascade do |t|
+      t.bigint :id, null: false, primary_key: true
+      t.references :label, null: false, foreign_key: true
+      t.string :name
+      t.boolean :screening_requests_accepted
+      t.timestamps
+    end
 
     create_table :screening_requests, force: :cascade do |t|
       t.references :user, null: false, foreign_key: true
@@ -42,8 +54,6 @@ class AddScreeningRequestModel < ActiveRecord::Migration[8.0]
       t.integer :agreed_amount
       t.datetime :archived_at
       t.timestamps
-      t.index ["title_id"], name: "index_screening_requests_on_title_id"
-      t.index ["user_id"], name: "index_screening_requests_on_user_id"
       t.index :status
       t.index :archived_at
       t.index :slug, unique: true

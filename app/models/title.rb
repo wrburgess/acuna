@@ -1,11 +1,7 @@
-class Label < ApplicationRecord
+class Title < ApplicationRecord
   include Loggable
 
-  validates :name, presence: true
-
-  has_many :titles
-
-  scope :select_order, -> { order('name ASC') }
+  belongs_to :label
 
   def self.ransackable_attributes(*)
     %w[
@@ -16,11 +12,11 @@ class Label < ApplicationRecord
   end
 
   def self.ransackable_associations(*)
-    [:titles]
+    [:label]
   end
 
   def self.options_for_select
-    select_order.map { [it.name, it.id] }
+    select_order.map { |instance| [instance.name, instance.id] }
   end
 
   def self.default_sort

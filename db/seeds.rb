@@ -1,7 +1,9 @@
 # CREATE Admins
 puts "BEGIN: Create admins"
 admins = [
-  { email: "wrburgess@gmail.com", first_name: "Randy", last_name: "Burgess", password: "dtf6fhu7pdq6nbz-RED", confirmed_at: Time.now.utc }
+  { email: "rburgess@mpimedia.com", first_name: "Randy", last_name: "Burgess", password: "dtf6fhu7pdq6nbz-RED", confirmed_at: Time.now.utc },
+  { email: "dennis@dennmart.com", first_name: "Dennis", last_name: "Martinez", password: "p3quZfBrwEsPgbAs*eG", confirmed_at: Time.now.utc },
+  { email: "badie@mpimedia.com", first_name: "Badie", last_name: "Ali", password: "vWxuzQqXB.Tz97gAzcM", confirmed_at: Time.now.utc }
 ]
 admins.each do |admin|
   User.create_with(admin).find_or_create_by(email: admin[:email])
@@ -28,41 +30,19 @@ puts "BEGIN: Create Widgets"
 end
 puts "END:   Create Widgets, Widgets Count: #{Widget.count}"
 
+# CREATE Labels
+puts "BEGIN: Create Labels"
+4.times do
+  Label.create(name: Faker::Company.name)
+end
+puts "END:   Create Labels, Labels Count: #{Label.count}"
+
 # CREATE Titles
 puts "BEGIN: Create Titles"
 30.times do
-  Title.create(name: Faker::Movie.title, staff_notes: Faker::Lorem.sentence)
+  Title.create(name: Faker::Movie.title, label: Label.all.sample)
 end
 puts "END:   Create Titles, Titles Count: #{Title.count}"
-
-# CREATE Orders
-puts "BEGIN: Create Order Items"
-Order.all.each do
-  title = Title.all.sample
-
-  screener_request = ScreenerRequest.create(
-    title: title,
-    user: order.user,
-    staff_notes: Faker::Lorem.sentence
-  )
-
-  widget = Widget.all.sample
-
-  OrderItem.create(
-    order: it,
-    itemable: screener_request,
-    amount: Faker::Number.between(from: 10000, to: 50000),
-    staff_notes: Faker::Lorem.sentence
-  )
-
-  OrderItem.create(
-    order: it,
-    itemable: widget,
-    amount: Faker::Number.between(from: 100, to: 5000),
-    staff_notes: Faker::Lorem.sentence
-  )
-end
-puts "END:   Create Order Items, OrderItems Count: #{OrderItem.count}"
 
 # CREATE Orders
 puts "BEGIN: Create Orders"
@@ -78,3 +58,36 @@ puts "BEGIN: Create Orders"
   )
 end
 puts "END:   Create Orders, Orders Count: #{Order.count}"
+
+# CREATE Orders
+puts "BEGIN: Create Order Items"
+Order.all.each do
+  title = Title.all.sample
+
+  screening_request = ScreeningRequest.create(
+    title: title,
+    user: it.user,
+    staff_notes: Faker::Lorem.sentence
+  )
+
+  widget = Widget.all.sample
+
+  OrderItem.create(
+    order: it,
+    itemable: screening_request,
+    amount: Faker::Number.between(from: 10000, to: 50000),
+    staff_notes: Faker::Lorem.sentence
+  )
+
+  OrderItem.create(
+    order: it,
+    itemable: widget,
+    amount: Faker::Number.between(from: 100, to: 5000),
+    staff_notes: Faker::Lorem.sentence
+  )
+end
+puts "END:   Create Order Items, OrderItems Count: #{OrderItem.count}"
+
+# Set Permissions
+puts "BEGIN: Create Order Items"
+ImportSystemPermissionsJob.perform_now(file_name: 'system_permissions.xlsx')

@@ -1,9 +1,7 @@
-class Label < ApplicationRecord
+class Venue < ApplicationRecord
   include Loggable
 
   validates :name, presence: true
-
-  has_many :titles
 
   scope :select_order, -> { order('name ASC') }
 
@@ -15,9 +13,7 @@ class Label < ApplicationRecord
     ]
   end
 
-  def self.ransackable_associations(*)
-    [:titles]
-  end
+  def self.ransackable_associations(*); end
 
   def self.options_for_select
     select_order.map { [it.name, it.id] }

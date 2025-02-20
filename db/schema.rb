@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_19_005949) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_19_231348) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -203,6 +203,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_005949) do
     t.datetime "created_at", null: false
   end
 
+  create_table "labels", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["id"], name: "index_labels_on_id", unique: true
+  end
+
   create_table "links", force: :cascade do |t|
     t.string "url_type"
     t.string "url"
@@ -233,6 +240,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_005949) do
     t.integer "lock_version", default: 0, null: false
     t.text "metadata"
     t.index ["task_name", "status", "created_at"], name: "index_maintenance_tasks_runs", order: { created_at: :desc }
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.string "itemable_type", null: false
+    t.bigint "itemable_id", null: false
+    t.bigint "order_id", null: false
+    t.integer "amount"
+    t.text "staff_notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["itemable_type", "itemable_id"], name: "index_order_items_on_itemable"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "amount"
+    t.string "card_brand"
+    t.string "card_last4"
+    t.string "card_exp_month"
+    t.string "card_exp_year"
+    t.string "stripe_id"
+    t.text "staff_notes"
+    t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -276,6 +310,54 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_005949) do
     t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "screening_requests", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "title_id", null: false
+    t.string "status"
+    t.string "request_host"
+    t.string "phone_number"
+    t.string "email"
+    t.string "organization_name"
+    t.string "organization_type"
+    t.text "organization_notes"
+    t.string "organization_social_media"
+    t.string "business_type"
+    t.text "requestor_notes"
+    t.text "staff_notes"
+    t.text "pricing_notes"
+    t.string "slug"
+    t.string "venue_name"
+    t.string "venue_capacity"
+    t.string "venue_location"
+    t.string "venue_country"
+    t.date "screening_date"
+    t.string "screening_time"
+    t.text "screening_date_notes"
+    t.boolean "is_ticketed"
+    t.string "ticket_price"
+    t.string "expected_attendance"
+    t.string "file_format"
+    t.text "equipment_notes"
+    t.text "marketing_notes"
+    t.text "organization_url"
+    t.integer "screening_number"
+    t.string "billing_address"
+    t.string "billing_phone"
+    t.string "billing_email"
+    t.string "fedex_shipping_code"
+    t.boolean "mailing_list_opt_in"
+    t.integer "default_amount"
+    t.integer "agreed_amount"
+    t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["archived_at"], name: "index_screening_requests_on_archived_at"
+    t.index ["slug"], name: "index_screening_requests_on_slug", unique: true
+    t.index ["status"], name: "index_screening_requests_on_status"
+    t.index ["title_id"], name: "index_screening_requests_on_title_id"
+    t.index ["user_id"], name: "index_screening_requests_on_user_id"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -394,6 +476,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_005949) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "titles", force: :cascade do |t|
+    t.bigint "label_id", null: false
+    t.string "name"
+    t.boolean "screening_requests_accepted"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["id"], name: "index_titles_on_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|

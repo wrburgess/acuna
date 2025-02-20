@@ -14,7 +14,7 @@
       <%= render Admin::DashboardCard::Component.new(title: "Commerce") do |card| %>
         <% card.with_link(name: "Orders", url: admin_orders_path, policy: Order) %>
         <% card.with_link(name: "Order Items", url: admin_order_items_path, policy: OrderItem) %>
-        <% card.with_link(name: "Screening Requests", url: admin_contacts_path, policy: ScreeningRequest) %>
+        <% card.with_link(name: "Screening Requests", url: admin_screening_requests_path, policy: ScreeningRequest) %>
         <% card.with_link(name: "Widgets", url: admin_widgets_path, policy: Widget) %>
       <% end %>
     </div>
@@ -78,17 +78,6 @@
         <% card.with_link(name: "ViewComponent", url: 'https://viewcomponent.org/', new_window: true) %>
         <% card.with_link(name: "Yarn", url: 'https://yarnpkg.com/', new_window: true) %>
       <% end %>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-6 col-lg-3">
-      <%= render Admin::DashboardCard::Component.new(
-        title: 'Screeners',
-        count: Screener.count,
-        active_count: Screener.actives.count,
-        path: admin_screeners_path
-      ) %>
     </div>
   </div>
 <% end %>

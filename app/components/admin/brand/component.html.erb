@@ -1,2 +1,4 @@
-<script src="https://js.stripe.com/v3/"></script>
-<%= tag.meta name: "stripe-key" content: Rails.application.credentials[Rails.env.to_sym].stripe_publishable_key %>
+<a class="<%= style[:brand][:base] %>" href="/">
+  <span class="<%= style[:brand_name][:base] %>"><%= @brand_name %></span>
+  <span class="<%= style[:environment_label][:base] %>"><%= environment_label %></span>
+</a>
