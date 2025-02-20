@@ -3,7 +3,7 @@ class CreateWidgets < ActiveRecord::Migration[8.0]
     create_table :widgets do |t|
       t.string :name
       t.text :description
-      t.integer :amount
+      t.integer :default_amount
       t.text :staff_notes
       t.datetime :archived_at
       t.timestamps

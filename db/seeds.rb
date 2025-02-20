@@ -1,13 +1,3 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-
 # CREATE Admins
 puts "BEGIN: Create admins"
 admins = [
@@ -31,9 +21,60 @@ puts "BEGIN: Create users"
 end
 puts "END:   Create users, Users Count: #{User.count}"
 
-# CREATE Links
-puts "BEGIN: Create Links"
+# CREATE Widgets
+puts "BEGIN: Create Widgets"
 30.times do
-  Link.create(url: Faker::Internet.url, url_type: UrlTypes.all.sample, secure_code: SecureRandom.hex(10), notes: Faker::Lorem.sentence)
+  Widget.create(name: Faker::Book.title, staff_notes: Faker::Lorem.sentence)
 end
-puts "END:   Create Links, Links Count: #{Link.count}"
+puts "END:   Create Widgets, Widgets Count: #{Widget.count}"
+
+# CREATE Titles
+puts "BEGIN: Create Titles"
+30.times do
+  Title.create(name: Faker::Movie.title, staff_notes: Faker::Lorem.sentence)
+end
+puts "END:   Create Titles, Titles Count: #{Title.count}"
+
+# CREATE Orders
+puts "BEGIN: Create Order Items"
+Order.all.each do
+  title = Title.all.sample
+
+  screener_request = ScreenerRequest.create(
+    title: title,
+    user: order.user,
+    staff_notes: Faker::Lorem.sentence
+  )
+
+  widget = Widget.all.sample
+
+  OrderItem.create(
+    order: it,
+    itemable: screener_request,
+    amount: Faker::Number.between(from: 10000, to: 50000),
+    staff_notes: Faker::Lorem.sentence
+  )
+
+  OrderItem.create(
+    order: it,
+    itemable: widget,
+    amount: Faker::Number.between(from: 100, to: 5000),
+    staff_notes: Faker::Lorem.sentence
+  )
+end
+puts "END:   Create Order Items, OrderItems Count: #{OrderItem.count}"
+
+# CREATE Orders
+puts "BEGIN: Create Orders"
+150.times do
+  Order.create(
+    user: User.all.sample,
+    card_brand: Faker::Business.credit_card_type,
+    card_last4: Faker::Business.credit_card_number,
+    card_exp_month: Faker::Business.credit_card_expiry_date,
+    card_exp_year: Faker::Business.credit_card_expiry_date,
+    stripe_id: Faker::Alphanumeric.alphanumeric(number: 10),
+    staff_notes: Faker::Lorem.sentence, archived_at: nil
+  )
+end
+puts "END:   Create Orders, Orders Count: #{Order.count}"
