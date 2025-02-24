@@ -10,11 +10,11 @@ gem 'rails', '8.0.1'
 # gem install debug
 
 gem 'awesome_print', '1.9.2'
-gem 'blazer', '3.1.0'
+gem 'blazer', '3.2.0'
 gem 'bootsnap', '1.18.4', require: false
 gem 'caxlsx', '4.2.0'
 gem 'caxlsx_rails', '0.6.4'
-gem 'cssbundling-rails', '1.4.1'
+gem 'cssbundling-rails', '1.4.2'
 gem 'csv', '3.3.2'
 gem 'devise', '4.9.4'
 gem 'faker', '3.5.1'
@@ -67,7 +67,7 @@ group :test do
   gem 'rspec-json_expectations', '2.2.0'
   gem 'rspec_junit_formatter', '0.6.0'
   gem 'rspec-longrun', '3.1.0'
-  gem 'selenium-webdriver', '4.29.0'
+  gem 'selenium-webdriver', '4.29.1'
   gem 'shoulda-matchers', '6.4.0'
   gem 'timecop', '0.9.10'
   gem 'vcr', '6.3.1'
