@@ -35,7 +35,7 @@ gem 'simple_form', '5.3.1'
 gem 'stimulus-rails', '1.3.4'
 gem 'stripe', '13.5.0'
 gem 'thruster', '0.1.11', require: false
-gem 'turbo-rails', '2.0.11'
+gem 'turbo-rails', '2.0.12'
 gem 'tzinfo-data', '1.2025.1'
 gem 'view_component', '3.21.0'
 
@@ -53,7 +53,7 @@ group :development do
   gem 'brakeman', '7.0.0', require: false
   gem 'bullet', '8.0.1'
   gem 'bundler-audit', '0.9.2', require: false
-  gem 'lookbook', '2.3.4'
+  gem 'lookbook', '2.3.5'
   gem 'rubocop', '1.73.1', require: false
   gem 'web-console', '4.2.1'
 end
