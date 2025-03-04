@@ -54,7 +54,7 @@ group :development do
   gem 'bullet', '8.0.1'
   gem 'bundler-audit', '0.9.2', require: false
   gem 'lookbook', '2.3.5'
-  gem 'rubocop', '1.73.1', require: false
+  gem 'rubocop', '1.73.2', require: false
   gem 'web-console', '4.2.1'
 end
 
