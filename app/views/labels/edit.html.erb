@@ -1,0 +1,38 @@
+<%= render "shared/admin/view_div_wrapper", obj: @instance do %>
+  <div class="row header">
+    <%= component "header_for_edit", instance: @instance %>
+  </div>
+  <%= form_with url: send("#{@instance.model_name.singular.downcase}_path", @instance), method: :put do |form| %>
+    <div class="row">
+      <div class="col-6">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="id" value="<%= @instance.id %>" readonly>
+          <label for="id" class="form-label">ID</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="name" name="name" value="<%= @instance.name %>">
+          <label for="name" class="form-label">Name</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="description" name="description" value="<%= @instance.description %>">
+          <label for="name" class="form-label">Description</label>
+        </div>
+        <div class="form-floating">
+          <textarea class="form-control" id="notes" name="notes" rows="2"><%= @instance.notes %></textarea>
+          <label class="form-check-label" for="notes">Notes</label>
+        </div>
+      </div><!-- col-6 -->
+      <div class="col-6">
+      </div><!-- col-6 -->
+    </div><!-- row -->
+    <div class="row">
+      <div class="form-group">
+        <%= component("action_button", operation: :cancel_to_show, instance: @instance, classes_append: "me-3", public: true) %>
+        <button class="btn btn-success me-3">
+          <i class="bi bi-check-circle"></i>
+          Submit
+        </button>
+      </div>
+    </div><!-- row -->
+  <% end %>
+<% end %>

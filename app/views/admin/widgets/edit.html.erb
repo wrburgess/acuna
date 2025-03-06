@@ -1,0 +1,12 @@
+<% content_for :title, "Editing screener" %>
+
+<h1>Editing screener</h1>
+
+<%= render "form", screener: @screener %>
+
+<br>
+
+<div>
+  <%= link_to "Show this screener", @screener %> |
+  <%= link_to "Back to screeners", screeners_path %>
+</div>

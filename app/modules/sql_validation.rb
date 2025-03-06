@@ -13,14 +13,14 @@ module SqlValidation
       values
     ]
 
-    readonly_commands = [ "select" ]
+    readonly_commands = ['select']
     sql_downcased = sql.downcase.strip
 
     # reject empty statements
-    return false if sql_downcased.length == 0
+    return false if sql_downcased.empty?
 
     # reject multiple statements
-    return false if sql_downcased.split(";").length > 1
+    return false if sql_downcased.split(';').length > 1
 
     # reject mutative commands
     return false if mutation_commands.any? { |command| sql_downcased.include? command }
@@ -29,7 +29,7 @@ module SqlValidation
     return true if readonly_commands.any? { |command| sql_downcased.include? command }
 
     # require SELECT statement
-    return false unless sql_downcased.include? "select"
+    return false unless sql_downcased.include? 'select'
 
     false
   end

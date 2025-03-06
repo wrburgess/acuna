@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :screeners
   draw :external_urls
 
   devise_for :users
@@ -46,6 +47,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :orders, only: [:index, :show]
+  resources :screening_requests
+  resources :widgets, only: [:index, :show]
+
   namespace :admin do
     root to: 'dashboard#index'
 
@@ -64,6 +69,8 @@ Rails.application.routes.draw do
 
     resources :data_logs, only: [:index, :show], concerns: :collection_exportable
     resources :inbound_request_logs, only: [:index, :show], concerns: :collection_exportable
+    resources :order_items, concerns: [:collection_exportable, :member_exportable]
+    resources :orders, concerns: [:collection_exportable, :member_exportable]
     resources :organizations, only: [:index, :show], concerns: :collection_exportable
     resources :reports, concerns: [:collection_exportable, :member_exportable]
     resources :screening_requests, concerns: [:collection_exportable, :member_exportable]
@@ -71,7 +78,6 @@ Rails.application.routes.draw do
     resources :system_permissions, concerns: [:copyable, :collection_exportable]
     resources :system_roles, concerns: :collection_exportable
     resources :titles, only: [:index, :show], concerns: :collection_exportable
-    resources :venues, only: [:index, :show], concerns: :collection_exportable
 
     resources :users, concerns: :collection_exportable do
       member do
@@ -83,5 +89,8 @@ Rails.application.routes.draw do
         post :stop_impersonating
       end
     end
+
+    resources :venues, only: [:index, :show], concerns: :collection_exportable
+    resources :widgets, concerns: [:collection_exportable, :member_exportable]
   end
 end

@@ -8,7 +8,7 @@ class Admin::Brand::Component < ApplicationComponent
   def style
     {
       brand: {
-        base: (@classes || 'navbar-brand')
+        base: @classes || 'navbar-brand'
       },
       brand_name: {
         base: 'brand-name'

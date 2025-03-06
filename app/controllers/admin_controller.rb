@@ -34,4 +34,10 @@ class AdminController < ApplicationController
     flash[:danger] = "#{@instance.class_name_title} unarchived"
     redirect_to polymorphic_path([:admin, @instance])
   end
+
+  private
+
+  def pundit_policy_class
+    "Admin::#{controller_name.classify}Policy".constantize
+  end
 end

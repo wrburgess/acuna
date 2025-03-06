@@ -1,0 +1,181 @@
+<%= form_with url: polymorphic_path(@instance), method: :post do |form| %>
+  <div class="row">
+    <div class="col-6">
+      <fieldset class="border p-3 mb-4">
+        <legend class="mb-3">Request Information</legend>
+        <% unless instance.new_record? %>  
+          <div class="form-floating">
+            <input type="hidden" name="_method" value="patch">
+            <input type="text" class="form-control" id="id" value="<%= @instance.id %>" readonly>
+            <label for="id" class="form-label">System ID (read only)</label>
+          </div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="slug" name="slug" value="<%= @instance.slug %>" readonly>
+            <label for="slug" class="form-label">Public ID (read only)</label>
+          </div>
+        <% end %>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="requestor_title_name" name="requestor_title_name" value="<%= @instance.requestor_title_name %>">
+          <label for="requestor_title_name" class="form-label">Requested Film Name(s)</label>
+        </div>
+      </fieldset>
+
+      <fieldset class="border p-3 mb-4">
+        <legend class="mb-3">In-House Information</legend>
+        <div class="form-group" data-controller="tom-select">
+          <label for="user_id" class="form-label">Official Title</label>
+          <%= select_tag(:title_id, options_for_select(Title.options_for_select, @instance.title_id), { multiple: false, prompt: "Select title...", autocomplete: "off", class: "tom-select", data: { tom_select_target: 'tomselect' } }) %>
+        </div>
+        <div class="form-group" data-controller="tom-select">
+          <label for="user_id" class="form-label">Assigned Staff</label>
+          <%= select_tag(:user_id, options_for_select(User.options_for_select, @instance.user_id), { multiple: false, prompt: "Select staff...", autocomplete: "off", class: "tom-select", data: { tom_select_target: 'tomselect' } }) %>
+        </div>
+        <div class="form-group" data-controller="tom-select">
+          <label for="status" class="form-label">Request Status</label>
+          <%= select_tag(:status, options_for_select(ScreeningRequestStatusTypes.options_for_select, @instance.status), { multiple: false, prompt: "Select status...", autocomplete: "off", class: "tom-select", data: { tom_select_target: 'tomselect' } }) %>
+        </div>
+        <div class="form-floating">
+          <textarea class="form-control" id="pricing_notes" name="pricing_notes" rows="2"><%= @instance.pricing_notes %></textarea>
+          <label class="form-check-label" for="pricing_notes">Pricing Notes</label>
+        </div>
+        <div class="form-floating">
+          <textarea class="form-control" id="staff_notes" name="staff_notes" rows="2"><%= @instance.staff_notes %></textarea>
+          <label class="form-check-label" for="staff_notes">Staff Notes</label>
+        </div>
+        <div class="form-floating">
+          <input type="date" class="form-control" id="archived_at" name="archived_at" value="<%= selector_date_format(@instance.archived_at) %>">
+          <label for="archived_at" class="form-label">Archived At Date</label>
+        </div>
+      </fieldset>
+
+      <fieldset class="border p-3 mb-4">
+        <legend class="mb-3">Request Details</legend>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="requestor_name" name="requestor_name" value="<%= @instance.requestor_name %>">
+          <label for="requestor_name" class="form-label">Requestor Name</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="phone_number" name="phone_number" value="<%= @instance.phone_number %>">
+          <label for="phone_number" class="form-label">Requestor Phone Number</label>
+        </div>
+        <div class="form-floating">
+          <input type="email" class="form-control" id="email" name="email" value="<%= @instance.email %>">
+          <label for="email" class="form-label">Requestor Email</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="organization_name" name="organization_name" value="<%= @instance.organization_name %>">
+          <label for="organization_name" class="form-label">Org Name</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="organization_url" name="organization_url" value="<%= @instance.organization_url %>">
+          <label for="organization_url" class="form-label">Org Website</label>
+        </div>
+        <div class="form-floating">
+          <textarea class="form-control" id="organization_social_media" name="organization_social_media" rows="2"><%= @instance.organization_social_media %></textarea>
+          <label class="form-check-label" for="organization_social_media">Org Social Media Handles</label>
+        </div>
+        <div class="form-group" data-controller="tom-select">
+          <label for="business_type" class="form-label">Business Type</label>
+          <%= select_tag(:business_type, options_for_select(ScreeningRequestBusinessTypes.options_for_select, @instance.business_type), { multiple: false, prompt: "Select business type...", autocomplete: "off", class: "form-select", data: { tom_select_target: 'tomselect' } }) %>
+        </div>
+        <div class="form-group" data-controller="tom-select">
+          <label for="organization_type" class="form-label">Org Type</label>
+          <%= select_tag(:organization_type, options_for_select(ScreeningRequestOrgTypes.options_for_select, @instance.organization_type), { multiple: false, prompt: "Select organization type...", autocomplete: "off", class: "form-select", data: { tom_select_target: 'tomselect' } }) %>
+        </div>
+        <div class="form-floating">
+          <textarea class="form-control" id="organization_notes" name="organization_notes" rows="2"><%= @instance.organization_notes %></textarea>
+          <label class="form-check-label" for="organization_notes">Org Notes</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="venue_name" name="venue_name" value="<%= @instance.venue_name %>">
+          <label for="venue_name" class="form-label">Venue Name</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="venue_location" name="venue_location" value="<%= @instance.venue_location %>">
+          <label for="venue_location" class="form-label">Venue Location</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="venue_country" name="venue_country" value="<%= @instance.venue_country %>">
+          <label for="venue_country" class="form-label">Venue Country/Territory</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="venue_capacity" name="venue_capacity" value="<%= @instance.venue_capacity %>">
+          <label for="venue_capacity" class="form-label">Venue Capacity</label>
+        </div>
+        <div class="form-floating">
+          <input type="date" class="form-control" id="screening_date" name="screening_date" value="<%= selector_date_format(@instance.screening_date) %>">
+          <label for="screening_date" class="form-label">Screening Date</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="screening_time" name="screening_time" value="<%= @instance.screening_time %>">
+          <label for="screening_time" class="form-label">Screening Time</label>
+        </div>
+        <div class="form-floating">
+          <textarea class="form-control" id="screening_date_notes" name="screening_date_notes" rows="2"><%= @instance.screening_date_notes %></textarea>
+          <label class="form-check-label" for="screening_date_notes">Screening Date Details</label>
+        </div>
+        <div class="form-floating">
+          <input type="number" class="form-control" id="screening_number" name="screening_number" value="<%= @instance.screening_number %>" min="1" step="1">
+          <label for="screening_number" class="form-label">Number of Screenings</label>
+        </div>
+        <div class="form-check form-switch mb-3 ms-2">
+          <input type="hidden" id="is_ticketed" name="is_ticketed" value="0">
+          <input class="form-check-input" type="checkbox" role="switch" id="is_ticketed" name="is_ticketed" value="1" <%= @instance.is_ticketed ? 'checked' : nil %>>
+          <label class="form-check-label" for="is_ticketed">Event Ticketed?</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="ticket_price" name="ticket_price" value="<%= @instance.ticket_price %>">
+          <label for="ticket_price" class="form-label">Ticket Price</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="expected_attendance" name="expected_attendance" value="<%= @instance.expected_attendance %>">
+          <label for="expected_attendance" class="form-label">Expected Attendance</label>
+        </div>
+        <div class="form-floating">
+          <textarea class="form-control" id="marketing_notes" name="marketing_notes" rows="2"><%= @instance.marketing_notes %></textarea>
+          <label class="form-check-label" for="marketing_notes">Marketing Strategy Notes</label>
+        </div>
+        <div class="form-floating">
+          <textarea class="form-control" id="equipment_notes" name="equipment_notes" rows="2"><%= @instance.equipment_notes %></textarea>
+          <label class="form-check-label" for="equipment_notes">Equipment Requirements</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="file_format" name="file_format" value="<%= @instance.file_format %>">
+          <label for="file_format" class="form-label">File Format</label>
+        </div>
+        <div class="form-floating">
+          <textarea class="form-control" id="requestor_notes" name="requestor_notes" rows="2" readonly><%= @instance.requestor_notes %></textarea>
+          <label class="form-check-label" for="requestor_notes">Requestor Notes (read only)</label>
+        </div>
+      </fieldset>
+      <fieldset class="border p-3 mb-4">
+        <legend class="mb-3">Billing Details</legend>
+        <div class="form-floating mb-3">
+          <textarea class="form-control" id="billing_address" name="billing_address" rows="2"><%= @instance.billing_address %></textarea>
+          <label class="form-check-label" for="billing_address">Billing Address</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="billing_phone" name="billing_phone" value="<%= @instance.billing_phone %>">
+          <label for="billing_phone" class="form-label">Billing Phone</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="billing_email" name="billing_email" value="<%= @instance.billing_email %>">
+          <label for="billing_email" class="form-label">Billing Email</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="fedex_shipping_code" name="fedex_shipping_code" value="<%= @instance.fedex_shipping_code %>">
+          <label for="fedex_shipping_code" class="form-label">Fedex Shipping Code</label>
+        </div>
+      </fieldset>
+    </div><!-- col-6 -->
+  </div><!-- row -->
+  <div class="row">
+    <div class="form-group">
+      <%= component("action_button", operation: :cancel_to_show, instance: @instance, classes_append: "me-3", public: true) %>
+      <button class="btn btn-success me-3">
+        <i class="bi bi-check-circle"></i>
+        Submit
+      </button>
+    </div>
+  </div><!-- row -->
+<% end %>

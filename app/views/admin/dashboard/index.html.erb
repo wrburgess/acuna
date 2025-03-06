@@ -5,9 +5,17 @@
     <div class="col-6">
       <%= render Admin::DashboardCard::Component.new(title: "Media") do |card| %>
         <% card.with_link(name: "Organizations", url: admin_organizations_path, policy: Organization) %>
-        <% card.with_link(name: "Screening Requests", url: admin_contacts_path, policy: ScreeningRequest) %>
         <% card.with_link(name: "Titles", url: admin_titles_path, policy: Title) %>
         <% card.with_link(name: "Venues", url: admin_venues_path, policy: Venue) %>
+      <% end %>
+    </div>
+
+    <div class="col-6">
+      <%= render Admin::DashboardCard::Component.new(title: "Commerce") do |card| %>
+        <% card.with_link(name: "Orders", url: admin_orders_path, policy: Order) %>
+        <% card.with_link(name: "Order Items", url: admin_order_items_path, policy: OrderItem) %>
+        <% card.with_link(name: "Screening Requests", url: admin_screening_requests_path, policy: ScreeningRequest) %>
+        <% card.with_link(name: "Widgets", url: admin_widgets_path, policy: Widget) %>
       <% end %>
     </div>
 
@@ -64,6 +72,7 @@
         <% card.with_link(name: "Ruby on Rails", url: 'https://rubyonrails.org/', new_window: true) %>
         <% card.with_link(name: "Ruby", url: 'https://www.ruby-lang.org/en/', new_window: true) %>
         <% card.with_link(name: "Simple Form", url: 'https://github.com/heartcombo/simple_form', new_window: true) %>
+        <% card.with_link(name: "Stripe", url: 'https://docs.stripe.com/api?lang=ruby', new_window: true) %>
         <% card.with_link(name: "Tailwind", url: "https://tailwindcss.com/", new_window: true) %>
         <% card.with_link(name: "Tom Select", url: "https://tom-select.js.org/", new_window: true) %>
         <% card.with_link(name: "ViewComponent", url: 'https://viewcomponent.org/', new_window: true) %>

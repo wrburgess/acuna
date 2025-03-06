@@ -1,0 +1,191 @@
+<%= render "shared/admin/view_div_wrapper", obj: @instance do %>
+  <div class="row header">
+    <%= component "header_for_show", instance: @instance, edit_button: true, delete_button: true %>
+  </div>
+  <div class="row data">
+    <h4 class="table-header">Request Information</h4>
+    <table class="table vertical">
+      <tr>
+        <th class="col-20">ID</th>
+        <td class="col-80"><%= @instance.id %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Requestor Film Name(s)</th>
+        <td class="col-80"><%= @instance.requestor_title_name %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Public Form (WP)</th>
+        <% url_wp = screening_request_public_url(label: "watermelon_pictures", slug: @instance.slug) %>
+        <td class="col-80"><%= link_to(url_wp, url_wp, target: '_blank') %></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="row data">
+    <h4 class="table-header">In House Information</h4>
+    <table class="table vertical">
+      <tr>
+        <th class="col-20">Updated At</th>
+        <td class="col-80"><%= full_datetime_format(@instance.updated_at.in_time_zone('America/Chicago')) %> CST</td>
+      </tr>
+      <tr>
+        <th class="col-20">Created At</th>
+        <td class="col-80"><%= full_datetime_format(@instance.created_at.in_time_zone('America/Chicago')) %> CST</td>
+      </tr>
+      <tr>
+        <th class="col-20">Status</th>
+        <td class="col-80"><%= @instance.status.try(:upcase) %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Assignee</th>
+        <td class="col-80"><%= link_to @instance.user.full_name, user_path(@instance.user) if (@instance.user.present?) %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Pricing Notes</th>
+        <td class="col-80"><%= @instance.pricing_notes %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Staff Notes</th>
+        <td class="col-80"><%= @instance.staff_notes %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Request Host</th>
+        <td class="col-80"><%= @instance.request_host %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Archived At</th>
+        <td class="col-80"><%= default_date_format(@instance.archived_at) %></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="row data">
+    <h4 class="table-header">Request Details</h4>
+    <table class="table vertical">
+      <tr>
+        <th class="col-20">Requestor Name</th>
+        <td class="col-80"><%= @instance.requestor_name %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Requestor Phone Number</th>
+        <td class="col-80"><%= @instance.phone_number %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Requestor Email</th>
+        <td class="col-80"><%= mail_to(@instance.email) if @instance.email %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Organization Name</th>
+        <td class="col-80"><%= @instance.organization_name %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Organization Website</th>
+        <td class="col-80">
+          <%= link_to(@instance.organization_url, @instance.organization_url, target: "_blank") if @instance.organization_url %>
+        </td>
+      </tr>
+      <tr>
+        <th class="col-20">Organization Social Media</th>
+        <td class="col-80"><%= @instance.organization_social_media %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Business Type</th>
+        <td class="col-80"><%= @instance.business_type.try(:humanize) %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Organization Type</th>
+        <td class="col-80"><%= @instance.organization_type.try(:humanize) %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Organization Notes</th>
+        <td class="col-80"><%= @instance.organization_notes %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Venue Name</th>
+        <td class="col-80"><%= @instance.venue_name %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Venue Location</th>
+        <td class="col-80"><%= @instance.venue_location %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Venue Country/Territory</th>
+        <td class="col-80"><%= @instance.venue_country %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Venue Capacity</th>
+        <td class="col-80"><%= @instance.venue_capacity %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Screening Number</th>
+        <td class="col-80"><%= @instance.screening_number %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Screening Date</th>
+        <td class="col-80"><%= default_date_format(@instance.screening_date) %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Screening Time</th>
+        <td class="col-80"><%= @instance.screening_time %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Screening Date Details</th>
+        <td class="col-80"><%= @instance.screening_date_notes %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Is Ticketed?</th>
+        <td class="col-80"><%= @instance.is_ticketed ? 'Yes' : 'No' %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Ticket Price</th>
+        <td class="col-80"><%= @instance.ticket_price %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Expected Attendance</th>
+        <td class="col-80"><%= @instance.expected_attendance %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Marketing Strategy/Notes</th>
+        <td class="col-80"><%= @instance.marketing_notes %></td>
+      </tr>
+      <tr>
+        <th class="col-20">File Format</th>
+        <td class="col-80"><%= @instance.file_format %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Equipment Needs/Notes</th>
+        <td class="col-80"><%= @instance.equipment_notes %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Requestor Notes</th>
+        <td class="col-80"><%= @instance.requestor_notes %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Mailing List Opt-in</th>
+        <td class="col-80"><%= @instance.mailing_list_opt_in ? 'Yes' : 'No' %></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="row data">
+    <h4 class="table-header">Billing Details</h4>
+    <table class="table vertical">
+      <tr>
+        <th class="col-20">Billing Address</th>
+        <td class="col-80"><%= @instance.billing_address %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Billing Phone</th>
+        <td class="col-80"><%= @instance.billing_phone %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Billing Email</th>
+        <td class="col-80"><%= @instance.billing_email %></td>
+      </tr>
+      <tr>
+        <th class="col-20">Fedex Shipping Code</th>
+        <td class="col-80"><%= @instance.fedex_shipping_code %></td>
+      </tr>
+    </table>
+  </div>
+<% end %>

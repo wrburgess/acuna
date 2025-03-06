@@ -4,11 +4,11 @@ class Admin::DataLogsController < AdminController
   before_action :authenticate_user!
 
   def index
-    authorize(controller_class)
-    @q = controller_class.ransack(params[:q])
-    @q.sorts = controller_class.default_sort if @q.sorts.empty?
+    authorize([:admin, controller_class_symbolized])
+    @q = DataLog.ransack(params[:q])
+    @q.sorts = DataLog.default_sort if @q.sorts.empty?
     @pagy, @instances = pagy(@q.result)
-    @instance = controller_class.new
+    @instance = DataLog.new
   end
 
   def show

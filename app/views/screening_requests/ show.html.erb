@@ -1,0 +1,141 @@
+<div class="container">
+  <div class="row justify-content-center min-vh-100 align-items-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <!-- Logo Section -->
+          <div class="text-center mb-4">
+            <%= render PublicBrand::Component.new(host: request.host) %>
+            <h2>Screening Request Confirmation</h2>
+            <p>Thank you for submitting your screening request. We will be in touch soon.</p>
+            <p><%= link_to("Edit your request", screening_request_public_edit_path(slug: @instance.slug)) %></p>
+          </div>
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>Film Name(s)</th>
+                <td><%= @instance.requestor_title_name %></td>
+              </tr>
+              <tr>
+                <th>Your Name</th>
+                <td><%= @instance.requestor_name %></td>
+              </tr>
+              <tr>
+                <th>Your Phone Number</th>
+                <td><%= @instance.phone_number %></td>
+              </tr>
+              <tr>
+                <th>Your Email Address</th>
+                <td><%= mail_to(@instance.email) if @instance.email %></td>
+              </tr>
+              <tr>
+                <th>Your Organization Name</th>
+                <td><%= @instance.organization_name %></td>
+              </tr>
+              <tr>
+                <th>Organization Website</th>
+                <td><%= @instance.organization_url %></td>
+              </tr>
+              <tr>
+                <th>Organization Social Media</th>
+                <td><%= @instance.organization_social_media %></td>
+              </tr>
+              <tr>
+                <th>Business Type</th>
+                <td><%= @instance.business_type.humanize if @instance.business_type %></td>
+              </tr>
+              <tr>
+                <th>Organization Type</th>
+                <td><%= @instance.organization_type.humanize if @instance.organization_type %></td>
+              </tr>
+              <tr>
+                <th>Additional Organization Notes</th>
+                <td><%= @instance.organization_notes %></td>
+              </tr>
+              <tr>
+                <th>The Venue Name</th>
+                <td><%= @instance.venue_name %></td>
+              </tr>
+              <tr>
+                <th>The Venue Location</th>
+                <td><%= @instance.venue_location %></td>
+              </tr>
+              <tr>
+                <th>The Venue Country/Territory</th>
+                <td><%= @instance.venue_country %></td>
+              </tr>
+              <tr>
+                <th>The Venue Capacity</th>
+                <td><%= @instance.venue_capacity %></td>
+              </tr>
+              <tr>
+                <th>Estimated Number of Screenings</th>
+                <td><%= @instance.screening_number %></td>
+              </tr>
+              <tr>
+                <th>Screening Date</th>
+                <td><%= default_date_format(@instance.screening_date) %></td>
+              </tr>
+              <tr>
+                <th>Screening Time</th>
+                <td><%= @instance.screening_time %></td>
+              </tr>
+              <tr>
+                <th>Screening Date Details</th>
+                <td><%= @instance.screening_date_notes %></td>
+              </tr>
+              <tr>
+                <th>Is Your Event Ticketed?</th>
+                <td><%= @instance.is_ticketed ? 'Yes' : 'No' %></td>
+              </tr>
+              <tr>
+                <th>What is Ticket Price?</th>
+                <td><%= @instance.ticket_price %></td>
+              </tr>
+              <tr>
+                <th>What is the Expected Attendance?</th>
+                <td><%= @instance.expected_attendance %></td>
+              </tr>
+              <tr>
+                <th>Marketing Strategy</th>
+                <td><%= @instance.marketing_notes %></td>
+              </tr>
+              <tr>
+                <th>Preferred File Format</th>
+                <td><%= @instance.file_format %></td>
+              </tr>
+              <tr>
+                <th>Equipment Needs</th>
+                <td><%= @instance.equipment_notes %></td>
+              </tr>
+              <tr>
+                <th>Your Additional Comments/Notes</th>
+                <td><%= @instance.requestor_notes %></td>
+              </tr>
+              <tr>
+                <th>Your Billing Address</th>
+                <td><%= @instance.billing_address %></td>
+              </tr>
+              <tr>
+                <th>Your Billing Phone</th>
+                <td><%= @instance.billing_phone %></td>
+              </tr>
+              <tr>
+                <th>Your Billing Email</th>
+                <td><%= @instance.billing_email %></td>
+              </tr>
+              <tr>
+                <th>Your Fedex Shipping Code</th>
+                <td><%= @instance.fedex_shipping_code %></td>
+              </tr>
+              <tr>
+                <th>Mailing List Opt-in</th>
+                <td><%= @instance.mailing_list_opt_in ? 'Yes' : 'No' %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
