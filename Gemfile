@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby file: '.tool-versions'
-gem 'rails', '8.0.1'
+gem 'rails', '8.0.2'
 
 # global
 # gem install bundler
