@@ -53,8 +53,8 @@ group :development do
   gem 'brakeman', '7.0.0', require: false
   gem 'bullet', '8.0.1'
   gem 'bundler-audit', '0.9.2', require: false
-  gem 'lookbook', '2.3.7'
-  gem 'rubocop', '1.73.2', require: false
+  gem 'lookbook', '2.3.8'
+  gem 'rubocop', '1.74.0', require: false
   gem 'web-console', '4.2.1'
 end
 
