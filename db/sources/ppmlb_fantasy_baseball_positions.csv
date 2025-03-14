@@ -1,0 +1,12 @@
+﻿Position,Name,Details,Starting Slots,Alernate Names
+1B,First Base,,1,1st Base
+2B,Second Base,,1,2nd Base
+3B,Third Base,,1,3rd Base
+SS,Shortstop,,1,Short Stop
+RF,Right Field,,1,"OF,Rightfielder"
+CF,Center Field,,1,"OF,Centerfielder"
+LF,Left Field,,1,"OF,Leftfielder"
+U,Utility,"Any batter, Any position",2,Util
+CA,Catcher,,1,C
+SP,Starting Pitcher,,5,"RHP,LHP"
+RP,Relief Pitcher,,3,"RHP,LHP,Closer"

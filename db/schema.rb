@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_10_151042) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_14_213559) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -303,12 +303,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_10_151042) do
     t.index ["database", "captured_at"], name: "index_pghero_query_stats_on_database_and_captured_at"
   end
 
+  create_table "players", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "position"
+    t.date "birthdate"
+    t.bigint "roster_id", null: false
+    t.bigint "team_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["roster_id"], name: "index_players_on_roster_id"
+    t.index ["team_id"], name: "index_players_on_team_id"
+  end
+
   create_table "reports", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
     t.text "sql", null: false
     t.text "notes"
     t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "rosters", force: :cascade do |t|
+    t.string "name"
+    t.string "abbreviation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -479,6 +499,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_10_151042) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "teams", force: :cascade do |t|
+    t.string "name"
+    t.string "abbreviation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "titles", force: :cascade do |t|
     t.bigint "label_id", null: false
     t.string "name"
@@ -542,5 +569,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_10_151042) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "players", "rosters"
+  add_foreign_key "players", "teams"
   add_foreign_key "venues", "users"
 end

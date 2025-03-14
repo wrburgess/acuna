@@ -36,10 +36,6 @@ Rails.application.configure do
 
   # Set localhost to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-  config.action_mailer.delivery_method = :postmark
-  config.action_mailer.smtp_settings = {
-    api_token: Rails.application.credentials.development.postmark_api_token
-  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
