@@ -1,9 +1,0 @@
-wb = xlsx_package.workbook
-
-wb.add_worksheet(name: @file_name) do |sheet|
-  sheet.add_row @results.columns
-  
-  @results.each do |row|
-    sheet.add_row @results.columns.map{ |column| row[column] }
-  end
-end

@@ -1,6 +1,0 @@
-<%= render "shared/admin/view_div_wrapper", obj: @instance do %>
-  <div class="row header">
-    <%= component "header_for_edit", instance: @instance %>
-  </div>
-  <%= render partial: "form", locals: { instance: @instance } %>
-<% end %>
