@@ -1,23 +1,23 @@
 Location,Nickname,Abbreviation,Alt Abbreviation
 Arizona,Diamondbacks,ARI,AZ
-Atlanta,Braves,ATL,""
-Baltimore,Orioles,BAL,""
-Boston,Red Sox,BOS,""
-Chicago,Cubs,CHC,""
-Chicago,White Sox,CWS,""
-Cincinnati,Reds,CIN,""
-Cleveland,Guardians,CLE,""
-Colorado,Rockies,COL,""
-Detroit,Tigers,DET,""
-Houston,Astros,HOU,""
+Atlanta,Braves,ATL,
+Baltimore,Orioles,BAL,
+Boston,Red Sox,BOS,
+Chicago,Cubs,CHC,
+Chicago,White Sox,CHW,
+Cincinnati,Reds,CIN,
+Cleveland,Guardians,CLE,
+Colorado,Rockies,COL,
+Detroit,Tigers,DET,
+Houston,Astros,HOU,
 Kansas City,Royals,KC,KCR
-Los Angeles,Angels,LAA,""
-Los Angeles,Dodgers,LAD,""
+Los Angeles,Angels,LAA,
+Los Angeles,Dodgers,LAD,
 Miami,Marlins,MIA,FLA
 Milwaukee,Brewers,MIL,MIL
-Minnesota,Twins,MIN,""
-New York,Mets,NYM,""
-New York,Yankees,NYY,""
+Minnesota,Twins,MIN,
+New York,Mets,NYM,
+New York,Yankees,NYY,
 Oakland,Athletics,OAK,ATH
 Philadelphia,Phillies,PHI,PHI
 Pittsburgh,Pirates,PIT,PIT

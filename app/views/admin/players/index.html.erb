@@ -10,13 +10,12 @@
 <%= render Admin::PageContainer::Component.new do %>
 
   <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
-    <% table.with_column(sort_link([:admin, @q], :id, "ID")) { |instance| instance.id.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :first_name, "First", default_order: :asc)) { |instance| instance.first_name } %>
-    <% table.with_column(sort_link([:admin, @q], :last_name, "First", default_order: :asc)) { |instance| instance.last_name } %>
-    <% table.with_column(sort_link([:admin, @q], :position, "Position")) { |instance| instance.position } %>
-    <% table.with_column(sort_link([:admin, @q], :team_id, "Team")) { |instance| instance.team&.name || "FA" } %>
-    <% table.with_column(sort_link([:admin, @q], :roster_id, "Roster")) { |instance| instance.roster&.name || "FA" } %>
-    <% table.with_column(sort_link([:admin, @q], :updated_at, "Updated")) { |instance| default_date_format(instance.updated_at) } %>
+    <% table.with_column(sort_link([:admin, @q], :last_name, "Last Name", default_order: :asc)) { |instance| instance.name } %>
+    <% table.with_column(sort_link([:admin, @q], :position, "Pos")) { |instance| instance.position } %>
+    <% table.with_column(sort_link([:admin, @q], :team_id, "Team")) { |instance| instance.team&.abbreviation || "FA" } %>
+    <% table.with_column(sort_link([:admin, @q], :roster_id, "Roster")) { |instance| instance.roster&.abbreviation || "FA" } %>
+    <% table.with_column(sort_link([:admin, @q], :status, "Stat")) { |instance| instance.status } %>
+    <% table.with_column(sort_link([:admin, @q], :level, "Lev")) { |instance| instance.level } %>
     <% table.with_column("Actions") do |instance| %>
       <%= render Admin::ActionButton::Component.new(operation: :show, instance: instance, button_classes: "me-3", icon_classes: :none) %>
       <%= render Admin::ActionButton::Component.new(operation: :edit, instance: instance, button_classes: :none, icon_classes: :none) %>
@@ -33,6 +32,8 @@
       <%= f.input :position_eq, label: "Position", placeholder: "Position equals" %>
       <%= f.input :team_id_eq, collection: Team.all, label: "Team", include_blank: "Any" %>
       <%= f.input :roster_id_eq, collection: Roster.all, label: "Roster", include_blank: "Any" %>
+      <%= f.input :status_eq, collection: Player::STATUSES, label: "Status", include_blank: "Any" %>
+      <%= f.input :level_eq, collection: Player::LEVELS, label: "Level", include_blank: "Any" %>
       <%= f.input :archived_at_not_null, as: :boolean, label: "Archived?", wrapper: :custom_boolean_switch %>
       
       <%= render Admin::FormButton::Component.new(operation: :filter) %>

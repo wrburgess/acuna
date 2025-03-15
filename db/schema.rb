@@ -308,13 +308,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_15_011634) do
     t.string "last_name"
     t.string "position"
     t.date "birthdate"
-    t.bigint "roster_id", null: false
-    t.bigint "team_id", null: false
+    t.bigint "roster_id"
+    t.bigint "team_id"
     t.text "notes"
     t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", comment: "prospect, show, retired"
+    t.string "level", comment: "CAR, MEX, KOR, JPN, INTL, USHS, NCAA, LOW A, HIGH A, AA, AAA, MLB"
+    t.index ["level"], name: "index_players_on_level"
     t.index ["roster_id"], name: "index_players_on_roster_id"
+    t.index ["status"], name: "index_players_on_status"
     t.index ["team_id"], name: "index_players_on_team_id"
   end
 
@@ -448,6 +452,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_15_011634) do
     t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "app", precision: 5
+    t.decimal "inn", precision: 5, scale: 1
+    t.decimal "gs", precision: 5
+    t.decimal "ks", precision: 5
+    t.decimal "baa", precision: 4, scale: 3
+    t.decimal "ha", precision: 5
+    t.decimal "hra", precision: 5
+    t.decimal "qs", precision: 5
+    t.decimal "win", precision: 5
+    t.decimal "loss", precision: 5
+    t.decimal "hd", precision: 5
+    t.decimal "saves", precision: 5
+    t.decimal "bs", precision: 5
+    t.decimal "rw", precision: 5
+    t.decimal "era", precision: 5, scale: 2
+    t.decimal "whip", precision: 4, scale: 2
     t.index ["player_id"], name: "index_stats_on_player_id"
   end
 

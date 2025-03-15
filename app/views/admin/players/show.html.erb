@@ -7,9 +7,97 @@
     <% table.with_row(name: "Position", value: @instance.position) %>
     <% table.with_row(name: "Team", value: @instance.team&.name) %>
     <% table.with_row(name: "Roster", value: @instance.roster&.name) %>
+    <% table.with_row(name: "Status", value: @instance.status || "Not specified") %>
+    <% table.with_row(name: "Level", value: @instance.level || "Not specified") %>
     <% table.with_row(name: "Notes", value: @instance.notes) %>
     <% table.with_row(name: "Archived at", value: default_date_format(@instance.archived_at)) %>
-    <% table.with_row(name: "Created at", value: default_date_format(@instance.created_at)) %>
-    <% table.with_row(name: "Updated at", value: default_date_format(@instance.updated_at)) %>
+  <% end %>
+    
+  <% # Determine if player is a pitcher %>
+  <% pitcher_positions = ['P', 'SP', 'RP', 'CL'] %>
+  <% is_pitcher = @instance.position&.split(',')&.any? { |pos| pitcher_positions.include?(pos.strip) } %>
+  
+  <% # Rankings by Year table %>
+  <% year_rankings = @instance.stats.order(timeline: :desc) %>
+  <% if year_rankings.any? %>
+    <%= render Admin::TableForShow::Component.new(title: 'Rankings by Year') do |table| %>
+      <% year_rankings.each do |stat| %>
+        <% rankings = [] %>
+        <% rankings << "LAW: #{stat.kl_rank}" if stat.kl_rank.present? %>
+        <% rankings << "FG100: #{stat.fg_top_rank}" if stat.fg_top_rank.present? %>
+        <% rankings << "FGOrg: #{stat.fg_org_rank}" if stat.fg_org_rank.present? %>
+        <% rankings << "FG FV: #{stat.fg_fv}" if stat.fg_fv.present? %>
+        <% rankings << "MLB: #{stat.mlb_rank}" if stat.mlb_rank.present? %>
+        <% rankings << "BA: #{stat.ba_rank}" if stat.ba_rank.present? %>
+        <% rankings << "MCD: #{stat.mcd_rank}" if stat.mcd_rank.present? %>
+        <% rankings << "MCD FV: #{stat.mcd_fv}" if stat.mcd_fv.present? %>
+        
+        <% if rankings.any? %>
+          <% table.with_row(name: stat.timeline, value: rankings.join(" | ")) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  
+  <% # Batting Stats Table - Only for non-pitchers %>
+  <% if !is_pitcher %>
+    <% batting_stats = @instance.stats.where.not(ab: nil).order(timeline: :desc) %>
+    <% if batting_stats.any? %>
+      <%= render Admin::TableForShow::Component.new(title: 'Batting Statistics') do |table| %>
+        <% batting_stats.each do |stat| %>
+          <% stat_values = [] %>
+          <% stat_values << "PA: #{stat.pa}" if stat.pa.present? %>
+          <% stat_values << "AB: #{stat.ab}" if stat.ab.present? %>
+          <% stat_values << "R: #{stat.runs}" if stat.runs.present? %>
+          <% stat_values << "H: #{stat.hits}" if stat.hits.present? %>
+          <% stat_values << "2B: #{stat._2b}" if stat._2b.present? %>
+          <% stat_values << "3B: #{stat._3b}" if stat._3b.present? %>
+          <% stat_values << "HR: #{stat.hr}" if stat.hr.present? %>
+          <% stat_values << "RBI: #{stat.rbi}" if stat.rbi.present? %>
+          <% stat_values << "BB: #{stat.bb}" if stat.bb.present? %>
+          <% stat_values << "K: #{stat.k}" if stat.k.present? %>
+          <% stat_values << "SB: #{stat.sb}" if stat.sb.present? %>
+          <% stat_values << "CS: #{stat.cs}" if stat.cs.present? %>
+          <% stat_values << "AVG: #{stat.avg}" if stat.avg.present? %>
+          <% stat_values << "OBP: #{stat.obp}" if stat.obp.present? %>
+          <% stat_values << "SLG: #{stat.slg}" if stat.slg.present? %>
+          
+          <% if stat_values.any? %>
+            <% table.with_row(name: "#{stat.timeline} #{stat.timeline_type}", value: stat_values.join(" | ")) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  
+  <% # Pitching Stats Table - Only for pitchers %>
+  <% if is_pitcher %>
+    <% pitching_stats = @instance.stats.where.not(inn: nil).order(timeline: :desc) %>
+    <% if pitching_stats.any? %>
+      <%= render Admin::TableForShow::Component.new(title: 'Pitching Statistics') do |table| %>
+        <% pitching_stats.each do |stat| %>
+          <% stat_values = [] %>
+          <% stat_values << "APP: #{stat.app}" if stat.app.present? %>
+          <% stat_values << "INN: #{stat.inn}" if stat.inn.present? %>
+          <% stat_values << "GS: #{stat.gs}" if stat.gs.present? %>
+          <% stat_values << "K: #{stat.ks}" if stat.ks.present? %>
+          <% stat_values << "BAA: #{stat.baa}" if stat.baa.present? %>
+          <% stat_values << "HA: #{stat.ha}" if stat.ha.present? %>
+          <% stat_values << "HRA: #{stat.hra}" if stat.hra.present? %>
+          <% stat_values << "QS: #{stat.qs}" if stat.qs.present? %>
+          <% stat_values << "W: #{stat.win}" if stat.win.present? %>
+          <% stat_values << "L: #{stat.loss}" if stat.loss.present? %>
+          <% stat_values << "HD: #{stat.hd}" if stat.hd.present? %>
+          <% stat_values << "SV: #{stat.saves}" if stat.saves.present? %>
+          <% stat_values << "BS: #{stat.bs}" if stat.bs.present? %>
+          <% stat_values << "ERA: #{stat.era}" if stat.era.present? %>
+          <% stat_values << "WHIP: #{stat.whip}" if stat.whip.present? %>
+          
+          <% if stat_values.any? %>
+            <% table.with_row(name: "#{stat.timeline} #{stat.timeline_type}", value: stat_values.join(" | ")) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>

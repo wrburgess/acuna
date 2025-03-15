@@ -8,18 +8,41 @@ class Player < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
+  # Status and level constants
+  STATUSES = %w[prospect show retired].freeze
+  LEVELS = ['CAR', 'MEX', 'KOR', 'JPN', 'INTL', 'USHS', 'NCAA', 'LOW A', 'HIGH A', 'AA', 'AAA', 'MLB'].freeze
+
   scope :select_order, -> { order(url_type: :asc) }
+
+  # Add scopes for the new attributes
+  scope :prospects, -> { where(status: 'prospect') }
+  scope :active, -> { where(status: 'show') }
+  scope :retired, -> { where(status: 'retired') }
+  scope :by_level, ->(level) { where(level: level) }
+
+  # Level scopes
+  scope :mlb_level, -> { where(level: 'MLB') }
+  scope :minor_league, -> { where(level: ['LOW A', 'HIGH A', 'AA', 'AAA']) }
+  scope :international, -> { where(level: %w[CAR MEX KOR JPN INTL]) }
+  scope :amateur, -> { where(level: %w[USHS NCAA]) }
+
+  # Validation for allowed values
+  validates :status, inclusion: { in: %w[prospect show retired] }, allow_nil: true
+  validates :level, inclusion: { in: ['CAR', 'MEX', 'KOR', 'JPN', 'INTL', 'USHS', 'NCAA', 'LOW A', 'HIGH A', 'AA', 'AAA', 'MLB'] }, allow_nil: true
 
   def self.ransackable_attributes(*)
     %w[
       archived_at
       created_at
       first_name
+      middle_name
       id
       last_name
+      level
       notes
       position
       roster_id
+      status
       team_id
       updated_at
     ]
@@ -41,6 +64,6 @@ class Player < ApplicationRecord
   end
 
   def name
-    "#{first_name} #{last_name}.titleize.strip"
+    [first_name, last_name].reject(&:blank?).join(' ').titleize.strip
   end
 end

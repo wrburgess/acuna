@@ -9,6 +9,8 @@
         <%= f.input :position, wrapper: :floating_label_form %>
         <%= f.association :team, wrapper: :floating_label_form %>
         <%= f.association :roster, wrapper: :floating_label_form %>
+        <%= f.input :status, collection: Player::STATUSES, include_blank: true, wrapper: :floating_label_form %>
+        <%= f.input :level, collection: Player::LEVELS, include_blank: true, wrapper: :floating_label_form %>
         <%= f.input :notes, as: :text, wrapper: :floating_label_form %>
       </div>
     </div><!-- row -->

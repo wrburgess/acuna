@@ -142,22 +142,26 @@ class Admin::PlayersController < AdminController
 
   def create_params
     params.require(:player).permit(
+      :level,
       :name,
+      :notes,
       :position,
-      :team_id,
       :roster_id,
-      :notes
+      :status,
+      :team_id,
     )
   end
 
   def update_params
     params.require(:player).permit(
+      :archived_at,
+      :level,
       :name,
-      :position,
-      :team_id,
-      :roster_id,
       :notes,
-      :archived_at
+      :position,
+      :roster_id,
+      :status,
+      :team_id,
     )
   end
 end

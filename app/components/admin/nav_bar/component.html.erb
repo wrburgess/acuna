@@ -14,9 +14,10 @@
 
         <%= render Admin::NavItem::Component.new(title: "Data") do |nav_item| %>
           <% nav_item.with_dropdown_item(resource: Player, name: "Players", path: admin_players_path) %>
-          <% nav_item.with_dropdown_item(resource: Team, name: "Teams", path: admin_teams_path) %>
-          <% nav_item.with_dropdown_item(resource: Roster, name: "Rosters", path: admin_rosters_path) %>
           <% nav_item.with_dropdown_item(resource: Report, name: "Reports", path: admin_reports_path) %>
+          <% nav_item.with_dropdown_item(resource: Roster, name: "Rosters", path: admin_rosters_path) %>
+          <% nav_item.with_dropdown_item(resource: Stat, name: "Stats", path: admin_stats_path) %>
+          <% nav_item.with_dropdown_item(resource: Team, name: "Teams", path: admin_teams_path) %>
         <% end %>
 
         <%= render Admin::NavItem::Component.new(title: "Management") do |nav_item| %>

@@ -3,14 +3,82 @@
 <%= render Admin::PageContainer::Component.new do %>
   <%= render Admin::TableForShow::Component.new(title: 'Stat Data') do |table| %>
     <% table.with_row(name: "ID", value: @instance.id) %>
-    <% table.with_row(name: "Player", value: @instance.player&.name) %>
-    <% table.with_row(name: "Team", value: @instance.team&.name) %>
-    <% table.with_row(name: "Stat Type", value: @instance.stat_type) %>
-    <% table.with_row(name: "Value", value: @instance.value) %>
-    <% table.with_row(name: "Game Date", value: default_date_format(@instance.game_date)) %>
-    <% table.with_row(name: "Notes", value: @instance.notes) %>
+    <% table.with_row(name: "Name", value: @instance.display_name) %>
+    <% table.with_row(name: "Player", value: link_to(@instance.player&.name, polymorphic_path([:admin, @instance.player]))) %>
+    <% table.with_row(name: "Timeline", value: @instance.timeline) %>
+    <% table.with_row(name: "Timeline Type", value: @instance.timeline_type&.capitalize) %>
     <% table.with_row(name: "Archived at", value: default_date_format(@instance.archived_at)) %>
     <% table.with_row(name: "Created at", value: default_date_format(@instance.created_at)) %>
     <% table.with_row(name: "Updated at", value: default_date_format(@instance.updated_at)) %>
+  <% end %>
+  
+  <%= render Admin::TableForShow::Component.new(title: 'Rankings') do |table| %>
+    <% table.with_row(name: "CBS Rank", value: @instance.cbs_rank) %>
+    <% table.with_row(name: "FanGraphs Top 100", value: @instance.fg_top_rank) %>
+    <% table.with_row(name: "FanGraphs Organizational", value: @instance.fg_org_rank) %>
+    <% table.with_row(name: "FanGraphs Future Value", value: @instance.fg_fv) %>
+    <% table.with_row(name: "Baseball America Rank", value: @instance.ba_rank) %>
+    <% table.with_row(name: "MLB Pipeline Rank", value: @instance.mlb_rank) %>
+    <% table.with_row(name: "Keith Law Rank", value: @instance.kl_rank) %>
+    <% table.with_row(name: "McDaniels Rank", value: @instance.mcd_rank) %>
+    <% table.with_row(name: "McDaniels Future Value", value: @instance.mcd_fv) %>
+  <% end %>
+  
+  <%= render Admin::TableForShow::Component.new(title: 'FanGraphs Scouting') do |table| %>
+    <% table.with_row(name: "Present Hit Tool", value: @instance.fg_hit_pres) %>
+    <% table.with_row(name: "Projected Hit Tool", value: @instance.fg_hit_proj) %>
+    <% table.with_row(name: "Present Power", value: @instance.fg_pwr_pres) %>
+    <% table.with_row(name: "Projected Power", value: @instance.fg_pwr_proj) %>
+    <% table.with_row(name: "Pitch Selection", value: @instance.fg_pit_sel) %>
+    <% table.with_row(name: "Bat Control", value: @instance.fg_bat_ctrl) %>
+    <% table.with_row(name: "Present Speed", value: @instance.fg_spd_pres) %>
+    <% table.with_row(name: "Projected Speed", value: @instance.fg_spd_proj) %>
+    <% table.with_row(name: "Present Fielding", value: @instance.fg_fld_pres) %>
+    <% table.with_row(name: "Projected Fielding", value: @instance.fg_fld_proj) %>
+    <% table.with_row(name: "Hard Hit Rate", value: @instance.fg_hard_hit) %>
+  <% end %>
+  
+  <% pitcher_positions = ['P', 'SP', 'RP', 'CL'] %>
+  <% is_pitcher = @instance.player&.position&.split(',')&.any? { |pos| pitcher_positions.include?(pos.strip) } %>
+  
+  <% if !is_pitcher %>
+    <%= render Admin::TableForShow::Component.new(title: 'Batting Statistics') do |table| %>
+      <% table.with_row(name: "PA", value: @instance.pa) %>
+      <% table.with_row(name: "AB", value: @instance.ab) %>
+      <% table.with_row(name: "R", value: @instance.runs) %>
+      <% table.with_row(name: "H", value: @instance.hits) %>
+      <% table.with_row(name: "2B", value: @instance._2b) %>
+      <% table.with_row(name: "3B", value: @instance._3b) %>
+      <% table.with_row(name: "HR", value: @instance.hr) %>
+      <% table.with_row(name: "RBI", value: @instance.rbi) %>
+      <% table.with_row(name: "BB", value: @instance.bb) %>
+      <% table.with_row(name: "K", value: @instance.k) %>
+      <% table.with_row(name: "SB", value: @instance.sb) %>
+      <% table.with_row(name: "CS", value: @instance.cs) %>
+      <% table.with_row(name: "AVG", value: @instance.avg) %>
+      <% table.with_row(name: "OBP", value: @instance.obp) %>
+      <% table.with_row(name: "SLG", value: @instance.slg) %>
+    <% end %>
+  <% end %>
+  
+  <% if is_pitcher %>
+    <%= render Admin::TableForShow::Component.new(title: 'Pitching Statistics') do |table| %>
+      <% table.with_row(name: "APP", value: @instance.app) %>
+      <% table.with_row(name: "INN", value: @instance.inn) %>
+      <% table.with_row(name: "GS", value: @instance.gs) %>
+      <% table.with_row(name: "K", value: @instance.ks) %>
+      <% table.with_row(name: "BAA", value: @instance.baa) %>
+      <% table.with_row(name: "Hits Allowed", value: @instance.ha) %>
+      <% table.with_row(name: "HR Allowed", value: @instance.hra) %>
+      <% table.with_row(name: "QS", value: @instance.qs) %>
+      <% table.with_row(name: "W", value: @instance.win) %>
+      <% table.with_row(name: "L", value: @instance.loss) %>
+      <% table.with_row(name: "HD", value: @instance.hd) %>
+      <% table.with_row(name: "SV", value: @instance.saves) %>
+      <% table.with_row(name: "BS", value: @instance.bs) %>
+      <% table.with_row(name: "Relief Wins", value: @instance.rw) %>
+      <% table.with_row(name: "ERA", value: @instance.era) %>
+      <% table.with_row(name: "WHIP", value: @instance.whip) %>
+    <% end %>
   <% end %>
 <% end %>
