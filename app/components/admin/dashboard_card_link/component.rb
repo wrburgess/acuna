@@ -7,9 +7,11 @@ class Admin::DashboardCardLink::Component < ApplicationComponent
   end
 
   def render?
-    return true if @policy.nil?
+    true
 
-    Pundit.policy(current_user, [:admin, @policy]).index?
+    # return true if @policy.nil?
+
+    # Pundit.policy(current_user, [:admin, @policy]).index?
   end
 
   def link

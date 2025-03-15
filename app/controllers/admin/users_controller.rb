@@ -4,7 +4,7 @@ class Admin::UsersController < AdminController
   before_action :authenticate_user!
 
   def index
-    authorize(controller_class)
+    authorize(policy_class)
     @q = controller_class.actives.ransack(params[:q])
     @q.sorts = ['last_name asc', 'created_at desc'] if @q.sorts.empty?
 
@@ -13,17 +13,17 @@ class Admin::UsersController < AdminController
   end
 
   def show
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.find(params[:id])
   end
 
   def new
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.new
   end
 
   def create
-    authorize(controller_class)
+    authorize(policy_class)
     temp_pw = SecureRandom.hex(16)
     params[:user][:password] = temp_pw
     params[:user][:password_confirmation] = temp_pw
@@ -36,12 +36,12 @@ class Admin::UsersController < AdminController
   end
 
   def edit
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.find(params[:id])
   end
 
   def update
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
     original_instance = instance.dup
 
@@ -53,7 +53,7 @@ class Admin::UsersController < AdminController
   end
 
   def destroy
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
     instance.archive
 
@@ -63,7 +63,7 @@ class Admin::UsersController < AdminController
   end
 
   def trigger_password_reset_email
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
     instance.send_reset_password_instructions
     flash[:success] = 'Password reset email sent to user'
@@ -71,7 +71,7 @@ class Admin::UsersController < AdminController
   end
 
   def collection_export_xlsx
-    authorize(controller_class)
+    authorize(policy_class)
 
     sql = %(
       SELECT
@@ -104,7 +104,7 @@ class Admin::UsersController < AdminController
   end
 
   def impersonate
-    authorize(controller_class)
+    authorize(policy_class)
     user = User.find(params[:id])
 
     impersonate_user(user)
@@ -114,7 +114,7 @@ class Admin::UsersController < AdminController
   end
 
   def stop_impersonating
-    authorize(controller_class)
+    authorize(policy_class)
 
     current_user.log(user: true_user, operation: action_name, meta: current_user.to_json)
     stop_impersonating_user

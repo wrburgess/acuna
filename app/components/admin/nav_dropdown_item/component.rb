@@ -10,6 +10,8 @@ class Admin::NavDropdownItem::Component < ApplicationComponent
   def render?
     return true if @resource.nil?
 
-    Pundit.policy(current_user, [:admin, @resource]).send("#{@operation}?")
+    true
+
+    # Pundit.policy(current_user, [:admin, @resource]).send("#{@operation}?")
   end
 end

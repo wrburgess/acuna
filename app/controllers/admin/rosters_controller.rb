@@ -1,28 +1,28 @@
-class Admin::OrdersController < AdminController
+class Admin::RostersController < AdminController
   include Pagy::Backend
 
   before_action :authenticate_user!
 
   def index
-    authorize(controller_class)
-    @q = controller_class.includes(:user, :order_items).ransack(params[:q])
+    authorize(policy_class)
+    @q = controller_class.ransack(params[:q])
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
     @pagy, @instances = pagy(@q.result)
     @instance = controller_class.new
   end
 
   def show
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.find(params[:id])
   end
 
   def new
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.new
   end
 
   def create
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.create(create_params)
 
     instance.log(user: current_user, operation: action_name, meta: params.to_json)
@@ -31,12 +31,12 @@ class Admin::OrdersController < AdminController
   end
 
   def edit
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.find(params[:id])
   end
 
   def update
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
     original_instance = instance.dup
 
@@ -48,7 +48,7 @@ class Admin::OrdersController < AdminController
   end
 
   def destroy
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
 
     instance.log(user: current_user, operation: action_name)
@@ -61,7 +61,7 @@ class Admin::OrdersController < AdminController
 
   def archive
     instance = controller_class.find(params[:id])
-    authorize(controller_class)
+    authorize(policy_class)
     instance.archive
 
     instance.log(user: current_user, operation: action_name)
@@ -70,7 +70,7 @@ class Admin::OrdersController < AdminController
   end
 
   def unarchive
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
     instance.unarchive
 
@@ -80,17 +80,17 @@ class Admin::OrdersController < AdminController
   end
 
   def collection_export_xlsx
-    authorize(controller_class)
+    authorize(policy_class)
 
     sql = %(
       SELECT
         *
       FROM
-        screeners
+        rosters
       WHERE
-        screeners.archived_at IS NULL
+        rosters.archived_at IS NULL
       ORDER BY
-        screeners.created_at ASC
+        rosters.created_at ASC
     )
 
     @results = ActiveRecord::Base.connection.select_all(sql)
@@ -109,18 +109,18 @@ class Admin::OrdersController < AdminController
   end
 
   def member_export_xlsx
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
 
     sql = %(
       SELECT
         *
       FROM
-        screeners
+        rosters
       WHERE
-        screeners.id = #{instance.id}
+        rosters.id = #{instance.id}
       ORDER BY
-        screeners.created_at ASC
+        rosters.created_at ASC
     )
 
     @results = ActiveRecord::Base.connection.select_all(sql)
@@ -141,16 +141,18 @@ class Admin::OrdersController < AdminController
   private
 
   def create_params
-    params.require(:screener).permit(
+    params.require(:roster).permit(
       :name,
-      :amount
+      :abbreviation,
+      :notes
     )
   end
 
   def update_params
-    params.require(:screener).permit(
+    params.require(:roster).permit(
       :name,
-      :amount,
+      :abbreviation,
+      :notes,
       :archived_at
     )
   end

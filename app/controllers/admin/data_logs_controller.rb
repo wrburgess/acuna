@@ -4,7 +4,7 @@ class Admin::DataLogsController < AdminController
   before_action :authenticate_user!
 
   def index
-    authorize([:admin, controller_class_symbolized])
+    authorize(policy_class)
     @q = DataLog.ransack(params[:q])
     @q.sorts = DataLog.default_sort if @q.sorts.empty?
     @pagy, @instances = pagy(@q.result)
@@ -12,12 +12,12 @@ class Admin::DataLogsController < AdminController
   end
 
   def show
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.find(params[:id])
   end
 
   def collection_export_xlsx
-    authorize(controller_class)
+    authorize(policy_class)
 
     sql = %(
       SELECT

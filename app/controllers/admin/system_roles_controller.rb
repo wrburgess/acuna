@@ -4,7 +4,7 @@ class Admin::SystemRolesController < AdminController
   before_action :authenticate_user!
 
   def index
-    authorize(controller_class)
+    authorize(policy_class)
     @q = controller_class.ransack(params[:q])
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
     @pagy, @instances = pagy(@q.result)
@@ -12,17 +12,17 @@ class Admin::SystemRolesController < AdminController
   end
 
   def show
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.includes(:users, :system_groups, :system_permissions).find(params[:id])
   end
 
   def new
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.new
   end
 
   def create
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.create(create_params)
     instance.update_associations(params)
 
@@ -32,12 +32,12 @@ class Admin::SystemRolesController < AdminController
   end
 
   def edit
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.find(params[:id])
   end
 
   def update
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
     original_instance = instance.dup
 
@@ -50,7 +50,7 @@ class Admin::SystemRolesController < AdminController
   end
 
   def destroy
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
 
     instance.log(user: current_user, operation: action_name)
@@ -62,7 +62,7 @@ class Admin::SystemRolesController < AdminController
   end
 
   def collection_export_xlsx
-    authorize(controller_class)
+    authorize(policy_class)
 
     sql = %(
       SELECT

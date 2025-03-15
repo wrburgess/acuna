@@ -1,28 +1,28 @@
-class Admin::OrderItemsController < AdminController
+class Admin::StatsController < AdminController
   include Pagy::Backend
 
   before_action :authenticate_user!
 
   def index
-    authorize(controller_class)
-    @q = controller_class.includes(:order).ransack(params[:q])
+    authorize(policy_class)
+    @q = controller_class.ransack(params[:q])
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
     @pagy, @instances = pagy(@q.result)
     @instance = controller_class.new
   end
 
   def show
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.find(params[:id])
   end
 
   def new
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.new
   end
 
   def create
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.create(create_params)
 
     instance.log(user: current_user, operation: action_name, meta: params.to_json)
@@ -31,12 +31,12 @@ class Admin::OrderItemsController < AdminController
   end
 
   def edit
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.find(params[:id])
   end
 
   def update
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
     original_instance = instance.dup
 
@@ -48,7 +48,7 @@ class Admin::OrderItemsController < AdminController
   end
 
   def destroy
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
 
     instance.log(user: current_user, operation: action_name)
@@ -61,7 +61,7 @@ class Admin::OrderItemsController < AdminController
 
   def archive
     instance = controller_class.find(params[:id])
-    authorize(controller_class)
+    authorize(policy_class)
     instance.archive
 
     instance.log(user: current_user, operation: action_name)
@@ -70,7 +70,7 @@ class Admin::OrderItemsController < AdminController
   end
 
   def unarchive
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
     instance.unarchive
 
@@ -80,17 +80,17 @@ class Admin::OrderItemsController < AdminController
   end
 
   def collection_export_xlsx
-    authorize(controller_class)
+    authorize(policy_class)
 
     sql = %(
       SELECT
         *
       FROM
-        screeners
+        stats
       WHERE
-        screeners.archived_at IS NULL
+        stats.archived_at IS NULL
       ORDER BY
-        screeners.created_at ASC
+        stats.created_at ASC
     )
 
     @results = ActiveRecord::Base.connection.select_all(sql)
@@ -109,18 +109,18 @@ class Admin::OrderItemsController < AdminController
   end
 
   def member_export_xlsx
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
 
     sql = %(
       SELECT
         *
       FROM
-        screeners
+        stats
       WHERE
-        screeners.id = #{instance.id}
+        stats.id = #{instance.id}
       ORDER BY
-        screeners.created_at ASC
+        stats.created_at ASC
     )
 
     @results = ActiveRecord::Base.connection.select_all(sql)
@@ -141,17 +141,90 @@ class Admin::OrderItemsController < AdminController
   private
 
   def create_params
-    params.require(:screener).permit(
-      :name,
-      :amount
+    params.require(:stat).permit(
+      :_2b,
+      :_3b,
+      :ab,
+      :archived_at,
+      :avg,
+      :ba_rank,
+      :bb,
+      :cbs_rank,
+      :cs,
+      :fg_bat_ctrl,
+      :fg_fld_pres,
+      :fg_fld_proj,
+      :fg_fv,
+      :fg_hard_hit,
+      :fg_hit_pres,
+      :fg_hit_proj,
+      :fg_org_rank,
+      :fg_pit_sel,
+      :fg_pwr_pres,
+      :fg_pwr_proj,
+      :fg_spd_pres,
+      :fg_spd_proj,
+      :fg_top_rank,
+      :hits,
+      :hr,
+      :k,
+      :kl_rank,
+      :mcd_fv,
+      :mcd_rank,
+      :mlb_rank,
+      :obp,
+      :pa,
+      :player_id,
+      :rbi,
+      :runs,
+      :sb,
+      :slg,
+      :timeline,
+      :timeline_type,
     )
   end
 
   def update_params
-    params.require(:screener).permit(
-      :name,
-      :amount,
-      :archived_at
+    params.require(:stat).permit(
+      :_2b,
+      :_3b,
+      :ab,
+      :archived_at,
+      :avg,
+      :ba_rank,
+      :bb,
+      :cbs_rank,
+      :cs,
+      :fg_bat_ctrl,
+      :fg_fld_pres,
+      :fg_fld_proj,
+      :fg_fv,
+      :fg_hard_hit,
+      :fg_hit_pres,
+      :fg_hit_proj,
+      :fg_org_rank,
+      :fg_pit_sel,
+      :fg_pwr_pres,
+      :fg_pwr_proj,
+      :fg_spd_pres,
+      :fg_spd_proj,
+      :fg_top_rank,
+      :hits,
+      :hr,
+      :k,
+      :kl_rank,
+      :mcd_fv,
+      :mcd_rank,
+      :mlb_rank,
+      :obp,
+      :pa,
+      :player_id,
+      :rbi,
+      :runs,
+      :sb,
+      :slg,
+      :timeline,
+      :timeline_type,
     )
   end
 end

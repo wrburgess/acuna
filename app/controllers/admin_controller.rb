@@ -5,39 +5,34 @@ class AdminController < ApplicationController
 
   before_action :authenticate_user!
 
-  def destroy
-    @instance = @model_class.find(params[:id])
-    authorize(@instance)
+  protected
 
-    @instance.archive!
-    @instance.log(user: current_user, operation: action_nameD)
-    flash[:danger] = "#{@instance.class_name_title} deleted"
-    redirect_to polymorphic_path([:admin, @model_class])
+  # Returns the appropriate Admin namespace policy class
+  def policy_class
+    class_name = self.class.name.split('::').last.gsub('Controller', '').singularize
+
+    # Attempt to find and return the actual policy class
+    "Admin::#{class_name}Policy".constantize
+  rescue NameError
+    # If the class doesn't exist yet, create a module path that Pundit can use
+    Admin.const_get(class_name)
   end
 
-  def archive
-    @instance = @model_class.find(params[:id])
-    authorize(@instance)
+  # Tell Pundit to use Admin namespace policies
+  def authorize(record, query = nil)
+    # Get the model name for the record without 'Policy' suffix if it exists
+    record_name = if record.is_a?(Class)
+                    record.name.gsub(/Policy$/, '')
+                  else
+                    record.class.name
+                  end
 
-    @instance.archive!
-    @instance.log(user: current_user, operation: action_name)
-    flash[:danger] = "#{@instance.class_name_title} archived"
-    redirect_to polymorphic_path([:admin, @model_class])
-  end
+    # Strip out any existing Policy suffix to avoid duplication
+    base_name = record_name.gsub(/Policy$/, '')
 
-  def unarchive
-    @instance = @model_class.find(params[:id])
-    authorize(@instance)
+    # Determine the appropriate policy class in Admin namespace
+    policy_class = "Admin::#{base_name.demodulize}Policy".constantize
 
-    @instance.unarchive!
-    @instance.log(user: current_user, operation: action_name)
-    flash[:danger] = "#{@instance.class_name_title} unarchived"
-    redirect_to polymorphic_path([:admin, @instance])
-  end
-
-  private
-
-  def pundit_policy_class
-    "Admin::#{controller_name.classify}Policy".constantize
+    super(record, query, policy_class: policy_class)
   end
 end

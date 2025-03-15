@@ -4,10 +4,11 @@
   <div class="row my-3">
     <div class="col-6">
       <%= render Admin::DashboardCard::Component.new(title: "Data") do |card| %>
-        <% card.with_link(name: "Players", url: admin_players_path, policy: Organization) %>
+        <% card.with_link(name: "Players", url: admin_players_path, policy: Player) %>
         <% card.with_link(name: "Reports", url: polymorphic_path([:admin, Report]), policy: Report) %>
-        <% card.with_link(name: "Rosters", url: admin_rosters_path, policy: Title) %>
-        <% card.with_link(name: "Teams", url: admin_teams_path, policy: Venue) %>
+        <% card.with_link(name: "Rosters", url: admin_rosters_path, policy: Roster) %>
+        <% card.with_link(name: "Stats", url: admin_stats_path, policy: Stat) %>
+        <% card.with_link(name: "Teams", url: admin_teams_path, policy: Team) %>
       <% end %>
     </div>
 
@@ -25,22 +26,11 @@
   <div class="row">
     <div class="col-6">
       <%= render Admin::DashboardCard::Component.new(title: "Development") do |card| %>
-        <% card.with_link(name: "Harvest (Production)", url: 'https://harvest.mpimediagroup.com', new_window: true) %>
-        <% card.with_link(name: "Harvest (Staging)", url: 'https://harvest-staging.mpimediagroup.com', new_window: true) %>
         <% card.with_link(name: "Blazer", url: admin_blazer_path, new_window: true) %>
-        <% card.with_link(name: "Cloudflare Turnstile", url: 'https://developers.cloudflare.com/turnstile/', new_window: true) %>
         <% card.with_link(name: "GoodJob Dashboard", url: admin_good_job_path, new_window: true) %>
-        <% card.with_link(name: "Heroku Datastores", url: 'https://data.heroku.com', new_window: true) %>
-        <% card.with_link(name: "Heroku Pipeline", url: 'https://dashboard.heroku.com/pipelines/af2038da-a8c8-4dfd-966d-dd4c9489ed5c', new_window: true) %>
-        <% card.with_link(name: "Honeybadger (Staging)", url: 'https://app.honeybadger.io/projects/129221/install/rails', new_window: true) %>
-        <% card.with_link(name: "Issues (GitHub)", url: 'https://github.com/mpimedia/harvest/issues', new_window: true) %>
         <% card.with_link(name: "Maintenance Tasks", url: admin_maintenance_tasks_path, new_window: true) %>
         <% card.with_link(name: "PG Hero", url: admin_pg_hero_path, new_window: true) %>
-        <% card.with_link(name: "Papertrail (Staging)", url: 'https://my.papertrailapp.com/systems/harvest-staging/events', new_window: true) %>
-        <% card.with_link(name: "Postmark", url: 'https://account.postmarkapp.com/servers', new_window: true) %>
-        <% card.with_link(name: "Projects (GitHub)", url: 'https://github.com/wrburgess/harvest/projects', new_window: true) %>
-        <% card.with_link(name: "Source Control (GitHub)", url: 'https://github.com/wrburgess/harvest', new_window: true) %>
-        <% card.with_link(name: "UptimeRobot: Staging", url: "https://dashboard.uptimerobot.com/monitors/798151118", new_window: true) %>
+        <% card.with_link(name: "Source Control (GitHub)", url: 'https://github.com/wrburgess/acuna', new_window: true) %>
       <% end %>
     </div>
 

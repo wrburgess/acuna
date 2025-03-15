@@ -1,14 +1,10 @@
-class Admin::WidgetsController < AdminController
+class Admin::PlayersController < AdminController
   include Pagy::Backend
 
   before_action :authenticate_user!
 
-  def pundit_policy_class
-    Admin::WidgetPolicy
-  end
-
   def index
-    authorize(controller_class)
+    authorize(policy_class)
     @q = controller_class.ransack(params[:q])
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
     @pagy, @instances = pagy(@q.result)
@@ -16,17 +12,17 @@ class Admin::WidgetsController < AdminController
   end
 
   def show
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.find(params[:id])
   end
 
   def new
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.new
   end
 
   def create
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.create(create_params)
 
     instance.log(user: current_user, operation: action_name, meta: params.to_json)
@@ -35,12 +31,12 @@ class Admin::WidgetsController < AdminController
   end
 
   def edit
-    authorize(controller_class)
+    authorize(policy_class)
     @instance = controller_class.find(params[:id])
   end
 
   def update
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
     original_instance = instance.dup
 
@@ -52,7 +48,7 @@ class Admin::WidgetsController < AdminController
   end
 
   def destroy
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
 
     instance.log(user: current_user, operation: action_name)
@@ -65,7 +61,7 @@ class Admin::WidgetsController < AdminController
 
   def archive
     instance = controller_class.find(params[:id])
-    authorize(controller_class)
+    authorize(policy_class)
     instance.archive
 
     instance.log(user: current_user, operation: action_name)
@@ -74,7 +70,7 @@ class Admin::WidgetsController < AdminController
   end
 
   def unarchive
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
     instance.unarchive
 
@@ -84,17 +80,17 @@ class Admin::WidgetsController < AdminController
   end
 
   def collection_export_xlsx
-    authorize(controller_class)
+    authorize(policy_class)
 
     sql = %(
       SELECT
         *
       FROM
-        widgets
+        players
       WHERE
-        widgets.archived_at IS NULL
+        players.archived_at IS NULL
       ORDER BY
-        widgets.created_at ASC
+        players.created_at ASC
     )
 
     @results = ActiveRecord::Base.connection.select_all(sql)
@@ -113,18 +109,18 @@ class Admin::WidgetsController < AdminController
   end
 
   def member_export_xlsx
-    authorize(controller_class)
+    authorize(policy_class)
     instance = controller_class.find(params[:id])
 
     sql = %(
       SELECT
         *
       FROM
-        widgets
+        players
       WHERE
-        widgets.id = #{instance.id}
+        players.id = #{instance.id}
       ORDER BY
-        widgets.created_at ASC
+        players.created_at ASC
     )
 
     @results = ActiveRecord::Base.connection.select_all(sql)
@@ -145,16 +141,22 @@ class Admin::WidgetsController < AdminController
   private
 
   def create_params
-    params.require(:screener).permit(
+    params.require(:player).permit(
       :name,
-      :amount
+      :position,
+      :team_id,
+      :roster_id,
+      :notes
     )
   end
 
   def update_params
-    params.require(:screener).permit(
+    params.require(:player).permit(
       :name,
-      :amount,
+      :position,
+      :team_id,
+      :roster_id,
+      :notes,
       :archived_at
     )
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_14_213559) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_15_011634) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -310,6 +310,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_213559) do
     t.date "birthdate"
     t.bigint "roster_id", null: false
     t.bigint "team_id", null: false
+    t.text "notes"
+    t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["roster_id"], name: "index_players_on_roster_id"
@@ -329,6 +331,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_213559) do
   create_table "rosters", force: :cascade do |t|
     t.string "name"
     t.string "abbreviation"
+    t.text "notes"
+    t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -400,6 +404,51 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_213559) do
     t.index ["byte_size"], name: "index_solid_cache_entries_on_byte_size"
     t.index ["key_hash", "byte_size"], name: "index_solid_cache_entries_on_key_hash_and_byte_size"
     t.index ["key_hash"], name: "index_solid_cache_entries_on_key_hash", unique: true
+  end
+
+  create_table "stats", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.string "timeline"
+    t.string "timeline_type"
+    t.decimal "pa", precision: 10, scale: 3
+    t.decimal "ab", precision: 10, scale: 3
+    t.decimal "runs", precision: 10, scale: 3
+    t.decimal "hits", precision: 10, scale: 3
+    t.decimal "_2b", precision: 10, scale: 3
+    t.decimal "_3b", precision: 10, scale: 3
+    t.decimal "hr", precision: 10, scale: 3
+    t.decimal "rbi", precision: 10, scale: 3
+    t.decimal "bb", precision: 10, scale: 3
+    t.decimal "k", precision: 10, scale: 3
+    t.decimal "sb", precision: 10, scale: 3
+    t.decimal "cs", precision: 10, scale: 3
+    t.decimal "avg", precision: 10, scale: 3
+    t.decimal "obp", precision: 10, scale: 3
+    t.decimal "slg", precision: 10, scale: 3
+    t.decimal "cbs_rank", precision: 10, scale: 3
+    t.decimal "fg_top_rank", precision: 10, scale: 3
+    t.decimal "fg_org_rank", precision: 10, scale: 3
+    t.decimal "fg_fv", precision: 10, scale: 3
+    t.decimal "fg_hit_pres", precision: 10, scale: 3
+    t.decimal "fg_hit_proj", precision: 10, scale: 3
+    t.decimal "fg_pwr_pres", precision: 10, scale: 3
+    t.decimal "fg_pwr_proj", precision: 10, scale: 3
+    t.decimal "fg_pit_sel", precision: 10, scale: 3
+    t.decimal "fg_bat_ctrl", precision: 10, scale: 3
+    t.decimal "fg_spd_pres", precision: 10, scale: 3
+    t.decimal "fg_spd_proj", precision: 10, scale: 3
+    t.decimal "fg_fld_pres", precision: 10, scale: 3
+    t.decimal "fg_fld_proj", precision: 10, scale: 3
+    t.decimal "fg_hard_hit", precision: 10, scale: 3
+    t.decimal "ba_rank", precision: 10, scale: 3
+    t.decimal "mlb_rank", precision: 10, scale: 3
+    t.decimal "kl_rank", precision: 10, scale: 3
+    t.decimal "mcd_rank", precision: 10, scale: 3
+    t.decimal "mcd_fv", precision: 10, scale: 3
+    t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_stats_on_player_id"
   end
 
   create_table "storage_asset_service_prices", force: :cascade do |t|
@@ -502,6 +551,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_213559) do
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.string "abbreviation"
+    t.text "notes"
+    t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -571,5 +622,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_213559) do
 
   add_foreign_key "players", "rosters"
   add_foreign_key "players", "teams"
+  add_foreign_key "stats", "players"
   add_foreign_key "venues", "users"
 end
