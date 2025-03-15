@@ -1,10 +1,6 @@
-# Harvest
+# Acuna
 
-* [GitHub](https://github.com/mpimedia/harvest)
-* [Github Actions/CI](https://github.com/mpimedia/harvest/actions)
-* [Production Site](https://harvest.mpimediagroup.com)
-* [Staging Site](https://harvest-staging.mpimediagroup.com)
-* [Local Site](https://harvest-dev.mpimediagroup.com) _via cloudflare tunnel_
+* [GitHub](https://github.com/mpimedia/acuna)
 
 ## References
 
@@ -65,7 +61,7 @@
 * [good_job](https://github.com/bensheldon/good_job)
 * [pghero](https://github.com/ankane/pghero)
 * [pretender](https://github.com/ankane/pretender)
-* [renovate](https://developer.mend.io/github/mpimedia/harvest)
+* [renovate](https://developer.mend.io/github/mpimedia/acuna)
 * [simple_form](https://github.com/heartcombo/simple_form)
 
 ## Encrypted Credentials
@@ -113,12 +109,12 @@
 
 ### Setup Steps
 
-* Harvest uses the `harvest-dev.mpimediagroup.com` domain for local tunneling with Cloudflare and the `cloudflared` ci
+* acuna uses the `acuna-dev.mpimediagroup.com` domain for local tunneling with Cloudflare and the `cloudflared` ci
 * Install (on Mac) with `brew install cloudflared`
 * Login with `cloudflared tunnel login`
 * Create name tunnel `cloudflared tunnel create <NAME>` or `cloudflared tunnel create mpivid`
 * Create config file at `/User/[username]/.cloudflared/config.yaml`
-* [MPI Media Cloudflare Tunnel Dashboard](https://one.dash.cloudflare.com/ee0a8e28862d5c84754bbed265f0f861/networks/tunnels?search=)
+* [Acuna Cloudflare Tunnel Dashboard](https://one.dash.cloudflare.com/ee0a8e28862d5c84754bbed265f0f861/networks/tunnels?search=)
 * Note: Config for the mpimediagroup.com domain is managed on the Cloudflared Tunnel Dashboard
 
 ### Running Tunnel Commands
