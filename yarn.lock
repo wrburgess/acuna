@@ -787,9 +787,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"harvest@workspace:.":
+"acuna@workspace:.":
   version: 0.0.0-use.local
-  resolution: "harvest@workspace:."
+  resolution: "acuna@workspace:."
   dependencies:
     "@hotwired/stimulus": "npm:3.2.2"
     "@hotwired/turbo-rails": "npm:8.0.13"

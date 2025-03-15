@@ -17,7 +17,7 @@ class BrandComponentPreview < ViewComponent::Preview
   # @param classes [String] text "CSS classes for compnent"
   #
   # @label Variation renderings
-  def arguments_provided(brand_name: 'Harvest Admin', environment_name: 'staging', classes: 'navbar-brand')
+  def arguments_provided(brand_name: 'Acuna Admin', environment_name: 'staging', classes: 'navbar-brand')
     render(Brand::Component.new(brand_name:, environment_name:, classes:))
   end
 end

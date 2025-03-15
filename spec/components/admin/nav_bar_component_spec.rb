@@ -41,7 +41,7 @@ describe Admin::NavBar::Component, type: :component do
     it 'renders multiple nav items' do
       render_inline(component)
 
-      expect(page).to have_text('Harvest')
+      expect(page).to have_text('Acuna')
       expect(page).to have_text('Data')
     end
   end

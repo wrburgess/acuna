@@ -55,7 +55,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: 'harvest.mpimediagroup.com' }
+  config.action_mailer.default_url_options = { host: 'acuna.mpimediagroup.com' }
   config.action_mailer.delivery_method = :postmark
   config.action_mailer.smtp_settings = {
     api_token: Rails.application.credentials.production.postmark_api_token

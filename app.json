@@ -1,8 +1,8 @@
 {
-  "name": "Harvest",
-  "description": "Transaction manager for MPI Media",
-  "website": "https://harvest.mpimediagroup.com/",
-  "repository": "https://github.com/mpimedia/harvest",
+  "name": "Acuna",
+  "description": "Fantasy Baseball GM",
+  "website": "https://www.acuna.com/",
+  "repository": "https://github.com/wrburgess/acuna",
   "stack": "heroku-22",
   "engines": {
     "node": "23.x",
