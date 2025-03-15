@@ -1,0 +1,252 @@
+<%= simple_form_for([:admin, instance], local: true) do |f| %>
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <div class="form-section">
+        <h3>Basic Information</h3>
+        
+        <div class="field">
+          <%= f.label :player_id %>
+          <%= f.collection_select :player_id, Player.where(archived_at: nil).order(:last_name), :id, ->(p) { "#{p.last_name}, #{p.first_name}" }, { include_blank: true }, { class: 'select-field' } %>
+        </div>
+
+        <div class="field">
+          <%= f.label :timeline %>
+          <%= f.text_field :timeline %>
+        </div>
+
+        <div class="field">
+          <%= f.label :timeline_type %>
+          <%= f.select :timeline_type, ['Season', 'Month', 'Week', 'Career', 'Projection'], { include_blank: true }, { class: 'select-field' } %>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Basic Stats</h3>
+        
+        <div class="field-group">
+          <div class="field">
+            <%= f.label :pa, "Plate Appearances" %>
+            <%= f.number_field :pa, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :ab, "At Bats" %>
+            <%= f.number_field :ab, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :runs %>
+            <%= f.number_field :runs, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :hits %>
+            <%= f.number_field :hits, step: 0.001 %>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field">
+            <%= f.label :_2b, "Doubles" %>
+            <%= f.number_field :_2b, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :_3b, "Triples" %>
+            <%= f.number_field :_3b, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :hr, "Home Runs" %>
+            <%= f.number_field :hr, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :rbi, "RBIs" %>
+            <%= f.number_field :rbi, step: 0.001 %>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field">
+            <%= f.label :bb, "Walks" %>
+            <%= f.number_field :bb, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :k, "Strikeouts" %>
+            <%= f.number_field :k, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :sb, "Stolen Bases" %>
+            <%= f.number_field :sb, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :cs, "Caught Stealing" %>
+            <%= f.number_field :cs, step: 0.001 %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Batting Metrics</h3>
+        
+        <div class="field-group">
+          <div class="field">
+            <%= f.label :avg, "Batting Average" %>
+            <%= f.number_field :avg, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :obp, "On-Base Percentage" %>
+            <%= f.number_field :obp, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :slg, "Slugging Percentage" %>
+            <%= f.number_field :slg, step: 0.001 %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Rankings</h3>
+        
+        <div class="field-group">
+          <div class="field">
+            <%= f.label :cbs_rank, "CBS Rank" %>
+            <%= f.number_field :cbs_rank, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :fg_top_rank, "FanGraphs Top Rank" %>
+            <%= f.number_field :fg_top_rank, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :fg_org_rank, "FanGraphs Org Rank" %>
+            <%= f.number_field :fg_org_rank, step: 0.001 %>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field">
+            <%= f.label :ba_rank, "Baseball America Rank" %>
+            <%= f.number_field :ba_rank, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :mlb_rank, "MLB Rank" %>
+            <%= f.number_field :mlb_rank, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :kl_rank, "Keith Law Rank" %>
+            <%= f.number_field :kl_rank, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :mcd_rank, "McDaniel Rank" %>
+            <%= f.number_field :mcd_rank, step: 0.001 %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>FanGraphs Metrics</h3>
+        
+        <div class="field-group">
+          <div class="field">
+            <%= f.label :fg_fv, "Future Value" %>
+            <%= f.number_field :fg_fv, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :fg_hit_pres, "Present Hit Tool" %>
+            <%= f.number_field :fg_hit_pres, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :fg_hit_proj, "Projected Hit Tool" %>
+            <%= f.number_field :fg_hit_proj, step: 0.001 %>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field">
+            <%= f.label :fg_pwr_pres, "Present Power" %>
+            <%= f.number_field :fg_pwr_pres, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :fg_pwr_proj, "Projected Power" %>
+            <%= f.number_field :fg_pwr_proj, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :fg_pit_sel, "Pitch Selection" %>
+            <%= f.number_field :fg_pit_sel, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :fg_bat_ctrl, "Bat Control" %>
+            <%= f.number_field :fg_bat_ctrl, step: 0.001 %>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field">
+            <%= f.label :fg_spd_pres, "Present Speed" %>
+            <%= f.number_field :fg_spd_pres, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :fg_spd_proj, "Projected Speed" %>
+            <%= f.number_field :fg_spd_proj, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :fg_fld_pres, "Present Fielding" %>
+            <%= f.number_field :fg_fld_pres, step: 0.001 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :fg_fld_proj, "Projected Fielding" %>
+            <%= f.number_field :fg_fld_proj, step: 0.001 %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= f.label :fg_hard_hit, "Hard Hit %" %>
+          <%= f.number_field :fg_hard_hit, step: 0.001 %>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>McDaniel Metrics</h3>
+        
+        <div class="field">
+          <%= f.label :mcd_fv, "McDaniel Future Value" %>
+          <%= f.number_field :mcd_fv, step: 0.001 %>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Management</h3>
+        
+        <div class="field">
+          <%= f.label :archived_at, "Archive Date (leave blank for active)" %>
+          <%= f.datetime_local_field :archived_at %>
+        </div>
+      </div>
+    </div>
+  </div><!-- row -->
+  <div class="row">
+    <div class="form-group">
+      <%= render Admin::ActionButton::Component.new(operation: :cancel_to_show, instance: instance, classes_append: "me-3", public: true) %>
+      <%= render Admin::FormButton::Component.new(operation: :submit) %>
+    </div>
+  </div><!-- row -->
+<% end %>

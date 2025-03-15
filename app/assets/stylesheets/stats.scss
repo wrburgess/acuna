@@ -1,0 +1,71 @@
+.form-section {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  
+  h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e5e5e5;
+  }
+}
+
+.field-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  
+  .field {
+    flex: 1 1 200px;
+  }
+}
+
+.field {
+  margin-bottom: 1rem;
+  
+  label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+}
+
+.error-messages {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.actions {
+  margin-top: 1rem;
+  
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: #0069d9;
+    }
+  }
+}

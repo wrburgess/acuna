@@ -60,6 +60,7 @@ class Stat < ApplicationRecord
       runs
       sb
       slg
+      team_id
       timeline
       timeline_type
       updated_at
@@ -69,6 +70,7 @@ class Stat < ApplicationRecord
   def self.ransackable_associations(*)
     %i[
       player
+      team
     ]
   end
 
