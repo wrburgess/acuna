@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_15_213156) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_16_151122) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -316,6 +316,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_15_213156) do
     t.datetime "updated_at", null: false
     t.string "status", comment: "prospect, show, retired"
     t.string "level", comment: "CAR, MEX, KOR, JPN, INTL, USHS, NCAA, LOW A, HIGH A, AA, AAA, MLB"
+    t.string "fg_id"
+    t.decimal "age", precision: 10, scale: 3
+    t.string "height"
+    t.string "weight"
+    t.string "bats"
+    t.string "throws"
     t.index ["level"], name: "index_players_on_level"
     t.index ["roster_id"], name: "index_players_on_roster_id"
     t.index ["status"], name: "index_players_on_status"
@@ -345,7 +351,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_15_213156) do
     t.bigint "scout_id", null: false
     t.bigint "player_id", null: false
     t.date "reported_at", null: false
-    t.text "body", null: false
+    t.text "body"
     t.integer "overall_ranking"
     t.integer "team_ranking"
     t.decimal "future_value", precision: 10, scale: 3
@@ -363,6 +369,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_15_213156) do
     t.date "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "game_pwr_pres", precision: 10, scale: 3
+    t.decimal "game_pwr_proj", precision: 10, scale: 3
+    t.decimal "raw_pwr_pres", precision: 10, scale: 3
+    t.decimal "raw_pwr_proj", precision: 10, scale: 3
+    t.string "risk"
+    t.string "eta"
+    t.string "timeline"
+    t.string "timeline_type"
     t.index ["player_id"], name: "index_scouting_reports_on_player_id"
     t.index ["scout_id"], name: "index_scouting_reports_on_scout_id"
   end

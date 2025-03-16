@@ -11,7 +11,7 @@ module Maintenance
       total_processed = 0
       players_matched = 0
       players_created = 0
-      stats_created = 0
+      scouting_reports_created = 0
       errors = 0
       unmatched_players = []
 
@@ -64,33 +64,55 @@ module Maintenance
             player.status = 'prospect'
             player.save!
 
-            # Create stat for the player
-            stat = Stat.find_or_initialize_by(
-              player_id: player.id,
-              timeline: '2025',
-              timeline_type: 'preseason'
-            )
+            # Determine the scout based on file name
+            scout_full_name = case file_name
+                              when 'keith_law_baseball_prospects_rankings.csv'
+                                'Keith Law'
+                              when 'mlb_prospect_rankings.csv'
+                                'Jim Callis'
+                              when 'baseball_america_prospect_rankings.csv'
+                                'JJ Cooper'
+                              when 'kiley_mcdaniel_prospect_rankings.csv'
+                                'Kiley McDaniel'
+                              else
+                                Rails.logger.error("Unknown file name: #{file_name}")
+                                next
+                              end
 
-            case file_name
-            when 'keith_law_baseball_prospects_rankings.csv'
-              stat.kl_rank = rank
-            when 'mlb_prospect_rankings.csv'
-              stat.mlb_rank = rank
-            when 'baseball_america_prospect_rankings.csv'
-              stat.ba_rank = rank
-            when 'kiley_mcdaniel_prospect_rankings.csv'
-              stat.mcd_rank = rank
-            else
-              Rails.logger.error("Unknown file name: #{file_name}")
+            # Parse scout name into first and last name
+            scout_name_parts = scout_full_name.split(' ', 2)
+            scout_first_name = scout_name_parts[0]
+            scout_last_name = scout_name_parts[1] || ''
+
+            # Find the scout in the database by first and last name
+            scout = Scout.find_by(first_name: scout_first_name, last_name: scout_last_name)
+            unless scout
+              Rails.logger.error("Scout not found with name: #{scout_first_name} #{scout_last_name}")
+              errors += 1
               next
             end
 
-            if stat.save
-              stats_created += 1
-              Rails.logger.info("  Success: Saved stat record ID: #{stat.id}")
+            # Create or find scouting report for the player
+            scouting_report = ScoutingReport.find_or_initialize_by(
+              player_id: player.id,
+              scout_id: scout.id,
+              timeline: '2025',
+              timeline_type: 'preseason'
+            )
+            scouting_report.reported_at = Time.zone.now
+            # Only update if scouting report is new or rank changed
+            if scouting_report.new_record? || scouting_report.overall_ranking != rank
+              scouting_report.overall_ranking = rank
+
+              if scouting_report.save
+                scouting_reports_created += 1
+                Rails.logger.info("  Success: Saved scouting report ID: #{scouting_report.id}")
+              else
+                Rails.logger.error("Failed to save scouting report: #{scouting_report.errors.full_messages.join(', ')}")
+                errors += 1
+              end
             else
-              Rails.logger.error("Failed to save stat: #{stat.errors.full_messages.join(', ')}")
-              errors += 1
+              Rails.logger.info('  Skipping: Scouting report already exists with same rank')
             end
           else
             Rails.logger.info("No match found: #{first_name} #{last_name}")
@@ -108,7 +130,7 @@ module Maintenance
       Rails.logger.info("  Total processed: #{total_processed}")
       Rails.logger.info("  Players matched: #{players_matched}")
       Rails.logger.info("  Players created: #{players_created}")
-      Rails.logger.info("  Stats created/updated: #{stats_created}")
+      Rails.logger.info("  Scouting reports created/updated: #{scouting_reports_created}")
       Rails.logger.info("  Errors: #{errors}")
 
       # List unmatched players
@@ -116,7 +138,7 @@ module Maintenance
 
       Rails.logger.info("\nUnmatched players (#{unmatched_players.size}):")
       unmatched_players.each do |player|
-        Rails.logger.info("  Rank #{player[:rank]}: #{player[:last_name]}")
+        Rails.logger.info("  Rank #{player[:rank]}: #{player[:name]}")
       end
     end
   end
