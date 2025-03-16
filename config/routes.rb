@@ -67,7 +67,10 @@ Rails.application.routes.draw do
     resources :players, concerns: [:archivable, :copyable, :collection_exportable]
     resources :reports, concerns: [:collection_exportable, :member_exportable]
     resources :rosters, concerns: [:archivable, :copyable, :collection_exportable]
+    resources :scouting_reports, concerns: [:archivable, :copyable, :collection_exportable, :member_exportable]
+    resources :scouts, concerns: [:archivable, :copyable, :collection_exportable]
     resources :stats, concerns: [:archivable, :copyable, :collection_exportable]
+    resources :system_groups, concerns: :collection_exportable
     resources :system_groups, concerns: :collection_exportable
     resources :system_permissions, concerns: [:copyable, :collection_exportable]
     resources :system_roles, concerns: :collection_exportable

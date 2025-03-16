@@ -1,0 +1,33 @@
+<%= simple_form_for([:admin, instance], local: true) do |f| %>
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <% unless instance.new_record? %>
+        <%= f.input :id, readonly: true, wrapper: :floating_label_form %>
+      <% end %>
+      <%= f.association :scout, wrapper: :floating_label_form %>
+      <%= f.association :player, wrapper: :floating_label_form %>
+      <%= f.input :reported_at, as: :date_picker, wrapper: :floating_label_form %>
+      <%= f.input :body, as: :text, wrapper: :floating_label_form %>
+      <%= f.input :overall_ranking, wrapper: :floating_label_form %>
+      <%= f.input :team_ranking, wrapper: :floating_label_form %>
+      <%= f.input :future_value, wrapper: :floating_label_form %>
+      <%= f.input :hit_pres, wrapper: :floating_label_form %>
+      <%= f.input :hit_proj, wrapper: :floating_label_form %>
+      <%= f.input :pwr_pres, wrapper: :floating_label_form %>
+      <%= f.input :pwr_proj, wrapper: :floating_label_form %>
+      <%= f.input :pit_sel, wrapper: :floating_label_form %>
+      <%= f.input :bat_ctrl, wrapper: :floating_label_form %>
+      <%= f.input :spd_pres, wrapper: :floating_label_form %>
+      <%= f.input :spd_proj, wrapper: :floating_label_form %>
+      <%= f.input :fld_pres, wrapper: :floating_label_form %>
+      <%= f.input :fld_proj, wrapper: :floating_label_form %>
+      <%= f.input :hard_hit, wrapper: :floating_label_form %>
+    </div>
+  </div><!-- row -->
+  <div class="row">
+    <div class="form-group">
+      <%= render Admin::ActionButton::Component.new(operation: :cancel_to_show, instance: instance, classes_append: "me-3", public: true) %>
+      <%= render Admin::FormButton::Component.new(operation: :submit) %>
+    </div>
+  </div><!-- row -->
+<% end %>

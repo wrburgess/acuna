@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_15_011634) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_15_213156) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -341,6 +341,41 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_15_011634) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scouting_reports", force: :cascade do |t|
+    t.bigint "scout_id", null: false
+    t.bigint "player_id", null: false
+    t.date "reported_at", null: false
+    t.text "body", null: false
+    t.integer "overall_ranking"
+    t.integer "team_ranking"
+    t.decimal "future_value", precision: 10, scale: 3
+    t.decimal "hit_pres", precision: 10, scale: 3
+    t.decimal "hit_proj", precision: 10, scale: 3
+    t.decimal "pwr_pres", precision: 10, scale: 3
+    t.decimal "pwr_proj", precision: 10, scale: 3
+    t.decimal "pit_sel", precision: 10, scale: 3
+    t.decimal "bat_ctrl", precision: 10, scale: 3
+    t.decimal "spd_pres", precision: 10, scale: 3
+    t.decimal "spd_proj", precision: 10, scale: 3
+    t.decimal "fld_pres", precision: 10, scale: 3
+    t.decimal "fld_proj", precision: 10, scale: 3
+    t.decimal "hard_hit", precision: 10, scale: 3
+    t.date "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_scouting_reports_on_player_id"
+    t.index ["scout_id"], name: "index_scouting_reports_on_scout_id"
+  end
+
+  create_table "scouts", force: :cascade do |t|
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "company"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["first_name", "last_name"], name: "index_scouts_on_first_name_and_last_name"
+  end
+
   create_table "screening_requests", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "title_id", null: false
@@ -642,6 +677,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_15_011634) do
 
   add_foreign_key "players", "rosters"
   add_foreign_key "players", "teams"
+  add_foreign_key "scouting_reports", "players"
+  add_foreign_key "scouting_reports", "scouts"
   add_foreign_key "stats", "players"
   add_foreign_key "venues", "users"
 end

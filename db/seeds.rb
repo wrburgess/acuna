@@ -60,3 +60,26 @@ CSV.foreach(csv_path, headers: true) do |row|
 end
 
 puts "Fantasy baseball rosters import completed successfully!"
+
+# Import Scouts
+puts "Importing scouts..."
+
+# Path to the CSV file
+csv_path = File.join(File.dirname(__FILE__), 'sources', 'scouts.csv')
+
+# Read the CSV file and process each row
+CSV.foreach(csv_path, headers: true) do |row|
+  first_name = row['first_name']
+  last_name = row['last_name']
+  company = row['company']
+
+  # Find or create the scout record to prevent duplicates
+  if scout = Scout.find_by(first_name:, last_name:)
+    puts "Found existing scout: #{first_name} #{last_name} (#{company})"
+  else
+    Scout.create!(first_name:, last_name:, company:)
+    puts "Created new scout: #{first_name} #{last_name} (#{company})"
+  end
+end
+
+puts "Scouts import completed successfully!"

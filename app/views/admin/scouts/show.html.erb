@@ -1,0 +1,13 @@
+<%= render Admin::HeaderForShow::Component.new(instance: @instance, controller: params[:controller], action: params[:action], edit_button: true, archive_button: true, copy_button: true) %>
+
+<%= render Admin::PageContainer::Component.new do %>
+  <%= render Admin::TableForShow::Component.new(title: 'Link Data') do |table| %>
+    <% table.with_row(name: "ID", value: @instance.id) %>
+    <% table.with_row(name: "First Name", value: @instance.first_name) %>
+    <% table.with_row(name: "Last Name", value: @instance.last_name) %>
+    <% table.with_row(name: "Company", value: @instance.company) %>
+    <% table.with_row(name: "Archived at", value: default_date_format(@instance.archived_at)) %>
+    <% table.with_row(name: "Created at", value: default_date_format(@instance.created_at)) %>
+    <% table.with_row(name: "Updated at", value: default_date_format(@instance.updated_at)) %>
+  <% end %>
+<% end %>

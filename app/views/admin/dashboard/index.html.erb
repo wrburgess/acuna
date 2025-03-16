@@ -7,6 +7,8 @@
         <% card.with_link(name: "Players", url: admin_players_path, policy: Player) %>
         <% card.with_link(name: "Reports", url: polymorphic_path([:admin, Report]), policy: Report) %>
         <% card.with_link(name: "Rosters", url: admin_rosters_path, policy: Roster) %>
+        <% card.with_link(name: "Scouting Reports", url: admin_scouting_reports_path, policy: ScoutingReport) %>
+        <% card.with_link(name: "Scouts", url: admin_scouts_path, policy: Scout) %>
         <% card.with_link(name: "Stats", url: admin_stats_path, policy: Stat) %>
         <% card.with_link(name: "Teams", url: admin_teams_path, policy: Team) %>
       <% end %>
