@@ -13,7 +13,7 @@ puts "END:   Create admins, Users Count: #{User.count}"
 puts "Importing MLB teams..."
 
 # Path to the CSV file
-csv_path = File.join(File.dirname(__FILE__), 'sources', 'mlb_teams.csv')
+csv_path = File.join(File.dirname(__FILE__), 'sources', 'seeds', 'mlb_teams.csv')
 
 # Read the CSV file and process each row
 CSV.foreach(csv_path, headers: true) do |row|
@@ -39,7 +39,7 @@ puts "MLB teams import completed successfully!"
 puts "Importing fantasy baseball rosters..."
 
 # Path to the CSV file
-csv_path = File.join(File.dirname(__FILE__), 'sources', 'ppmlb_fantasy_baseball_teams.csv')
+csv_path = File.join(File.dirname(__FILE__), 'sources', 'seeds', 'ppmlb_fantasy_baseball_teams.csv')
 
 # Read the CSV file and process each row
 CSV.foreach(csv_path, headers: true) do |row|
@@ -65,7 +65,7 @@ puts "Fantasy baseball rosters import completed successfully!"
 puts "Importing scouts..."
 
 # Path to the CSV file
-csv_path = File.join(File.dirname(__FILE__), 'sources', 'scouts.csv')
+csv_path = File.join(File.dirname(__FILE__), 'sources', 'seeds', 'scouts.csv')
 
 # Read the CSV file and process each row
 CSV.foreach(csv_path, headers: true) do |row|
