@@ -1,0 +1,101 @@
+,overall_ranking,first_name,last_name,pos,team,height,weight,b_t,age,future_value,risk,body,fastball_proj,sweeper_proj,changeup_proj,cutter_proj,control_proj,hit_proj,power_proj,run_proj,field_proj,arm_proj
+0,1,Roki,Sasaki,RHP,Los Angeles Dodgers,6'2,187,R-R,23,75,High,,70,,,,60,,,,,
+1,2,Roman,Anthony,OF,Boston Red Sox,6'2,200,L-R,20,65,Medium,,,,,,,60,65,45,55,60
+2,3,Jackson,Jobe,RHP,Detroit Tigers,6'2,190,R-R,22,70,High,,70,70,60,60,65,,,,,
+3,4,Kristian,Campbell,2B,Boston Red Sox,6'3,191,R-R,22,65,Medium,,,,,,,60,60,55,50,50
+4,5,Walker,Jenkins,OF,Minnesota Twins,6'3,205,L-R,19,65,High,,,,,,,70,60,55,60,50
+5,6,Dylan,Crews,OF,Washington Nationals,6'0,203,R-R,22,,,,,,,,,65,60,70,,60
+6,7,Bubba,Chandler,RHP,Pittsburgh Pirates,6'2,200,S-R,22,65,High,,70,,60,,55,,,,,
+7,8,Chase,Dollander,RHP,Colorado Rockies,6'2,200,R-R,23,65,High,,70,,45,60,55,,,,,
+8,9,Andrew,Painter,RHP,Philadelphia Phillies,6'7,215,R-R,21,70,Extreme,,70,,55,,70,,,,,
+9,10,Noah,Schultz,LHP,Chicago White Sox,6'9,220,L-L,21,65,High,,65,,55,,60,,,,,
+10,11,Carson,Williams,SS,Tampa Bay Rays,6'1,180,R-R,21,60,Medium,,,,,,,40,60,50,70,70
+11,12,Bryce,Eldridge,1B,San Francisco Giants,6'7,219,L-R,20,65,High,,,,,,,50,70,30,,55
+12,13,Jordan,Lawlar,SS,Arizona Diamondbacks,6'1,190,R-R,22,60,Medium,,,,,,,60,50,70,,55
+13,14,Samuel,Basallo,C,Baltimore Orioles,6'3,180,L-R,20,65,High,,,,,,,55,70,40,50,70
+14,15,Marcelo,Mayer,SS,Boston Red Sox,6'2,188,L-R,22,60,High,,,,,,,60,55,40,50,60
+15,16,Colt,Emerson,SS,Seattle Mariners,6'0,185,L-R,19,60,High,,,,,,,60,50,45,50,55
+16,17,Jesus,Made,SS,Milwaukee Brewers,6'1,187,S-R,17,65,Extreme,,,,,,,60,60,60,,60
+17,18,Leodalis,De Vries,SS,San Diego Padres,6'2,183,S-R,18,65,,,,,,,,60,55,55,,50
+18,19,Emmanuel,Rodriguez,OF,Minnesota Twins,5'10,210,L-L,21,60,High,,,,,,,55,70,55,50,55
+19,20,Kumar,Rocker,RHP,Texas Rangers,6'5,245,R-R,25,60,High,,60,,55,50,50,,,,,
+20,21,Sebastian,Walcott,SS,Texas Rangers,6'4,190,R-R,18,60,High,,,,,,,50,65,55,50,70
+21,22,Max,Clark,OF,Detroit Tigers,6'1,190,L-L,20,60,High,,,,,,,60,55,70,70,60
+22,23,Kevin,McGonigle,SS,Detroit Tigers,5'11,185,L-R,20,60,High,,,,,,,65,55,55,50,55
+23,24,Travis,Bazzana,2B,Cleveland Guardians,5'9,170,L-R,22,60,High,,,,,,,65,55,60,50,50
+24,25,JJ,Wetherholt,SS,St. Louis Cardinals,5'10,190,L-R,22,60,High,,,,,,,65,55,55,,50
+25,26,Rhett,Lowder,RHP,Cincinnati Reds,6'2,200,R-R,22,55,Medium,,50,,55,,70,,,,,
+26,27,Chase,Burns,RHP,Cincinnati Reds,6'4,195,R-R,22,60,High,,70,,50,,50,,,,,
+27,28,Jasson,Dominguez,OF,New York Yankees,5'9,190,S-R,21,60,High,,,,,,,55,60,60,40,60
+28,29,Coby,Mayo,3B,Baltimore Orioles,6'5,230,R-R,23,60,High,,,,,,,50,70,45,40,60
+29,30,Dalton,Rushing,C / OF,Los Angeles Dodgers,6'1,220,L-R,23,60,High,,,,,,,55,60,50,,50
+30,31,Ethan,Salas,C,San Diego Padres,6'2,185,L-R,18,60,High,,,,,,,55,50,45,,60
+31,32,Jaison,Chourio,OF,Cleveland Guardians,6'1,162,S-R,19,60,High,,,,,,,65,45,60,55,55
+32,33,Thomas,White,LHP,Miami Marlins,6'5,210,L-L,20,60,High,,60,,60,,45,,,,,
+33,34,Nick,Kurtz,1B,Athletics,6'6,230,L-L,21,60,High,,,,,,,60,60,40,60,50
+34,35,Matt,Shaw,3B,Chicago Cubs,5'11,185,R-R,23,55,Medium,,,,,,,55,55,55,,45
+35,36,Aidan,Miller,SS,Philadelphia Phillies,6'2,210,R-R,20,55,High,,,,,,,55,60,50,,60
+36,37,Angel,Genao,SS,Cleveland Guardians,5'9,150,S-R,20,55,High,,,,,,,60,50,50,50,60
+37,38,Jacob,Wilson,SS,Athletics,6'3,190,R-R,22,55,Medium,,,,,,,70,40,55,50,55
+38,39,Colson,Montgomery,SS,Chicago White Sox,6'3,205,L-R,22,60,High,,,,,,,55,60,45,55,55
+39,40,Hagen,Smith,LHP,Chicago White Sox,6'3,215,L-L,21,60,High,,70,,45,,50,,,,,
+40,41,Quinn,Mathews,LHP,St. Louis Cardinals,6'4,192,L-L,24,55,Medium,,60,,65,,60,,,,,
+41,42,Charlie,Condon,OF,Colorado Rockies,6'6,211,R-R,21,60,High,,,,,,,55,70,40,,55
+42,43,Jeferson,Quero,C,Milwaukee Brewers,5'11,215,R-R,22,55,High,,,,,,,50,50,40,,70
+43,44,Jacob,Misiorowski,RHP,Milwaukee Brewers,6'7,190,R-R,22,55,High,,80,,40,,40,,,,,
+44,45,Luke,Keaschall,2B,Minnesota Twins,6'1,190,R-R,22,55,High,,,,,,,60,50,55,50,40
+45,46,Alex,Freeland,SS,Los Angeles Dodgers,6'2,200,S-R,23,55,High,,,,,,,55,55,55,,55
+46,47,Josue,De Paula,OF,Los Angeles Dodgers,6'3,185,L-L,19,55,High,,,,,,,55,60,45,,50
+47,48,Chase,DeLauter,OF,Cleveland Guardians,6'4,235,L-L,23,55,High,,,,,,,50,60,50,50,60
+48,49,Alejandro,Rosario,RHP,Texas Rangers,6'1,184,R-R,23,55,High,,60,,,,70,,,,,
+49,50,Cooper,Pratt,SS,Milwaukee Brewers,6'4,195,R-R,20,55,High,,,,,,,50,45,50,,60
+50,51,Zyhir,Hope,OF,Los Angeles Dodgers,6'0,193,L-L,20,55,High,,,,,,,55,60,45,,40
+51,52,Kyle,Teel,C,Chicago White Sox,6'1,190,L-R,22,55,High,,,,,,,50,50,45,,55
+52,53,Drake,Baldwin,C,Atlanta Braves,6'0,210,L-R,23,50,Medium,,,,,,,45,55,30,,50
+53,54,Cade,Horton,RHP,Chicago Cubs,6'1,211,R-R,23,60,High,,55,,40,,50,,,,,
+54,55,Cam,Smith,3B,Houston Astros,6'3,215,R-R,21,55,High,,,,,,,55,60,50,,60
+55,56,Cole,Young,SS,Seattle Mariners,6'0,180,L-R,21,55,High,,,,,,,60,45,50,55,50
+56,57,Konnor,Griffin,SS,Pittsburgh Pirates,6'4,210,R-R,18,60,Extreme,,,,,,,50,60,70,,60
+57,58,Jett,Williams,SS,New York Mets,5'6,175,R-R,21,55,High,,,,,,,55,50,60,,55
+58,59,Travis,Sykora,RHP,Washington Nationals,6'6,220,R-R,20,55,High,,70,,55,,50,,,,,
+59,60,Bryce,Rainer,SS,Detroit Tigers,6'3,185,L-R,19,60,Extreme,,,,,,,50,60,40,55,70
+60,61,Brandon,Sproat,RHP,New York Mets,6'3,210,R-R,24,55,High,,55,,60,,45,,,,,
+61,62,Moises,Ballesteros,C,Chicago Cubs,5'7,195,L-R,21,55,High,,,,,,,60,55,30,,50
+62,63,Jac,Caglianone,1B,Kansas City Royals,6'5,217,L-L,21,60,Extreme,,,,,,,50,70,40,50,60
+63,64,Owen,Caissie,OF,Chicago Cubs,6'3,190,L-R,22,55,High,,,,,,,45,60,55,,55
+64,65,Brayden,Taylor,3B,Tampa Bay Rays,6'1,180,L-R,22,50,Medium,,,,,,,50,50,50,50,50
+65,66,Braden,Montgomery,OF,Chicago White Sox,6'2,201,S-R,21,55,High,,,,,,,50,60,50,55,70
+66,67,Jarlin,Susana,RHP,Washington Nationals,6'6,235,R-R,20,55,High,,70,,50,,45,,,,,
+67,68,Tink,Hence,RHP,St. Louis Cardinals,6'1,185,R-R,22,55,High,,60,,60,,55,,,,,
+68,69,Thayron,Liranzo,C,Detroit Tigers,6'3,195,S-R,21,55,High,,,,,,,50,60,20,45,60
+69,70,Jonny,Farmelo,OF,Seattle Mariners,6'2,205,L-R,20,55,High,,,,,,,45,50,70,55,50
+70,71,Kevin,Alcantara,OF,Chicago Cubs,6'6,188,R-R,22,55,High,,,,,,,45,60,55,,55
+71,72,Starlyn,Caba,SS,Miami Marlins,5'10,160,S-R,19,55,High,,,,,,,60,45,60,,55
+72,73,Zebby,Matthews,RHP,Minnesota Twins,6'5,225,R-R,24,50,Medium,,55,,40,55,70,,,,,
+73,74,Thomas,Harrington,RHP,Pittsburgh Pirates,6'2,185,R-R,23,50,Medium,,55,,,50,70,,,,,
+74,75,Blake,Mitchell,C,Kansas City Royals,6'1,192,L-R,20,55,High,,,,,,,50,60,30,55,70
+75,76,Franklin,Arias,SS,Boston Red Sox,5'11,170,R-R,19,55,High,,,,,,,50,50,45,55,55
+76,77,Michael,Arroyo,2B,Seattle Mariners,5'8,160,R-R,20,55,High,,,,,,,60,50,50,45,45
+77,78,Caden,Dana,RHP,Los Angeles Angels,6'4,215,L-R,21,55,High,,55,,45,,50,,,,,
+78,79,Christian,Moore,2B,Los Angeles Angels,6'1,210,R-R,22,55,High,,,,,,,50,60,50,45,45
+79,80,Tre',Morgan,1B,Tampa Bay Rays,6'1,191,L-L,22,55,High,,,,,,,65,40,50,80,60
+80,81,Heston,Kjerstad,OF,Baltimore Orioles,6'3,205,L-R,25,50,Medium,,,,,,,50,60,45,45,60
+81,82,Jackson,Ferris,LHP,Los Angeles Dodgers,6'4,195,L-L,21,55,High,,60,,40,50,50,,,,,
+82,83,AJ,Smith-Shawver,RHP,Atlanta Braves,6'3,205,R-R,22,50,Medium,,60,,50,,45,,,,,
+83,84,Demetrio,Crisantes,2B,Arizona Diamondbacks,6'0,178,R-R,20,55,High,,,,,,,60,50,45,,45
+84,85,Cole,Carrigg,OF,Colorado Rockies,6'3,190,S-R,22,55,High,,,,,,,55,50,60,,70
+85,86,Colby,Thomas,OF,Athletics,6'0,190,R-R,23,55,High,,,,,,,45,60,55,,55
+86,87,Xavier,Isaac,1B,Tampa Bay Rays,6'3,240,L-L,21,55,High,,,,,,,55,60,55,50,50
+87,88,George,Lombard,SS,New York Yankees,6'3,190,R-R,19,55,High,,,,,,,55,50,55,55,55
+88,89,Felnin,Celesten,SS,Seattle Mariners,6'1,175,S-R,19,60,Extreme,,,,,,,50,60,60,60,60
+89,90,Trevor,Harrison,RHP,Tampa Bay Rays,6'4,225,R-R,19,55,High,,60,,60,,50,,,,,
+90,91,Ralphy,Velazquez,1B,Cleveland Guardians,6'2,220,L-R,19,50,High,,,,,,,55,60,30,40,60
+91,92,Jesus,Baez,3B,New York Mets,5'9,180,R-R,19,55,High,,,,,,,55,55,30,,60
+92,93,Eduardo,Tait,C,Philadelphia Phillies,6'0,175,L-R,18,55,High,,,,,,,50,60,40,,55
+93,94,Gary,Gill Hill,RHP,Tampa Bay Rays,6'2,160,R-R,20,55,High,,55,,50,50,60,,,,,
+94,95,Harry,Ford,C,Seattle Mariners,5'10,200,R-R,21,55,High,,,,,,,50,50,60,40,50
+95,96,Justin,Crawford,OF,Philadelphia Phillies,6'1,175,L-R,21,55,High,,,,,,,55,40,70,,50
+96,97,Lazaro,Montes,OF,Seattle Mariners,6'3,210,L-R,20,55,High,,,,,,,40,70,30,30,50
+97,98,Chase,Petty,RHP,Cincinnati Reds,6'1,190,R-R,21,55,High,,55,,45,60,55,,,,,
+98,99,Nolan,McLean,RHP,New York Mets,6'4,214,R-R,23,55,High,,55,,45,,45,,,,,
+99,100,Ricky,Tiedemann,LHP,Toronto Blue Jays,6'4,220,L-L,22,60,Extreme,,60,,55,,50,,,,,
