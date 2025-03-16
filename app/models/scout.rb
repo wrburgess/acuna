@@ -1,10 +1,13 @@
 class Scout < ApplicationRecord
+  include Archivable
+  include Loggable
+
   has_many :scouting_reports, dependent: :destroy
 
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  scope :select_order, -> { order(url_type: :asc) }
+  scope :select_order, -> { order(last_name: :asc) }
 
   def self.ransackable_attributes(*)
     %w[

@@ -9,8 +9,8 @@
 
 <%= render Admin::PageContainer::Component.new do %>
   <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
-    <% table.with_column(sort_link([:admin, @q], :player_last_name, "Player", default_order: :asc)) { |instance| link_to(instance.player.&:name, polymorphic_path([:admin, instance.player])) } %>
-    <% table.with_column(sort_link([:admin, @q], :scout_last_name, "Scout")) { |instance| link_to(instance.scout.&:name, polymorphic_path([:admin, instance.scout])) } %>
+    <% table.with_column(sort_link([:admin, @q], :player_last_name, "Player", default_order: :asc)) { |instance| link_to(instance.player&.name, polymorphic_path([:admin, instance.player])) } %>
+    <% table.with_column(sort_link([:admin, @q], :scout_last_name, "Scout")) { |instance| link_to(instance.scout&.name, polymorphic_path([:admin, instance.scout])) } %>
     <% table.with_column(sort_link([:admin, @q], :reported_at, "Reported At")) { |instance| default_date_format(instance.reported_at) } %>
     <% table.with_column("Actions") do |instance| %>
       <%= render Admin::ActionButton::Component.new(operation: :show, instance: instance, button_classes: "me-3", icon_classes: :none) %>

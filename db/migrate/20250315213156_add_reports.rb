@@ -4,6 +4,7 @@ class AddReports < ActiveRecord::Migration[7.0]
       t.string :first_name, null: false
       t.string :last_name, null: false
       t.string :company
+      t.date :archived_at
 
       t.timestamps
     end

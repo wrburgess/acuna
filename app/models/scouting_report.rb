@@ -7,7 +7,7 @@ class ScoutingReport < ApplicationRecord
 
   validates :reported_at, presence: true
 
-  scope :select_order, -> { order(name: :asc) }
+  scope :select_order, -> { order(reported_at: :desc) }
   scope :active, -> { where(archived_at: nil) }
   scope :archived, -> { where.not(archived_at: nil) }
 
@@ -18,28 +18,39 @@ class ScoutingReport < ApplicationRecord
   def self.ransackable_attributes(*)
     %w[
       archived_at
+      bat_ctrl
       created_at
-      first_name
-      id
-      last_name
-      company
-      updated_at
-      ranking
+      fld_pres
+      fld_proj
       future_value
+      hard_hit
+      hit_pres
+      hit_proj
+      id
+      overall_ranking
+      pit_sel
+      pwr_pres
+      pwr_proj
+      reported_at
+      spd_pres
+      spd_proj
+      team_ranking
+      updated_at
     ]
   end
 
   def self.ransackable_associations(*)
     %i[
-      scouting_reports
+      scout
+      player
     ]
   end
 
   def self.default_sort
-    ['last_name asc', 'first_name desc']
+    ['reported_at desc']
   end
 
   def name
-    [first_name, last_name].reject(&:blank?).join(' ').titleize.strip
+    "#{player.name} by #{scout.name} - #{reported_at}"
   end
 end

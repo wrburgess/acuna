@@ -13,7 +13,7 @@ class Admin::ScoutsController < AdminController
 
   def show
     authorize(policy_class)
-    @instance = controller_class.find(params[:id])
+    @instance = controller_class.includes(:scouting_reports).find(params[:id])
   end
 
   def new
@@ -141,7 +141,7 @@ class Admin::ScoutsController < AdminController
   private
 
   def create_params
-    params.require(:player).permit(
+    params.require(:scout).permit(
       :company,
       :first_name,
       :last_name,
@@ -149,7 +149,7 @@ class Admin::ScoutsController < AdminController
   end
 
   def update_params
-    params.require(:player).permit(
+    params.require(:scout).permit(
       :archived_at,
       :company,
       :first_name,

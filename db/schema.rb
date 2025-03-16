@@ -371,6 +371,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_15_213156) do
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "company"
+    t.date "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["first_name", "last_name"], name: "index_scouts_on_first_name_and_last_name"
