@@ -11,6 +11,8 @@
   <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
     <% table.with_column(sort_link([:admin, @q], :player_last_name, "Player", default_order: :asc)) { |instance| link_to(instance.player&.name, polymorphic_path([:admin, instance.player])) } %>
     <% table.with_column(sort_link([:admin, @q], :scout_last_name, "Scout")) { |instance| link_to(instance.scout&.name, polymorphic_path([:admin, instance.scout])) } %>
+    <% table.with_column(sort_link([:admin, @q], :timeline, "Timeline")) { |instance| instance.timeline } %>
+    <% table.with_column(sort_link([:admin, @q], :timeline_type, "Type")) { |instance| instance.timeline_type } %>
     <% table.with_column(sort_link([:admin, @q], :reported_at, "Reported At")) { |instance| default_date_format(instance.reported_at) } %>
     <% table.with_column("Actions") do |instance| %>
       <%= render Admin::ActionButton::Component.new(operation: :show, instance: instance, button_classes: "me-3", icon_classes: :none) %>
@@ -23,8 +25,21 @@
   <%= render Admin::FilterCard::Component.new do %>
     <%= simple_form_for [:admin, @q], url: polymorphic_path([:admin, @instance]), html: { method: :get }, wrapper: :floating_labels_form do |f| %>
       <%= f.input :id_eq, label: "ID", placeholder: "ID equals" %>
+      
+      <%# Player filter fields %>
       <%= f.input :player_first_name_cont, label: "Player First Name", placeholder: "Player First Name contains" %>
       <%= f.input :player_last_name_cont, label: "Player Last Name", placeholder: "Player Last Name contains" %>
+      
+      <%# Scout filter fields %>
+      <%= f.input :scout_first_name_cont, label: "Scout First Name", placeholder: "Scout First Name contains" %>
+      <%= f.input :scout_last_name_cont, label: "Scout Last Name", placeholder: "Scout Last Name contains" %>
+      
+      <%# Timeline filter fields %>
+      <%= f.input :timeline_eq, label: "Timeline", placeholder: "Timeline equals (e.g. 2025)" %>
+      <%= f.input :timeline_type_eq, label: "Timeline Type", placeholder: "Timeline Type equals (e.g. preseason)" %>
+      
+      <%# Other filters %>
+      <%= f.input :future_value_eq, label: "Future Value", placeholder: "Future Value equals" %>
       <%= f.input :archived_at_not_null, as: :boolean, label: "Archived?", wrapper: :custom_boolean_switch %>
       
       <%= render Admin::FormButton::Component.new(operation: :filter) %>

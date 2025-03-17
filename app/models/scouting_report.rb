@@ -18,13 +18,19 @@ class ScoutingReport < ApplicationRecord
   def self.ransackable_attributes(*)
     %w[
       archived_at
+      arm_pres
       arm_proj
       bat_ctrl
+      changeup_pres
       changeup_proj
+      control_pres
       control_proj
       created_at
+      cutter_pres
       cutter_proj
+      fastball_pres
       fastball_proj
+      field_pres
       field_proj
       fld_pres
       fld_proj
@@ -35,6 +41,7 @@ class ScoutingReport < ApplicationRecord
       id
       overall_ranking
       pit_sel
+      power_pres
       power_proj
       pwr_pres
       pwr_proj
@@ -42,9 +49,13 @@ class ScoutingReport < ApplicationRecord
       risk
       spd_pres
       spd_proj
+      speed_pres
       speed_proj
+      sweeper_pres
       sweeper_proj
       team_ranking
+      timeline
+      timeline_type
       updated_at
     ]
   end

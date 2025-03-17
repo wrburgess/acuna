@@ -5,22 +5,56 @@
     <% table.with_row(name: "ID", value: @instance.id) %>
     <% table.with_row(name: "Scout", value: link_to(@instance.scout.name, admin_scout_path(@instance.scout)) ) if @instance.scout %>
     <% table.with_row(name: "Player", value: link_to(@instance.player.name, admin_player_path(@instance.player)) ) if @instance.player %>
+    <% table.with_row(name: "Timeline", value: @instance.timeline) %>
+    <% table.with_row(name: "Timeline Type", value: @instance.timeline_type) %>
     <% table.with_row(name: "Reported At", value: default_date_format(@instance.reported_at)) %>
     <% table.with_row(name: "Body", value: simple_format(@instance.body)) %>
     <% table.with_row(name: "Overall Ranking", value: @instance.overall_ranking) %>
     <% table.with_row(name: "Team Ranking", value: @instance.team_ranking) %>
     <% table.with_row(name: "Future Value", value: @instance.future_value) %>
+    <% table.with_row(name: "Risk", value: @instance.risk) %>
+    <% table.with_row(name: "ETA", value: @instance.eta) %>
+    
+    <%# Hitting Tools %>
     <% table.with_row(name: "Hit Present", value: @instance.hit_pres) %>
     <% table.with_row(name: "Hit Projected", value: @instance.hit_proj) %>
-    <% table.with_row(name: "Power Present", value: @instance.pwr_pres) %>
-    <% table.with_row(name: "Power Projected", value: @instance.pwr_proj) %>
     <% table.with_row(name: "Pitch Selection", value: @instance.pit_sel) %>
     <% table.with_row(name: "Bat Control", value: @instance.bat_ctrl) %>
+    <% table.with_row(name: "Hard Hit", value: @instance.hard_hit) %>
+    
+    <%# Power Tools %>
+    <% table.with_row(name: "Power Present", value: @instance.pwr_pres) %>
+    <% table.with_row(name: "Power Projected", value: @instance.pwr_proj) %>
+    <% table.with_row(name: "Game Power Present", value: @instance.game_pwr_pres) %>
+    <% table.with_row(name: "Game Power Projected", value: @instance.game_pwr_proj) %>
+    <% table.with_row(name: "Raw Power Present", value: @instance.raw_pwr_pres) %>
+    <% table.with_row(name: "Raw Power Projected", value: @instance.raw_pwr_proj) %>
+    
+    <%# Speed and Fielding %>
     <% table.with_row(name: "Speed Present", value: @instance.spd_pres) %>
     <% table.with_row(name: "Speed Projected", value: @instance.spd_proj) %>
+    <% table.with_row(name: "Speed Present (alt)", value: @instance.speed_pres) %>
+    <% table.with_row(name: "Speed Projected (alt)", value: @instance.speed_proj) %>
     <% table.with_row(name: "Fielding Present", value: @instance.fld_pres) %>
     <% table.with_row(name: "Fielding Projected", value: @instance.fld_proj) %>
-    <% table.with_row(name: "Hard Hit", value: @instance.hard_hit) %>
+    <% table.with_row(name: "Field Present", value: @instance.field_pres) %>
+    <% table.with_row(name: "Field Projected", value: @instance.field_proj) %>
+    
+    <%# Pitching Tools %>
+    <% table.with_row(name: "Fastball Present", value: @instance.fastball_pres) %>
+    <% table.with_row(name: "Fastball Projected", value: @instance.fastball_proj) %>
+    <% table.with_row(name: "Sweeper Present", value: @instance.sweeper_pres) %>
+    <% table.with_row(name: "Sweeper Projected", value: @instance.sweeper_proj) %>
+    <% table.with_row(name: "Changeup Present", value: @instance.changeup_pres) %>
+    <% table.with_row(name: "Changeup Projected", value: @instance.changeup_proj) %>
+    <% table.with_row(name: "Cutter Present", value: @instance.cutter_pres) %>
+    <% table.with_row(name: "Cutter Projected", value: @instance.cutter_proj) %>
+    <% table.with_row(name: "Control Present", value: @instance.control_pres) %>
+    <% table.with_row(name: "Control Projected", value: @instance.control_proj) %>
+    <% table.with_row(name: "Arm Present", value: @instance.arm_pres) %>
+    <% table.with_row(name: "Arm Projected", value: @instance.arm_proj) %>
+    
+    <%# Metadata %>
     <% table.with_row(name: "Archived At", value: default_date_format(@instance.archived_at)) %>
     <% table.with_row(name: "Created At", value: default_date_format(@instance.created_at)) %>
     <% table.with_row(name: "Updated At", value: default_date_format(@instance.updated_at)) %>
