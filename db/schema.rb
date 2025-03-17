@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_16_151122) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_17_001034) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -377,6 +377,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_16_151122) do
     t.string "eta"
     t.string "timeline"
     t.string "timeline_type"
+    t.string "fastball_proj"
+    t.string "sweeper_proj"
+    t.string "changeup_proj"
+    t.string "cutter_proj"
+    t.string "control_proj"
+    t.string "power_proj"
+    t.string "speed_proj"
+    t.string "field_proj"
+    t.string "arm_proj"
     t.index ["player_id"], name: "index_scouting_reports_on_player_id"
     t.index ["scout_id"], name: "index_scouting_reports_on_scout_id"
   end

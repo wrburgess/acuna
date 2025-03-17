@@ -1,7 +1,7 @@
 require 'csv'
 
 module Maintenance
-  class CbsPlayerImportTask < MaintenanceTasks::Task
+  class ImportPlayersCbsContextTask < MaintenanceTasks::Task
     no_collection
 
     attribute :file_name, :string

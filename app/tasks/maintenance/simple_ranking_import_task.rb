@@ -40,10 +40,10 @@ module Maintenance
           # Log the raw row for debugging
           Rails.logger.info("Row #{total_processed}: #{row.inspect}")
 
-          # Extract player data from row
+          # Extract player data from row and sanitize encoding
           rank = row['Rank'].to_i
-          first_name = row['First Name'].to_s.strip
-          last_name = row['Last Name'].to_s.strip
+          first_name = sanitize_text(row['First Name'].to_s.strip)
+          last_name = sanitize_text(row['Last Name'].to_s.strip)
 
           # Skip blank rows
           if first_name.blank? || last_name.blank? || rank.zero?
@@ -140,6 +140,23 @@ module Maintenance
       unmatched_players.each do |player|
         Rails.logger.info("  Rank #{player[:rank]}: #{player[:name]}")
       end
+    end
+
+    private
+
+    def sanitize_text(text)
+      # Fix common encoding issues
+      text = text.encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
+
+      # Fix special character sequences
+      text = text.gsub('‚Äô', "'")   # Fix apostrophes
+      text = text.gsub('‚Äú', '"')   # Fix opening quotes
+      text = text.gsub('‚Äù', '"')   # Fix closing quotes
+      text = text.gsub('‚Ä¶', '...') # Fix ellipsis
+      text = text.gsub('‚Äî', '-')   # Fix em dash
+      text.gsub('‚Äì', '-') # Fix en dash
+
+      # Additional replacements can be added as needed
     end
   end
 end

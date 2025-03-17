@@ -1,5 +1,5 @@
 module Maintenance
-  class ImportSystemPermissionsTask < MaintenanceTasks::Task
+  class SystemPermissionsImportTask < MaintenanceTasks::Task
     no_collection
 
     def process
