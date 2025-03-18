@@ -64,7 +64,13 @@ Rails.application.routes.draw do
     end
 
     resources :data_logs, only: [:index, :show], concerns: :collection_exportable
-    resources :players, concerns: [:archivable, :copyable, :collection_exportable]
+
+    resources :players, concerns: [:archivable, :copyable, :collection_exportable] do
+      member do
+        get :profile
+      end
+    end
+
     resources :reports, concerns: [:collection_exportable, :member_exportable]
     resources :rosters, concerns: [:archivable, :copyable, :collection_exportable]
     resources :scouting_reports, concerns: [:archivable, :copyable, :collection_exportable, :member_exportable]

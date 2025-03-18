@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_17_010348) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_18_155728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -69,29 +69,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_010348) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
-  end
-
-  create_table "contacts", force: :cascade do |t|
-    t.string "first_name"
-    t.string "middle_name"
-    t.string "last_name"
-    t.string "prefix"
-    t.string "title"
-    t.string "address_1"
-    t.string "address_2"
-    t.string "city"
-    t.string "state"
-    t.string "zip_code"
-    t.string "country"
-    t.string "direct_phone_number"
-    t.string "office_phone_number"
-    t.string "fax_phone_number"
-    t.string "email_address_1"
-    t.string "email_address_2"
-    t.text "notes"
-    t.datetime "archived_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "data_logs", force: :cascade do |t|
@@ -198,19 +175,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_010348) do
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
   end
 
-  create_table "inbound_request_logs", force: :cascade do |t|
-    t.string "service", null: false
-    t.jsonb "meta", default: {}, null: false
-    t.datetime "created_at", null: false
-  end
-
-  create_table "labels", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["id"], name: "index_labels_on_id", unique: true
-  end
-
   create_table "links", force: :cascade do |t|
     t.string "url_type"
     t.string "url"
@@ -241,55 +205,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_010348) do
     t.integer "lock_version", default: 0, null: false
     t.text "metadata"
     t.index ["task_name", "status", "created_at"], name: "index_maintenance_tasks_runs", order: { created_at: :desc }
-  end
-
-  create_table "order_items", force: :cascade do |t|
-    t.string "itemable_type", null: false
-    t.bigint "itemable_id", null: false
-    t.bigint "order_id", null: false
-    t.integer "amount"
-    t.text "staff_notes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["itemable_type", "itemable_id"], name: "index_order_items_on_itemable"
-    t.index ["order_id"], name: "index_order_items_on_order_id"
-  end
-
-  create_table "orders", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.integer "amount"
-    t.string "card_brand"
-    t.string "card_last4"
-    t.string "card_exp_month"
-    t.string "card_exp_year"
-    t.string "stripe_id"
-    t.text "staff_notes"
-    t.datetime "archived_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_orders_on_user_id"
-  end
-
-  create_table "organizations", force: :cascade do |t|
-    t.string "name"
-    t.string "organization_type"
-    t.string "company_no"
-    t.string "address_1"
-    t.string "address_2"
-    t.string "city"
-    t.string "state"
-    t.string "zip_code"
-    t.string "country"
-    t.string "fax_phone_number"
-    t.string "office_phone_number_1"
-    t.string "office_phone_number_2"
-    t.string "email_address_1"
-    t.string "email_address_2"
-    t.string "website_url"
-    t.text "notes"
-    t.datetime "archived_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "pghero_query_stats", force: :cascade do |t|
@@ -357,8 +272,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_010348) do
     t.decimal "future_value", precision: 10, scale: 3
     t.decimal "hit_pres", precision: 10, scale: 3
     t.decimal "hit_proj", precision: 10, scale: 3
-    t.decimal "pwr_pres", precision: 10, scale: 3
-    t.decimal "pwr_proj", precision: 10, scale: 3
     t.decimal "pit_sel", precision: 10, scale: 3
     t.decimal "bat_ctrl", precision: 10, scale: 3
     t.decimal "spd_pres", precision: 10, scale: 3
@@ -377,24 +290,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_010348) do
     t.string "eta"
     t.string "timeline"
     t.string "timeline_type"
-    t.string "fastball_proj"
-    t.string "sweeper_proj"
-    t.string "changeup_proj"
-    t.string "cutter_proj"
-    t.string "control_proj"
-    t.string "power_proj"
-    t.string "speed_proj"
-    t.string "field_proj"
-    t.string "arm_proj"
-    t.decimal "fastball_pres", precision: 5, scale: 2
-    t.decimal "sweeper_pres", precision: 5, scale: 2
-    t.decimal "changeup_pres", precision: 5, scale: 2
-    t.decimal "cutter_pres", precision: 5, scale: 2
-    t.decimal "control_pres", precision: 5, scale: 2
-    t.decimal "power_pres", precision: 5, scale: 2
-    t.decimal "speed_pres", precision: 5, scale: 2
-    t.decimal "field_pres", precision: 5, scale: 2
-    t.decimal "arm_pres", precision: 5, scale: 2
+    t.decimal "fastball_proj", precision: 10, scale: 3
+    t.decimal "sweeper_proj", precision: 10, scale: 3
+    t.decimal "changeup_proj", precision: 10, scale: 3
+    t.decimal "cutter_proj", precision: 10, scale: 3
+    t.decimal "control_proj", precision: 10, scale: 3
+    t.decimal "arm_proj", precision: 10, scale: 3
+    t.decimal "slider_pres", precision: 10, scale: 3
+    t.decimal "slider_proj", precision: 10, scale: 3
+    t.decimal "curve_pres", precision: 10, scale: 3
+    t.decimal "curve_proj", precision: 10, scale: 3
+    t.decimal "command_pres", precision: 10, scale: 3
+    t.decimal "command_proj", precision: 10, scale: 3
+    t.decimal "fastball_type", precision: 10, scale: 3
+    t.datetime "tj_at"
+    t.string "video_url"
+    t.decimal "fastball_pres", precision: 10, scale: 3
+    t.decimal "sweeper_pres", precision: 10, scale: 3
+    t.decimal "changeup_pres", precision: 10, scale: 3
+    t.decimal "cutter_pres", precision: 10, scale: 3
+    t.decimal "control_pres", precision: 10, scale: 3
+    t.decimal "arm_pres", precision: 10, scale: 3
     t.index ["player_id", "scout_id", "timeline", "timeline_type"], name: "index_scouting_reports_on_player_scout_and_timeline", unique: true
     t.index ["player_id"], name: "index_scouting_reports_on_player_id"
     t.index ["scout_id"], name: "index_scouting_reports_on_scout_id"
@@ -408,75 +324,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_010348) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["first_name", "last_name"], name: "index_scouts_on_first_name_and_last_name"
-  end
-
-  create_table "screening_requests", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "title_id", null: false
-    t.string "status"
-    t.string "request_host"
-    t.string "phone_number"
-    t.string "email"
-    t.string "organization_name"
-    t.string "organization_type"
-    t.text "organization_notes"
-    t.string "organization_social_media"
-    t.string "business_type"
-    t.text "requestor_notes"
-    t.text "staff_notes"
-    t.text "pricing_notes"
-    t.string "slug"
-    t.string "venue_name"
-    t.string "venue_capacity"
-    t.string "venue_location"
-    t.string "venue_country"
-    t.date "screening_date"
-    t.string "screening_time"
-    t.text "screening_date_notes"
-    t.boolean "is_ticketed"
-    t.string "ticket_price"
-    t.string "expected_attendance"
-    t.string "file_format"
-    t.text "equipment_notes"
-    t.text "marketing_notes"
-    t.text "organization_url"
-    t.integer "screening_number"
-    t.string "billing_address"
-    t.string "billing_phone"
-    t.string "billing_email"
-    t.string "fedex_shipping_code"
-    t.boolean "mailing_list_opt_in"
-    t.integer "default_amount"
-    t.integer "agreed_amount"
-    t.datetime "archived_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["archived_at"], name: "index_screening_requests_on_archived_at"
-    t.index ["slug"], name: "index_screening_requests_on_slug", unique: true
-    t.index ["status"], name: "index_screening_requests_on_status"
-    t.index ["title_id"], name: "index_screening_requests_on_title_id"
-    t.index ["user_id"], name: "index_screening_requests_on_user_id"
-  end
-
-  create_table "solid_cable_messages", force: :cascade do |t|
-    t.binary "channel", null: false
-    t.binary "payload", null: false
-    t.datetime "created_at", null: false
-    t.bigint "channel_hash", null: false
-    t.index ["channel"], name: "index_solid_cable_messages_on_channel"
-    t.index ["channel_hash"], name: "index_solid_cable_messages_on_channel_hash"
-    t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
-  end
-
-  create_table "solid_cache_entries", force: :cascade do |t|
-    t.binary "key", null: false
-    t.binary "value", null: false
-    t.datetime "created_at", null: false
-    t.bigint "key_hash", null: false
-    t.integer "byte_size", null: false
-    t.index ["byte_size"], name: "index_solid_cache_entries_on_byte_size"
-    t.index ["key_hash", "byte_size"], name: "index_solid_cache_entries_on_key_hash_and_byte_size"
-    t.index ["key_hash"], name: "index_solid_cache_entries_on_key_hash", unique: true
   end
 
   create_table "stats", force: :cascade do |t|
@@ -537,48 +384,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_010348) do
     t.decimal "rw", precision: 5
     t.decimal "era", precision: 5, scale: 2
     t.decimal "whip", precision: 4, scale: 2
+    t.string "mlbam_id"
+    t.decimal "bb_pct", precision: 5, scale: 2
+    t.decimal "bb_k", precision: 5, scale: 2
+    t.decimal "abp", precision: 5, scale: 2
+    t.decimal "ops", precision: 5, scale: 2
+    t.decimal "iso", precision: 5, scale: 2
+    t.decimal "babip", precision: 5, scale: 2
+    t.decimal "wsb", precision: 5, scale: 2
+    t.decimal "wrc", precision: 5, scale: 2
+    t.decimal "wraa", precision: 5, scale: 2
+    t.decimal "woba", precision: 5, scale: 2
+    t.decimal "wrc_plus", precision: 5, scale: 2
     t.index ["player_id"], name: "index_stats_on_player_id"
-  end
-
-  create_table "storage_asset_service_prices", force: :cascade do |t|
-    t.string "storage_asset_service"
-    t.string "storage_asset_service_tier"
-    t.string "storage_asset_service_region"
-    t.decimal "price_per_gb_per_month"
-    t.integer "years_reserved"
-    t.integer "priority"
-    t.text "notes"
-    t.datetime "archived_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "storage_asset_sessions", force: :cascade do |t|
-    t.string "setting", null: false
-    t.string "value"
-    t.datetime "expires_at"
-    t.text "notes"
-    t.datetime "archived_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["setting"], name: "index_storage_asset_sessions_on_setting", unique: true
-  end
-
-  create_table "storage_assets", force: :cascade do |t|
-    t.string "service", null: false
-    t.string "name", null: false
-    t.string "full_path", null: false
-    t.bigint "size_bytes", null: false
-    t.string "access_tier"
-    t.string "temporary_url"
-    t.datetime "temporary_url_expires_at"
-    t.datetime "asset_created_at"
-    t.datetime "asset_updated_at"
-    t.text "notes"
-    t.datetime "archived_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["full_path"], name: "index_storage_assets_on_full_path", unique: true
   end
 
   create_table "system_group_system_roles", force: :cascade do |t|
@@ -646,15 +464,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_010348) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "titles", force: :cascade do |t|
-    t.bigint "label_id", null: false
-    t.string "name"
-    t.boolean "screening_requests_accepted"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["id"], name: "index_titles_on_id", unique: true
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -688,31 +497,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_010348) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  create_table "venues", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "name", null: false
-    t.text "address"
-    t.text "notes"
-    t.datetime "archived_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_venues_on_user_id"
-  end
-
-  create_table "widgets", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.integer "amount"
-    t.text "staff_notes"
-    t.datetime "archived_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   add_foreign_key "players", "rosters"
   add_foreign_key "players", "teams"
   add_foreign_key "scouting_reports", "players"
   add_foreign_key "scouting_reports", "scouts"
   add_foreign_key "stats", "players"
-  add_foreign_key "venues", "users"
 end

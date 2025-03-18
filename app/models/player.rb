@@ -5,6 +5,7 @@ class Player < ApplicationRecord
   belongs_to :roster, optional: true
   belongs_to :team, optional: true
   has_many :stats, dependent: :destroy
+  has_many :scouting_reports, dependent: :destroy
   validates :first_name, presence: true
   validates :last_name, presence: true
 

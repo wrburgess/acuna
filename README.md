@@ -145,50 +145,26 @@
 * bootstrap
 * sass
 
-## Hotwire
+## Setup
 
-* stimulus
-* turbo
+### Load Framework
 
-## Authentication
+* rails db:seed
 
-* Devise
-* Pundit
-* System Permissions
+### Load Players
 
-## Database
+* Import CBS
+* Import FanGraphs
 
-* Postgres
-* [pghero](https://github.com/ankane/pghero)
-* blazer
+### Load Scouting Reports
 
-## Testing
+* Import CBS
+* Import ESPN
+* Import Athletic
+* Import Fangraphs
+* Import Baseball America
 
-* rspec
-* capybara
+### Load Stats
 
-## Linting
-
-* rubocop
-
-## Async
-
-* GoodJob
-
-## Notifications
-
-* Noticed
-* Topics/Subs
-
-## Views
-
-* ViewComponent
-
-## Assets
-
-* AWS
-* cloudfront or cloudflare
-
-## API
-
-* inbound_requests_controller
+* Import CBS 2023
+* Import CBS 2024

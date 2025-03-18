@@ -138,6 +138,11 @@ class Admin::PlayersController < AdminController
     )
   end
 
+  def profile
+    @instance = controller_class.includes(:scouting_reports).find(params[:id])
+    @scouting_reports = @instance.scouting_reports
+  end
+
   private
 
   def create_params

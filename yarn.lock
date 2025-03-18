@@ -437,6 +437,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"acuna@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "acuna@workspace:."
+  dependencies:
+    "@hotwired/stimulus": "npm:3.2.2"
+    "@hotwired/turbo-rails": "npm:8.0.13"
+    "@popperjs/core": "npm:2.11.8"
+    bootstrap: "npm:5.3.3"
+    bootstrap-icons: "npm:1.11.3"
+    esbuild: "npm:0.25.1"
+    sass: "npm:1.86.0"
+    tom-select: "npm:2.4.3"
+  languageName: unknown
+  linkType: soft
+
 "agent-base@npm:^7.1.0, agent-base@npm:^7.1.2":
   version: 7.1.3
   resolution: "agent-base@npm:7.1.3"
@@ -786,21 +801,6 @@ __metadata:
   checksum: 10c0/386d011a553e02bc594ac2ca0bd6d9e4c22d7fa8cfbfc448a6d148c59ea881b092db9dbe3547ae4b88e55f1b01f7c4a2ecc53b310c042793e63aa44cf6c257f2
   languageName: node
   linkType: hard
-
-"acuna@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "acuna@workspace:."
-  dependencies:
-    "@hotwired/stimulus": "npm:3.2.2"
-    "@hotwired/turbo-rails": "npm:8.0.13"
-    "@popperjs/core": "npm:2.11.8"
-    bootstrap: "npm:5.3.3"
-    bootstrap-icons: "npm:1.11.3"
-    esbuild: "npm:0.25.1"
-    sass: "npm:1.85.1"
-    tom-select: "npm:2.4.3"
-  languageName: unknown
-  linkType: soft
 
 "http-cache-semantics@npm:^4.1.1":
   version: 4.1.1
@@ -1198,9 +1198,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:1.85.1":
-  version: 1.85.1
-  resolution: "sass@npm:1.85.1"
+"sass@npm:1.86.0":
+  version: 1.86.0
+  resolution: "sass@npm:1.86.0"
   dependencies:
     "@parcel/watcher": "npm:^2.4.1"
     chokidar: "npm:^4.0.0"
@@ -1211,7 +1211,7 @@ __metadata:
       optional: true
   bin:
     sass: sass.js
-  checksum: 10c0/f843aa1df1dca2f0e9cb2fb247e4939fd514ae4c182cdd1900a0622c0d71b40dfb1c4225f78b78e165a318287ca137ec597695db3e496408bd16a921a2bc2b3f
+  checksum: 10c0/921caea1fd8a450d4a986e5570ce13c4ca7b2a57da390811add3d2087ad8f46f53b34652ddcb237d8bdaad49c560b8d6eee130c733c787d058bc5a71a914c139
   languageName: node
   linkType: hard
 
