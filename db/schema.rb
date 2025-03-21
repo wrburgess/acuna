@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_18_155728) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_21_002709) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -237,6 +237,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_18_155728) do
     t.string "weight"
     t.string "bats"
     t.string "throws"
+    t.string "eligible_positions", default: [], array: true
     t.index ["level"], name: "index_players_on_level"
     t.index ["roster_id"], name: "index_players_on_roster_id"
     t.index ["status"], name: "index_players_on_status"
@@ -345,26 +346,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_18_155728) do
     t.decimal "avg", precision: 10, scale: 3
     t.decimal "obp", precision: 10, scale: 3
     t.decimal "slg", precision: 10, scale: 3
-    t.decimal "cbs_rank", precision: 10, scale: 3
-    t.decimal "fg_top_rank", precision: 10, scale: 3
-    t.decimal "fg_org_rank", precision: 10, scale: 3
-    t.decimal "fg_fv", precision: 10, scale: 3
-    t.decimal "fg_hit_pres", precision: 10, scale: 3
-    t.decimal "fg_hit_proj", precision: 10, scale: 3
-    t.decimal "fg_pwr_pres", precision: 10, scale: 3
-    t.decimal "fg_pwr_proj", precision: 10, scale: 3
-    t.decimal "fg_pit_sel", precision: 10, scale: 3
-    t.decimal "fg_bat_ctrl", precision: 10, scale: 3
-    t.decimal "fg_spd_pres", precision: 10, scale: 3
-    t.decimal "fg_spd_proj", precision: 10, scale: 3
-    t.decimal "fg_fld_pres", precision: 10, scale: 3
-    t.decimal "fg_fld_proj", precision: 10, scale: 3
-    t.decimal "fg_hard_hit", precision: 10, scale: 3
-    t.decimal "ba_rank", precision: 10, scale: 3
-    t.decimal "mlb_rank", precision: 10, scale: 3
-    t.decimal "kl_rank", precision: 10, scale: 3
-    t.decimal "mcd_rank", precision: 10, scale: 3
-    t.decimal "mcd_fv", precision: 10, scale: 3
     t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -396,7 +377,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_18_155728) do
     t.decimal "wraa", precision: 5, scale: 2
     t.decimal "woba", precision: 5, scale: 2
     t.decimal "wrc_plus", precision: 5, scale: 2
+    t.bigint "team_id"
+    t.bigint "opponent_id"
+    t.datetime "recorded_at"
+    t.integer "game_number"
+    t.datetime "game_time"
+    t.string "game_location"
+    t.string "game_result"
+    t.text "notes"
+    t.index ["opponent_id"], name: "index_stats_on_opponent_id"
     t.index ["player_id"], name: "index_stats_on_player_id"
+    t.index ["team_id"], name: "index_stats_on_team_id"
   end
 
   create_table "system_group_system_roles", force: :cascade do |t|
@@ -502,4 +493,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_18_155728) do
   add_foreign_key "scouting_reports", "players"
   add_foreign_key "scouting_reports", "scouts"
   add_foreign_key "stats", "players"
+  add_foreign_key "stats", "teams"
+  add_foreign_key "stats", "teams", column: "opponent_id"
 end

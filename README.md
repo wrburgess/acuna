@@ -1,6 +1,11 @@
 # Acuna
 
 * [GitHub](https://github.com/mpimedia/acuna)
+* https://natstat.com/subscribe
+* https://www.prospectslive.com/2025-top-100-prospects/
+* https://stathead.com/
+* https://www.reddit.com/r/Sabermetrics/
+* https://natstat.com/
 
 ## References
 
@@ -153,8 +158,10 @@
 
 ### Load Players
 
-* Import CBS
-* Import FanGraphs
+* Import CBS Players
+* Import FanGraphs Players
+* Import FanGraphs International
+* Import FanGraphs NCAA
 
 ### Load Scouting Reports
 
@@ -168,3 +175,5 @@
 
 * Import CBS 2023
 * Import CBS 2024
+* Import CBS 2025, Week 1
+* Import CBS 2025 YTD

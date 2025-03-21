@@ -8,21 +8,299 @@
 %>
 
 <%= render Admin::PageContainer::Component.new do %>
+  <!-- Status Filter Navigation -->
+  <div class="card mb-3">
+    <div class="card-body py-2">
+      <div class="d-flex align-items-center">
+        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Status</div>
+        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+          <li class="nav-item"><a class="nav-link active" href="#">All Players</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Pros</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Prospects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Free Agents</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Roster</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Starters</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Prospects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Tracked</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Targets</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-  <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
-    <% table.with_column(sort_link([:admin, @q], :last_name, "Last Name", default_order: :asc)) { |instance| instance.name } %>
-    <% table.with_column(sort_link([:admin, @q], :position, "Pos")) { |instance| instance.position } %>
-    <% table.with_column(sort_link([:admin, @q], :team_id, "Team")) { |instance| instance.team&.abbreviation || "FA" } %>
-    <% table.with_column(sort_link([:admin, @q], :roster_id, "Roster")) { |instance| instance.roster&.abbreviation || "FA" } %>
-    <% table.with_column(sort_link([:admin, @q], :status, "Stat")) { |instance| instance.status } %>
-    <% table.with_column(sort_link([:admin, @q], :level, "Lev")) { |instance| instance.level } %>
-    <% table.with_column("Actions") do |instance| %>
-      <%= render Admin::ActionButton::Component.new(operation: :show, instance: instance, button_classes: "me-3", icon_classes: :none) %>
-      <%= render Admin::ActionButton::Component.new(operation: :edit, instance: instance, button_classes: :none, icon_classes: :none) %>
-    <% end %>
-  <% end %>
+  <!-- List Filter Navigation -->
+  <div class="card mb-3">
+    <div class="card-body py-2">
+      <div class="d-flex align-items-center">
+        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">List</div>
+        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+          <li class="nav-item"><a class="nav-link" href="#">2025 Draft</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">2026 Draft</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">2026 INTL Signs</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Recently Hyped</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Comps 1</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Comps 2</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-  <%= render Admin::IndexPager::Component.new(pagy: @pagy, instance: @instance) %>
+  <!-- Position Filter Navigation -->
+  <div class="card mb-3">
+    <div class="card-body py-2">
+      <div class="d-flex align-items-center">
+        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Position</div>
+        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+          <li class="nav-item"><a class="nav-link" href="#">CA</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">1B</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">2B</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">SS</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">MI</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">3B</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">RF</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">CF</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">LF</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">OF</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">DH</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">SP</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">RP</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">CL</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline Filter Navigation -->
+  <div class="card mb-3">
+    <div class="card-body py-2">
+      <div class="d-flex align-items-center">
+        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Timeline</div>
+        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+          <li class="nav-item"><a class="nav-link" href="#">2024</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">2025</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">7 Days</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">14 Days</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">21 Days</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">30 Days</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">60 Days</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Views Filter Navigation -->
+  <div class="card mb-3">
+    <div class="card-body py-2">
+      <div class="d-flex align-items-center" data-controller="column-view">
+        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Views</div>
+        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+          <li class="nav-item"><a class="nav-link active" href="#" data-action="click->column-view#showStats" data-column-view-target="statsButton">Stats</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" data-action="click->column-view#showScoring" data-column-view-target="scoringButton">Scoring</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" data-action="click->column-view#showScouting" data-column-view-target="scoutingButton">Scouting</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Player Data Table -->
+  <div class="card mb-3">
+    <div class="card-body p-0">
+      <div class="table-responsive" data-controller="column-view">
+        <table class="table table-sm table-hover" style="font-size: 0.8rem;">
+          <thead>
+            <tr class="bg-light">
+              <th class="py-1" data-column-view-category="base">TRX</th>
+              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :last_name, "Player", default_order: :asc) %></th>
+              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :roster_id, "Roster") %></th>
+              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :position, "Pos", default_order: :asc) %></th>
+              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :level, "Level") %></th>
+              <th class="py-1 border-end" data-column-view-category="base"><%= sort_link([:admin, @q], :age, "Age") %></th>
+              <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :ops, "OPS") %></th>
+              <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :rbi, "RBI") %></th>
+              <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :hr, "HR") %></th>
+              <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :r, "R") %></th>
+              <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :nsb, "NSB") %></th>
+              <th class="py-1 border-end" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :er, "ER") %></th>
+              <th class="py-1" data-column-view-category="stats scouting"><%= sort_link([:admin, @q], :wrc_plus, "wRC+") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :pa, "PA") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :ab, "AB") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :h, "H") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :bb, "BB") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :bb_percentage, "BB%") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :k, "K") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :k_percentage, "K%") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :sb, "SB") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :cs, "CS") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :ba, "BA") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :obp, "OBP") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :slg, "SLG") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :war, "WAR") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :law, "LAW") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :mcd, "MCD") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :fg, "FG") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :cbs, "CBS") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :pl, "PL") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :fgfv, "FGFV") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :mcdfv, "MCDFV") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :risk, "RISK") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :hit, "HIT") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :gpw, "GPW") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :rpw, "RPW") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :spd, "SPD") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :fld, "FLD") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :psel, "PSEL") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :bctl, "BCTL") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :hh_percentage, "HH%") %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @instances.each do |instance| %>
+              <tr>
+                <td class="py-1" data-column-view-category="base">
+                  <button type="button" class="btn btn-sm p-0" data-bs-toggle="tooltip" title="<%= instance.present? ? 'Mark as tracked' : 'Untrack player' %>">
+                    <i class="<%= instance.present? ? 'bi bi-star text-muted' : 'bi bi-star-fill text-warning' %>"></i>
+                  </button>
+                </td>
+                <td class="py-1" data-column-view-category="base">
+                  <%= link_to instance.full_description, polymorphic_path([:admin, instance]), class: "text-decoration-none" %>
+                </td>
+                <td class="py-1" data-column-view-category="base">
+                  <%= roster_abbrs = ['WRI', 'CNT', 'FFX', 'SCA', 'ECA', 'LVT', 'LWS', 'RCH', 'IWA', 'MID', 'SOU', 'NVA', 'FA'].sample %>
+                </td>
+                <td class="py-1" data-column-view-category="base"><%= ['1B', '2B', 'SS', '3B', 'CF', 'LF', 'RF', 'CA', 'DH', 'SP', 'RP'].sample %></td>
+                <td class="py-1" data-column-view-category="base"><%= ['MLB', 'AAA', 'AA', 'A+', 'A', 'JPN', 'NCAA'].sample %></td>
+                <td class="py-1 border-end" data-column-view-category="base"><%= rand(19..38) %></td>
+                <td class="py-1" data-column-view-category="stats scoring"><%= (0.700 + rand * 0.300).round(3) %></td>
+                <td class="py-1" data-column-view-category="stats scoring"><%= rand(10..120) %></td>
+                <td class="py-1" data-column-view-category="stats scoring"><%= rand(5..50) %></td>
+                <td class="py-1" data-column-view-category="stats scoring"><%= rand(20..120) %></td>
+                <td class="py-1" data-column-view-category="stats scoring"><%= rand(5..30) %></td>
+                <td class="py-1 border-end" data-column-view-category="stats scoring"><%= rand(20..100) %></td>
+                <td class="py-1" data-column-view-category="stats scouting"><%= rand(80..150) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= rand(200..700) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= rand(150..600) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= rand(40..200) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= rand(20..100) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= (rand * 0.15 + 0.05).round(3) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= rand(30..180) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= (rand * 0.20 + 0.10).round(3) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= rand(0..40) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= rand(0..15) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= (0.200 + rand * 0.150).round(3) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= (0.300 + rand * 0.150).round(3) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= (0.350 + rand * 0.250).round(3) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= (rand * 8.0).round(1) %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= rand(20..99) %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= rand(20..99) %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= rand(20..99) %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= rand(20..99) %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= rand(20..99) %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= (40 + rand * 20).round(1) %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= (40 + rand * 20).round(1) %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= ["Low", "Med", "High"].sample %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= (30 + rand * 40).round %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= (30 + rand * 40).round %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= (30 + rand * 40).round %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= (30 + rand * 40).round %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= (30 + rand * 40).round %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= ["L", "R", "S"].sample %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= ["L", "R", "S"].sample %></td>
+                <td class="py-1" data-column-view-category="scouting"><%= (20 + rand * 30).round(1) %>%</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pitcher Specific Table (Hidden by default) -->
+  <div class="card mb-3 d-none">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-sm table-hover" style="font-size: 0.8rem;">
+          <thead>
+            <tr class="bg-light">
+              <th class="py-1">TRX</th>
+              <th class="py-1"><%= sort_link([:admin, @q], :last_name, "Player", default_order: :asc) %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :roster_id, "Roster") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :position, "Pos", default_order: :asc) %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :level, "Level") %></th>
+              <th class="py-1 border-end"><%= sort_link([:admin, @q], :age, "Age") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :qs, "QS") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :k_per_nine, "K/9") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :era, "ERA") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :whip, "WHIP") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :nr, "NR") %></th>
+              <th class="py-1 border-end"><%= sort_link([:admin, @q], :inn, "INN") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :w, "W-L") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :ha, "HA") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :hra, "HRA") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :baa, "BAA") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :s, "S") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :bs, "BS") %></th>
+              <th class="py-1"><%= sort_link([:admin, @q], :rw, "RW") %></th>
+              <th class="py-1">Track</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @instances.each do |instance| %>
+              <tr>
+                <td class="py-1">
+                  <button type="button" class="btn btn-sm p-0" data-bs-toggle="tooltip" title="<%= instance.present? ? 'Mark as tracked' : 'Untrack player' %>">
+                    <i class="<%= instance.present? ? 'bi bi-star text-muted' : 'bi bi-star-fill text-warning' %>"></i>
+                  </button>
+                  <span class="text-muted">FA</span>
+                </td>
+                <td class="py-1"><%= ['SP', 'RP'].sample %></td>
+                <td class="py-1"><%= ['MLB', 'AAA', 'AA', 'A+', 'A', 'JPN', 'NCAA'].sample %></td>
+                <td class="py-1 border-end"><%= rand(19..38) %></td>
+                <td class="py-1"><%= rand(0..25) %></td>
+                <td class="py-1"><%= (7.0 + rand * 5.0).round(1) %></td>
+                <td class="py-1"><%= (2.0 + rand * 4.0).round(2) %></td>
+                <td class="py-1"><%= (0.9 + rand * 0.6).round(2) %></td>
+                <td class="py-1"><%= rand(10..80) %></td>
+                <td class="py-1 border-end"><%= rand(20..220) %></td>
+                <td class="py-1"><%= "#{rand(0..20)}-#{rand(0..15)}" %></td>
+                <td class="py-1"><%= rand(20..200) %></td>
+                <td class="py-1"><%= rand(5..40) %></td>
+                <td class="py-1"><%= (0.150 + rand * 0.150).round(3) %></td>
+                <td class="py-1"><%= rand(0..40) %></td>
+                <td class="py-1"><%= rand(0..10) %></td>
+                <td class="py-1"><%= rand(0..15) %></td>
+                <td class="py-1">
+                  <button type="button" class="btn btn-sm p-0" data-bs-toggle="tooltip" title="<%= instance.present? ? 'Mark as tracked' : 'Untrack player' %>">
+                    <i class="<%= instance.present? ? 'bi bi-star text-muted' : 'bi bi-star-fill text-warning' %>"></i>
+                  </button>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <nav aria-label="Player pagination">
+    <ul class="pagination pagination-sm justify-content-center">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+      </li>
+      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">4</a></li>
+      <li class="page-item"><a class="page-link" href="#">5</a></li>
+      <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+      <li class="page-item"><a class="page-link" href="#">28</a></li>
+      <li class="page-item"><a class="page-link" href="#">29</a></li>
+      <li class="page-item"><a class="page-link" href="#">30</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#">Next</a>
+      </li>
+    </ul>
+  </nav>
 
   <%= render Admin::FilterCard::Component.new do %>
     <%= simple_form_for [:admin, @q], url: polymorphic_path([:admin, @instance]), html: { method: :get }, wrapper: :floating_labels_form do |f| %>
@@ -41,3 +319,22 @@
     <% end %>
   <% end %>
 <% end %>
+
+<style>
+  .table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+  
+  .nav-pills .nav-link {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .filter-title {
+    font-size: 0.9rem;
+  }
+  
+  .border-end {
+    border-right: 1px solid #dee2e6 !important;
+  }
+</style>

@@ -65,6 +65,10 @@ class Player < ApplicationRecord
   end
 
   def name
-    [first_name, last_name].reject(&:blank?).join(' ').titleize.strip
+    [first_name, last_name].join(' ').titleize.strip
+  end
+
+  def full_description
+    "#{name}, #{team&.abbreviation}"
   end
 end

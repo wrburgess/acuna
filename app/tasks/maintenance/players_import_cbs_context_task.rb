@@ -1,7 +1,7 @@
 require 'csv'
 
 module Maintenance
-  class ImportPlayersCbsContextTask < MaintenanceTasks::Task
+  class PlayersImportCbsContextTask < MaintenanceTasks::Task
     no_collection
 
     attribute :file_name, :string
@@ -29,7 +29,7 @@ module Maintenance
       validation_error_records = 0
 
       # Process CSV file
-      rows = CSV.read(Rails.root.join('db', 'sources', file_name))
+      rows = CSV.read(Rails.root.join('db', 'sources', 'preseason_2025', file_name))
 
       # Skip first row completely
       rows.shift
@@ -40,6 +40,7 @@ module Maintenance
       # Find column indices
       player_index = headers.index('Player')
       avail_index = headers.index('Avail')
+      pos_eligible_index = headers.index('Eligible')
 
       # Check if required headers exist
       if player_index.nil? || avail_index.nil?
@@ -69,6 +70,7 @@ module Maintenance
 
         player_info = row[player_index].to_s.strip
         avail_info = row[avail_index].to_s.strip
+        eligible_positions_info = [pos_eligible_index].to_s.strip.split(',').map(&:strip)
 
         # Skip if player info is blank
         next if player_info.blank?
@@ -135,6 +137,7 @@ module Maintenance
               first_name: first_name,
               last_name: last_name,
               position: position_code,
+              eligible_positions: eligible_positions_info,
               team: team
             )
           end
@@ -184,7 +187,7 @@ module Maintenance
     private
 
     def load_valid_positions
-      positions_file = Rails.root.join('db', 'sources', 'ppmlb_fantasy_baseball_positions.csv')
+      positions_file = Rails.root.join('db', 'sources', 'seeds', 'ppmlb_fantasy_baseball_positions.csv')
       positions = []
 
       CSV.foreach(positions_file, headers: true) do |row|
@@ -195,7 +198,7 @@ module Maintenance
     end
 
     def load_mlb_teams_map
-      teams_file = Rails.root.join('db', 'sources', 'mlb_teams.csv')
+      teams_file = Rails.root.join('db', 'sources', 'seeds', 'mlb_teams.csv')
       mlb_teams = {}
 
       # Find teams in the database first
