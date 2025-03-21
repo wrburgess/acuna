@@ -5,9 +5,11 @@ class Admin::PlayersController < AdminController
 
   def index
     authorize(policy_class)
-    @q = controller_class.ransack(params[:q])
+    @q = controller_class.includes(:team, :roster, :stats, :scouting_reports).ransack(params[:q])
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
     @pagy, @instances = pagy(@q.result)
+    @stat = Stat.find(player: @instance, timeline: '2025', timeline_type: 'ytd')
+    @scouting_profile = ScoutingProfile.find(player: @instance, timeline: '2025', timeline_type: 'ytd')
     @instance = controller_class.new
   end
 

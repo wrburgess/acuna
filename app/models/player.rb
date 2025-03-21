@@ -69,6 +69,6 @@ class Player < ApplicationRecord
   end
 
   def full_description
-    "#{name}, #{team&.abbreviation}"
+    "#{name}, #{team&.abbreviation} (#{eligible_positions.join(', ')})"
   end
 end

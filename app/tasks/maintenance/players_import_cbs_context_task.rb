@@ -70,7 +70,7 @@ module Maintenance
 
         player_info = row[player_index].to_s.strip
         avail_info = row[avail_index].to_s.strip
-        eligible_positions_info = [pos_eligible_index].to_s.strip.split(',').map(&:strip)
+        eligible_positions_info = row[pos_eligible_index].split(',').map(&:strip)
 
         # Skip if player info is blank
         next if player_info.blank?

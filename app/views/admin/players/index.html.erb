@@ -121,7 +121,7 @@
               <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :r, "R") %></th>
               <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :nsb, "NSB") %></th>
               <th class="py-1 border-end" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :er, "ER") %></th>
-              <th class="py-1" data-column-view-category="stats scouting"><%= sort_link([:admin, @q], :wrc_plus, "wRC+") %></th>
+              <th class="py-1 border-end" data-column-view-category="stats scouting"><%= sort_link([:admin, @q], :wrc_plus, "wRC+") %></th>
               <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :pa, "PA") %></th>
               <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :ab, "AB") %></th>
               <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :h, "H") %></th>
@@ -162,21 +162,21 @@
                   </button>
                 </td>
                 <td class="py-1" data-column-view-category="base">
-                  <%= link_to instance.full_description, polymorphic_path([:admin, instance]), class: "text-decoration-none" %>
+                  <%= link_to(instance.full_description, polymorphic_path([:admin, instance]), class: "text-decoration-none") %>
                 </td>
                 <td class="py-1" data-column-view-category="base">
-                  <%= roster_abbrs = ['WRI', 'CNT', 'FFX', 'SCA', 'ECA', 'LVT', 'LWS', 'RCH', 'IWA', 'MID', 'SOU', 'NVA', 'FA'].sample %>
+                  <%= instance.roster ? link_to(instance.roster&.abbreviation, polymorphic_path([:admin, instance.roster])) : 'FA' %>
                 </td>
-                <td class="py-1" data-column-view-category="base"><%= ['1B', '2B', 'SS', '3B', 'CF', 'LF', 'RF', 'CA', 'DH', 'SP', 'RP'].sample %></td>
-                <td class="py-1" data-column-view-category="base"><%= ['MLB', 'AAA', 'AA', 'A+', 'A', 'JPN', 'NCAA'].sample %></td>
-                <td class="py-1 border-end" data-column-view-category="base"><%= rand(19..38) %></td>
+                <td class="py-1" data-column-view-category="base"><%= instance.position %></td>
+                <td class="py-1" data-column-view-category="base"><%= instance.level %></td>
+                <td class="py-1 border-end" data-column-view-category="base"><%= instance.age %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= (0.700 + rand * 0.300).round(3) %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= rand(10..120) %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= rand(5..50) %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= rand(20..120) %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= rand(5..30) %></td>
                 <td class="py-1 border-end" data-column-view-category="stats scoring"><%= rand(20..100) %></td>
-                <td class="py-1" data-column-view-category="stats scouting"><%= rand(80..150) %></td>
+                <td class="py-1 border-end" data-column-view-category="stats scouting"><%= rand(80..150) %></td>
                 <td class="py-1" data-column-view-category="stats"><%= rand(200..700) %></td>
                 <td class="py-1" data-column-view-category="stats"><%= rand(150..600) %></td>
                 <td class="py-1" data-column-view-category="stats"><%= rand(40..200) %></td>
