@@ -12,8 +12,6 @@ class ScoutingReport < ApplicationRecord
   validates :report_date, presence: true
 
   scope :select_order, -> { order(reported_at: :desc) }
-  scope :active, -> { where(archived_at: nil) }
-  scope :archived, -> { where.not(archived_at: nil) }
 
   def self.options_for_select
     select_order.map { |instance| [instance.name, instance.id] }

@@ -81,8 +81,8 @@ GEM
     benchmark (0.4.0)
     bigdecimal (3.1.9)
     bindex (0.8.1)
-    blazer (3.2.0)
-      activerecord (>= 6.1)
+    blazer (3.2.1)
+      activerecord (>= 7)
       chartkick (>= 5)
       csv
       railties (>= 7)
@@ -166,7 +166,7 @@ GEM
       railties (>= 6.1.0)
       thor (>= 1.0.0)
     hashdiff (1.1.2)
-    honeybadger (5.27.0)
+    honeybadger (5.27.1)
       logger
       ostruct
     htmlbeautifier (1.4.3)
@@ -257,7 +257,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.9)
-    pghero (3.6.1)
+    pghero (3.6.2)
       activerecord (>= 6.1)
     pp (0.6.2)
       prettyprint
@@ -387,7 +387,7 @@ GEM
     rubyzip (2.4.1)
     safely_block (0.4.1)
     securerandom (0.4.1)
-    selenium-webdriver (4.29.1)
+    selenium-webdriver (4.30.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
@@ -463,7 +463,7 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print (= 1.9.2)
-  blazer (= 3.2.0)
+  blazer (= 3.2.1)
   bootsnap (= 1.18.4)
   brakeman (= 7.0.0)
   bullet (= 8.0.1)
@@ -479,14 +479,14 @@ DEPENDENCIES
   factory_bot_rails (= 6.4.4)
   faker (= 3.5.1)
   good_job (= 4.9.3)
-  honeybadger (= 5.27.0)
+  honeybadger (= 5.27.1)
   jbuilder (= 2.13.0)
   jsbundling-rails (= 1.3.1)
   lookbook (= 2.3.8)
   maintenance_tasks (= 2.11.0)
   pagy (= 9.3.4)
   pg (= 1.5.9)
-  pghero (= 3.6.1)
+  pghero (= 3.6.2)
   pretender (= 0.5.0)
   propshaft (= 1.1.0)
   puma (= 6.6.0)
@@ -502,7 +502,7 @@ DEPENDENCIES
   rspec-rails (= 7.1.1)
   rspec_junit_formatter (= 0.6.0)
   rubocop (= 1.74.0)
-  selenium-webdriver (= 4.29.1)
+  selenium-webdriver (= 4.30.0)
   shoulda-matchers (= 6.4.0)
   simple_form (= 5.3.1)
   stimulus-rails (= 1.3.4)

@@ -10,7 +10,7 @@ gem 'rails', '8.0.2'
 # gem install debug
 
 gem 'awesome_print', '1.9.2'
-gem 'blazer', '3.2.0'
+gem 'blazer', '3.2.1'
 gem 'bootsnap', '1.18.4', require: false
 gem 'caxlsx', '4.2.0'
 gem 'caxlsx_rails', '0.6.4'
@@ -24,7 +24,7 @@ gem 'jsbundling-rails', '1.3.1'
 gem 'maintenance_tasks', '2.11.0'
 gem 'pagy', '9.3.4'
 gem 'pg', '1.5.9'
-gem 'pghero', '3.6.1'
+gem 'pghero', '3.6.2'
 gem 'pretender', '0.5.0'
 gem 'propshaft', '1.1.0'
 gem 'puma', '6.6.0'
@@ -39,7 +39,7 @@ gem 'tzinfo-data', '1.2025.1'
 gem 'view_component', '3.21.0'
 
 group :production, :staging do
-  gem 'honeybadger', '5.27.0'
+  gem 'honeybadger', '5.27.1'
 end
 
 group :development, :test do
@@ -66,7 +66,7 @@ group :test do
   gem 'rspec-json_expectations', '2.2.0'
   gem 'rspec_junit_formatter', '0.6.0'
   gem 'rspec-longrun', '3.1.0'
-  gem 'selenium-webdriver', '4.29.1'
+  gem 'selenium-webdriver', '4.30.0'
   gem 'shoulda-matchers', '6.4.0'
   gem 'timecop', '0.9.10'
   gem 'vcr', '6.3.1'
