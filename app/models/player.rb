@@ -2,12 +2,16 @@ class Player < ApplicationRecord
   include Archivable
   include Loggable
 
+  validates :last_name, presence: true
+  validates :first_name, presence: true
+
   belongs_to :roster, optional: true
   belongs_to :team, optional: true
   has_many :stats, dependent: :destroy
+  has_many :scouting_profiles, dependent: :destroy
   has_many :scouting_reports, dependent: :destroy
-  validates :first_name, presence: true
-  validates :last_name, presence: true
+  has_many :tracking_list_players, dependent: :destroy
+  has_many :tracking_lists, through: :tracking_list_players
 
   # Status and level constants
   STATUSES = %w[prospect show retired].freeze
@@ -31,6 +35,17 @@ class Player < ApplicationRecord
   validates :status, inclusion: { in: %w[prospect show retired] }, allow_nil: true
   validates :level, inclusion: { in: ['CAR', 'MEX', 'KOR', 'JPN', 'INTL', 'USHS', 'NCAA', 'LOW A', 'HIGH A', 'AA', 'AAA', 'MLB'] }, allow_nil: true
 
+  # ransacker :tracking_list_id, formatter: proc { |v| v.to_i } do |_parent|
+  #   Arel.sql(<<~SQL.squish)
+  #     EXISTS (
+  #       SELECT 1
+  #       FROM tracking_list_players
+  #       WHERE tracking_list_players.player_id = players.id
+  #         AND tracking_list_players.tracking_list_id = #{ActiveRecord::Base.connection.quote(v.to_i)}
+  #     )
+  #   SQL
+  # end
+
   def self.ransackable_attributes(*)
     %w[
       archived_at
@@ -53,6 +68,8 @@ class Player < ApplicationRecord
     %i[
       team
       roster
+      tracking_list_players
+      tracking_lists
     ]
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_21_002709) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_23_231604) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -263,6 +263,81 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_21_002709) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scouting_profile_reports", force: :cascade do |t|
+    t.bigint "scouting_profile_id", null: false
+    t.bigint "scouting_report_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["scouting_profile_id", "scouting_report_id"], name: "index_scouting_profile_reports_unique", unique: true
+    t.index ["scouting_profile_id"], name: "index_scouting_profile_reports_on_scouting_profile_id"
+    t.index ["scouting_report_id"], name: "index_scouting_profile_reports_on_scouting_report_id"
+  end
+
+  create_table "scouting_profiles", force: :cascade do |t|
+    t.bigint "player_id"
+    t.string "timeline"
+    t.string "timeline_type"
+    t.string "risk"
+    t.string "eta"
+    t.decimal "espn_ovr_rnk", precision: 10, scale: 3
+    t.decimal "ath_ovr_rnk", precision: 10, scale: 3
+    t.decimal "ba_ovr_rnk", precision: 10, scale: 3
+    t.decimal "pl_ovr_rnk", precision: 10, scale: 3
+    t.decimal "cbs_ovr_rnk", precision: 10, scale: 3
+    t.decimal "fg_ovr_rnk", precision: 10, scale: 3
+    t.decimal "self_ovr_rnk", precision: 10, scale: 3
+    t.decimal "espn_tm_rnk", precision: 10, scale: 3
+    t.decimal "ath_tm_rnk", precision: 10, scale: 3
+    t.decimal "ba_tm_rnk", precision: 10, scale: 3
+    t.decimal "pl_tm_rnk", precision: 10, scale: 3
+    t.decimal "cbs_tm_rnk", precision: 10, scale: 3
+    t.decimal "fg_tm_rnk", precision: 10, scale: 3
+    t.decimal "self_tm_rnk", precision: 10, scale: 3
+    t.decimal "espn_fv", precision: 10, scale: 3
+    t.decimal "ath_fv", precision: 10, scale: 3
+    t.decimal "ba_fv", precision: 10, scale: 3
+    t.decimal "pl_fv", precision: 10, scale: 3
+    t.decimal "cbs_fv", precision: 10, scale: 3
+    t.decimal "fg_fv", precision: 10, scale: 3
+    t.decimal "self_fv", precision: 10, scale: 3
+    t.decimal "hit_pres", precision: 10, scale: 3
+    t.decimal "hit_proj", precision: 10, scale: 3
+    t.decimal "game_pwr_pres", precision: 10, scale: 3
+    t.decimal "game_pwr_proj", precision: 10, scale: 3
+    t.decimal "raw_pwr_pres", precision: 10, scale: 3
+    t.decimal "raw_pwr_proj", precision: 10, scale: 3
+    t.decimal "pit_sel", precision: 10, scale: 3
+    t.decimal "bat_ctrl", precision: 10, scale: 3
+    t.decimal "hard_hit", precision: 10, scale: 3
+    t.decimal "spd_pres", precision: 10, scale: 3
+    t.decimal "spd_proj", precision: 10, scale: 3
+    t.decimal "fld_pres", precision: 10, scale: 3
+    t.decimal "fld_proj", precision: 10, scale: 3
+    t.decimal "control_pres", precision: 10, scale: 3
+    t.decimal "control_proj", precision: 10, scale: 3
+    t.decimal "command_pres", precision: 10, scale: 3
+    t.decimal "command_proj", precision: 10, scale: 3
+    t.decimal "fastball_pres", precision: 10, scale: 3
+    t.decimal "fastball_proj", precision: 10, scale: 3
+    t.decimal "fastball_type", precision: 10, scale: 3
+    t.decimal "curve_pres", precision: 10, scale: 3
+    t.decimal "curve_proj", precision: 10, scale: 3
+    t.decimal "slider_pres", precision: 10, scale: 3
+    t.decimal "slider_proj", precision: 10, scale: 3
+    t.decimal "sweeper_pres", precision: 10, scale: 3
+    t.decimal "sweeper_proj", precision: 10, scale: 3
+    t.decimal "changeup_pres", precision: 10, scale: 3
+    t.decimal "changeup_proj", precision: 10, scale: 3
+    t.decimal "cutter_pres", precision: 10, scale: 3
+    t.decimal "cutter_proj", precision: 10, scale: 3
+    t.decimal "arm_pres", precision: 10, scale: 3
+    t.decimal "arm_proj", precision: 10, scale: 3
+    t.date "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_scouting_profiles_on_player_id"
+  end
+
   create_table "scouting_reports", force: :cascade do |t|
     t.bigint "scout_id", null: false
     t.bigint "player_id", null: false
@@ -385,6 +460,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_21_002709) do
     t.string "game_location"
     t.string "game_result"
     t.text "notes"
+    t.decimal "errs", precision: 10, scale: 3
+    t.decimal "k_pct", precision: 10, scale: 3
+    t.decimal "war", precision: 10, scale: 3
+    t.decimal "nsb", precision: 10, scale: 3
+    t.decimal "nr", precision: 10, scale: 3
+    t.decimal "xbh", precision: 10, scale: 3
+    t.decimal "bavg", precision: 10, scale: 3
     t.index ["opponent_id"], name: "index_stats_on_opponent_id"
     t.index ["player_id"], name: "index_stats_on_player_id"
     t.index ["team_id"], name: "index_stats_on_team_id"
@@ -455,6 +537,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_21_002709) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tracking_list_players", force: :cascade do |t|
+    t.bigint "tracking_list_id", null: false
+    t.bigint "player_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_tracking_list_players_on_player_id"
+    t.index ["tracking_list_id", "player_id"], name: "index_tracking_list_players_on_tracking_list_id_and_player_id", unique: true
+    t.index ["tracking_list_id"], name: "index_tracking_list_players_on_tracking_list_id"
+  end
+
+  create_table "tracking_lists", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "notes"
+    t.bigint "user_id", null: false
+    t.date "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "icon_name_on"
+    t.string "icon_name_off"
+    t.index ["user_id"], name: "index_tracking_lists_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -490,9 +594,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_21_002709) do
 
   add_foreign_key "players", "rosters"
   add_foreign_key "players", "teams"
+  add_foreign_key "scouting_profile_reports", "scouting_profiles"
+  add_foreign_key "scouting_profile_reports", "scouting_reports"
+  add_foreign_key "scouting_profiles", "players"
   add_foreign_key "scouting_reports", "players"
   add_foreign_key "scouting_reports", "scouts"
   add_foreign_key "stats", "players"
   add_foreign_key "stats", "teams"
   add_foreign_key "stats", "teams", column: "opponent_id"
+  add_foreign_key "tracking_list_players", "players"
+  add_foreign_key "tracking_list_players", "tracking_lists"
+  add_foreign_key "tracking_lists", "users"
 end

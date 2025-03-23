@@ -26,4 +26,14 @@ module ApplicationHelper
 
     link_to(name, url, default_options.merge(options))
   end
+
+  def format_rnk(val)
+    val.nil? || val.negative? ? 0 : val.round
+  end
+
+  def format_rating(pres, proj)
+    present = pres.nil? || pres.negative? ? 0 : pres.round
+    projected = proj.nil? || proj.negative? ? 0 : proj.round
+    "#{present} / #{projected}"
+  end
 end

@@ -35,7 +35,7 @@ gem 'simple_form', '5.3.1'
 gem 'stimulus-rails', '1.3.4'
 gem 'thruster', '0.1.12', require: false
 gem 'turbo-rails', '2.0.13'
-gem 'tzinfo-data', '1.2025.1'
+gem 'tzinfo-data', '1.2025.2'
 gem 'view_component', '3.21.0'
 
 group :production, :staging do
@@ -66,7 +66,7 @@ group :test do
   gem 'rspec-json_expectations', '2.2.0'
   gem 'rspec_junit_formatter', '0.6.0'
   gem 'rspec-longrun', '3.1.0'
-  gem 'selenium-webdriver', '4.30.0'
+  gem 'selenium-webdriver', '4.30.1'
   gem 'shoulda-matchers', '6.4.0'
   gem 'timecop', '0.9.10'
   gem 'vcr', '6.3.1'

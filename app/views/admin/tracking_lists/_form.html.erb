@@ -1,0 +1,100 @@
+<!-- filepath: /Users/wrburgess/Projects/research/acuna/app/views/admin/tracking_lists/_form.html.erb -->
+<%= simple_form_for [:admin, instance], wrapper: :floating_labels_form do |f| %>
+  <div class="card mb-3">
+    <div class="card-header">
+      <h5 class="card-title mb-0">Tracking List Details</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :name, 
+                      label: "Name", 
+                      placeholder: "Enter list name", 
+                      input_html: { autofocus: true } %>
+        </div>
+        <div class="col-md-6">
+          <%= f.association :user, 
+                      label: "Owner", 
+                      collection: User.all, 
+                      include_blank: false,
+                      input_html: { class: "form-select" },
+                      selected: instance.user_id || current_user.id %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <%= f.input :notes, 
+                      label: "Notes", 
+                      placeholder: "Enter any notes about this tracking list...",
+                      input_html: { rows: 3 } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header">
+      <h5 class="card-title mb-0">Players</h5>
+    </div>
+    <div class="card-body">
+      <% if instance.persisted? %>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Team</th>
+                <th>Level</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% instance.players.each do |player| %>
+                <tr>
+                  <td><%= link_to player.name, admin_player_path(player) %></td>
+                  <td><%= player.position %></td>
+                  <td><%= player.team&.name || 'Free Agent' %></td>
+                  <td><%= player.level %></td>
+                  <td>
+                    <%= button_to "Remove", admin_tracking_list_player_path(instance.tracking_list_players.find_by(player: player)), 
+                                 method: :delete, 
+                                 class: "btn btn-sm btn-danger", 
+                                 data: { confirm: "Are you sure you want to remove this player from the list?" } %>
+                  </td>
+                </tr>
+              <% end %>
+              <% if instance.players.empty? %>
+                <tr>
+                  <td colspan="5" class="text-center text-muted py-4">
+                    <em>No players in this tracking list. Add players from the Players section.</em>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="alert alert-info">
+          Save this tracking list first, then you can add players to it.
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= render Admin::FormButton::Component.new(operation: instance.persisted? ? :update : :create) %>
+    <%= render Admin::LinkButton::Component.new(text: 'Cancel', path: instance.persisted? ? admin_tracking_list_path(instance) : admin_tracking_lists_path) %>
+
+    <% if instance.persisted? %>
+      <div class="float-end">
+        <% if instance.archived_at? %>
+          <%= button_to "Unarchive", unarchive_admin_tracking_list_path(instance), method: :patch, class: "btn btn-outline-success" %>
+        <% else %>
+          <%= button_to "Archive", archive_admin_tracking_list_path(instance), method: :patch, class: "btn btn-outline-warning", data: { confirm: "Are you sure you want to archive this tracking list?" } %>
+        <% end %>
+        <%= button_to "Delete", admin_tracking_list_path(instance), method: :delete, class: "btn btn-outline-danger ms-2", data: { confirm: "Are you sure you want to permanently delete this tracking list? This cannot be undone." } %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

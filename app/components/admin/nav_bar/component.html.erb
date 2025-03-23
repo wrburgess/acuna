@@ -18,8 +18,10 @@
           <% nav_item.with_dropdown_item(resource: Roster, name: "Rosters", path: admin_rosters_path) %>
           <% nav_item.with_dropdown_item(resource: Stat, name: "Stats", path: admin_stats_path) %>
           <% nav_item.with_dropdown_item(resource: Scout, name: "Scouts", path: admin_scouts_path) %>
+          <% nav_item.with_dropdown_item(resource: ScoutingProfile, name: "Scouting Profiles", path: admin_scouting_profiles_path) %>
           <% nav_item.with_dropdown_item(resource: ScoutingReport, name: "Scouting Reports", path: admin_scouting_reports_path) %>
           <% nav_item.with_dropdown_item(resource: Team, name: "Teams", path: admin_teams_path) %>
+          <% nav_item.with_dropdown_item(resource: TrackingList, name: "Tracking Lists", path: admin_tracking_lists_path) %>
         <% end %>
 
         <%= render Admin::NavItem::Component.new(title: "Management") do |nav_item| %>

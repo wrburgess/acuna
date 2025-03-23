@@ -14,18 +14,21 @@ class CreateScoutingProfile < ActiveRecord::Migration[8.0]
       t.decimal :ba_ovr_rnk, precision: 10, scale: 3
       t.decimal :pl_ovr_rnk, precision: 10, scale: 3
       t.decimal :cbs_ovr_rnk, precision: 10, scale: 3
+      t.decimal :fg_ovr_rnk, precision: 10, scale: 3
       t.decimal :self_ovr_rnk, precision: 10, scale: 3
       t.decimal :espn_tm_rnk, precision: 10, scale: 3
       t.decimal :ath_tm_rnk, precision: 10, scale: 3
       t.decimal :ba_tm_rnk, precision: 10, scale: 3
       t.decimal :pl_tm_rnk, precision: 10, scale: 3
       t.decimal :cbs_tm_rnk, precision: 10, scale: 3
+      t.decimal :fg_tm_rnk, precision: 10, scale: 3
       t.decimal :self_tm_rnk, precision: 10, scale: 3
       t.decimal :espn_fv, precision: 10, scale: 3
       t.decimal :ath_fv, precision: 10, scale: 3
       t.decimal :ba_fv, precision: 10, scale: 3
       t.decimal :pl_fv, precision: 10, scale: 3
       t.decimal :cbs_fv, precision: 10, scale: 3
+      t.decimal :fg_fv, precision: 10, scale: 3
       t.decimal :self_fv, precision: 10, scale: 3
 
       t.decimal :hit_pres, precision: 10, scale: 3

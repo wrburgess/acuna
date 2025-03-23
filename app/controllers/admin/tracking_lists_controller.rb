@@ -1,4 +1,4 @@
-class Admin::PlayersController < AdminController
+class Admin::TrackingListsController < AdminController
   include Pagy::Backend
 
   before_action :authenticate_user!
@@ -11,28 +11,10 @@ class Admin::PlayersController < AdminController
     @instance = controller_class.new
   end
 
-  def dashboard
-    authorize(policy_class)
-
-    @q = controller_class
-         .includes(:team, :roster, :tracking_lists)
-         .joins("LEFT JOIN stats ON stats.player_id = players.id AND stats.timeline = '2025' AND stats.timeline_type = 'ytd'")
-         .joins("LEFT JOIN scouting_profiles ON scouting_profiles.player_id = players.id AND scouting_profiles.timeline = '2025' AND scouting_profiles.timeline_type = 'ytd'")
-         .joins('LEFT JOIN tracking_list_players ON tracking_list_players.player_id = players.id').select(
-           "players.id AS player_id, players.*, stats.*, scouting_profiles.*,
-           array_agg(tracking_list_players.tracking_list_id) FILTER (WHERE tracking_list_players.tracking_list_id IS NOT NULL) AS aggregated_tracking_list_ids"
-         )
-         .group('players.id, stats.id, scouting_profiles.id')
-         .ransack(params[:q])
-    @q.sorts = controller_class.default_sort if @q.sorts.empty?
-    @pagy, @instances = pagy(@q.result)
-
-    @instance = controller_class.new
-  end
-
   def show
     authorize(policy_class)
     @instance = controller_class.find(params[:id])
+    @players = @instance.players.includes(:team, :roster)
   end
 
   def new
@@ -42,7 +24,9 @@ class Admin::PlayersController < AdminController
 
   def create
     authorize(policy_class)
-    instance = controller_class.create(create_params)
+    instance = controller_class.new(create_params)
+    instance.user = current_user
+    instance.save
 
     instance.log(user: current_user, operation: action_name, meta: params.to_json)
     flash[:success] = "New #{instance.class_name_title} successfully created"
@@ -98,6 +82,28 @@ class Admin::PlayersController < AdminController
     redirect_to polymorphic_path([:admin, instance])
   end
 
+  def add_player
+    authorize(policy_class)
+    instance = controller_class.find(params[:id])
+    player = Player.find(params[:player_id])
+
+    instance.players << player unless instance.players.include?(player)
+
+    flash[:success] = 'Player added to tracking list'
+    redirect_to polymorphic_path([:admin, instance])
+  end
+
+  def remove_player
+    authorize(policy_class)
+    instance = controller_class.find(params[:id])
+    player = Player.find(params[:player_id])
+
+    instance.players.delete(player)
+
+    flash[:success] = 'Player removed from tracking list'
+    redirect_to polymorphic_path([:admin, instance])
+  end
+
   def collection_export_xlsx
     authorize(policy_class)
 
@@ -105,11 +111,12 @@ class Admin::PlayersController < AdminController
       SELECT
         *
       FROM
-        players
+        tracking_lists
       WHERE
-        players.archived_at IS NULL
+        tracking_lists.archived_at IS NULL
+        AND tracking_lists.user_id = #{current_user.id}
       ORDER BY
-        players.created_at ASC
+        tracking_lists.created_at ASC
     )
 
     @results = ActiveRecord::Base.connection.select_all(sql)
@@ -135,11 +142,11 @@ class Admin::PlayersController < AdminController
       SELECT
         *
       FROM
-        players
+        tracking_lists
       WHERE
-        players.id = #{instance.id}
+        tracking_lists.id = #{instance.id}
       ORDER BY
-        players.created_at ASC
+        tracking_lists.created_at ASC
     )
 
     @results = ActiveRecord::Base.connection.select_all(sql)
@@ -157,35 +164,20 @@ class Admin::PlayersController < AdminController
     )
   end
 
-  def profile
-    @instance = controller_class.includes(:scouting_reports).find(params[:id])
-    @scouting_reports = @instance.scouting_reports
-  end
-
   private
 
   def create_params
-    params.require(:player).permit(
-      :level,
+    params.require(:tracking_list).permit(
       :name,
-      :notes,
-      :position,
-      :roster_id,
-      :status,
-      :team_id,
+      :notes
     )
   end
 
   def update_params
-    params.require(:player).permit(
-      :archived_at,
-      :level,
+    params.require(:tracking_list).permit(
       :name,
       :notes,
-      :position,
-      :roster_id,
-      :status,
-      :team_id,
+      :archived_at
     )
   end
 end

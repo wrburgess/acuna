@@ -1,0 +1,124 @@
+<%= render Admin::HeaderForShow::Component.new(instance: @instance, controller: params[:controller], action: params[:action], edit_button: true, archive_button: true, copy_button: true) %>
+
+<%= render Admin::PageContainer::Component.new do %>
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white py-2">
+          <div class="d-flex justify-content-between">
+            <h5 class="mb-0">Tracking List: <%= @instance.name %></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Players Section -->
+  <div class="row mb-3">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-dark text-white py-2">
+          <h6 class="mb-0">Tracked Players</h6>
+        </div>
+        
+        <!-- Position Players -->
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped mb-0">
+              <thead class="bg-light">
+                <tr>
+                  <th class="py-1">Pos</th>
+                  <th class="py-1">Player</th>
+                  <th class="py-1">Roster</th>
+                  <th class="py-1">Level</th>
+                  <th class="py-1">Age</th>
+                  <th class="py-1">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% position_players = @players.reject { |p| %w[SP RP CL].include?(p.position) } %>
+                <% if position_players.any? %>
+                  <% position_players.each do |player| %>
+                    <tr>
+                      <td class="py-1"><%= player.position %></td>
+                      <td class="py-1"><%= link_to player.full_description, admin_player_path(player) %></td>
+                      <td class="py-1">
+                        <% if player.roster %>
+                          <%= link_to player.roster.abbreviation, admin_roster_path(player.roster) %>
+                        <% else %>
+                          <span class="text-muted">FA</span>
+                        <% end %>
+                      </td>
+                      <td class="py-1"><%= player.level %></td>
+                      <td class="py-1"><%= player.age.ceil if player.age.present? %></td>
+                    </tr>
+                  <% end %>
+                <% else %>
+                  <tr>
+                    <td colspan="16" class="text-center py-3">No position players tracked in this list.</td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Pitchers -->
+        <div class="card-header bg-secondary text-white py-2 mt-3">
+          <h6 class="mb-0">Pitchers</h6>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped mb-0">
+              <thead class="bg-light">
+                <tr>
+                  <th class="py-1">Role</th>
+                  <th class="py-1">Player</th>
+                  <th class="py-1">Roster</th>
+                  <th class="py-1">Level</th>
+                  <th class="py-1">Age</th>
+                  <th class="py-1">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% pitchers = @players.select { |p| %w[SP RP CL].include?(p.position) } %>
+                <% if pitchers.any? %>
+                  <% pitchers.each do |player| %>
+                    <tr>
+                      <td class="py-1"><%= player.position %></td>
+                      <td class="py-1"><%= link_to player.full_description, admin_player_path(player) %></td>
+                      <td class="py-1">
+                        <% if player.roster %>
+                          <%= link_to player.roster.abbreviation, admin_roster_path(player.roster) %>
+                        <% else %>
+                          <span class="text-muted">FA</span>
+                        <% end %>
+                      </td>
+                      <td class="py-1"><%= player.level %></td>
+                      <td class="py-1"><%= player.age.ceil if player.age.present? %></td>
+                    </tr>
+                  <% end %>
+                <% else %>
+                  <tr>
+                    <td colspan="13" class="text-center py-3">No pitchers tracked in this list.</td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tracking List Information -->
+  <%= render Admin::TableForShow::Component.new(title: 'Tracking List Data') do |table| %>
+    <% table.with_row(name: "ID", value: @instance.id) %>
+    <% table.with_row(name: "Name", value: @instance.name) %>
+    <% table.with_row(name: "Owner", value: @instance.user.full_name) %>
+    <% table.with_row(name: "Notes", value: @instance.notes) %>
+    <% table.with_row(name: "Archived at", value: default_date_format(@instance.archived_at)) %>
+    <% table.with_row(name: "Created at", value: default_date_format(@instance.created_at)) %>
+    <% table.with_row(name: "Updated at", value: default_date_format(@instance.updated_at)) %>
+  <% end %>
+<% end %>
