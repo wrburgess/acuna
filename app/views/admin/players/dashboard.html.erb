@@ -14,37 +14,24 @@
       <div class="d-flex align-items-center">
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Level</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><%= link_to "All Players", dashboard_admin_players_path, class: "nav-link active" %></li>
-          <% Level.select_order.each do |level| %>
+          <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link active" %></li>
+          <% @levels.each do |level| %>
             <li class="nav-item"><%= link_to level.abbreviation, dashboard_admin_players_path(q: { level_id_eq: level.id }), class: "nav-link" %></li>
           <% end %>
         </ul>
       </div>
     </div>
   </div>
+
   <!-- Status Filter Navigation -->
   <div class="card mb-3">
     <div class="card-body py-2">
       <div class="d-flex align-items-center">
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Status</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link" %></li>
-          <% Status.select_order.each do |status| %>
+          <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link active" %></li>
+          <% @statuses.each do |status| %>
             <li class="nav-item"><%= link_to status.abbreviation, dashboard_admin_players_path(q: { status_id_eq: status.id }), class: "nav-link" %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- List Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Lists</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <% current_user.tracking_lists.each do |list| %>
-            <li class="nav-item"><%= link_to list.name, dashboard_admin_players_path(q: { tracking_list_players_tracking_list_id_eq: list.id }), class: "nav-link" %></li>
           <% end %>
         </ul>
       </div>
@@ -73,6 +60,20 @@
           <li class="nav-item"><%= link_to "PIT", dashboard_admin_players_path(q: { position_in: ['SP', 'RP', 'CL'] }), class: "nav-link" %></li>
           <li class="nav-item"><%= link_to "SP", dashboard_admin_players_path(q: { position_eq: 'SP' }), class: "nav-link" %></li>
           <li class="nav-item"><%= link_to "RP", dashboard_admin_players_path(q: { position_eq: 'RP' }), class: "nav-link" %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- List Filter Navigation -->
+  <div class="card mb-3">
+    <div class="card-body py-2">
+      <div class="d-flex align-items-center">
+        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Lists</div>
+        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+          <% current_user.tracking_lists.each do |list| %>
+            <li class="nav-item"><%= link_to list.name, dashboard_admin_players_path(q: { tracking_list_players_tracking_list_id_eq: list.id }), class: "nav-link" %></li>
+          <% end %>
         </ul>
       </div>
     </div>
@@ -180,7 +181,7 @@
                 <td class="py-1" data-column-view-category="base"><%= instance.level.abbreviation %></td>
                 <td class="py-1" data-column-view-category="base"><%= instance.status.abbreviation %></td>
                 <td class="py-1 border-end" data-column-view-category="base"><%= instance.age.ceil %></td>
-                <td class="py-1" data-column-view-category="stats scoring"><%= instance.ops %></td>
+                <td class="py-1" data-column-view-category="stats scoring"><%= format_stat(instance.ops) %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= instance.rbi.ceil %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= instance.hr.ceil %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= instance.runs.ceil %></td>
@@ -196,9 +197,9 @@
                 <td class="py-1" data-column-view-category="stats"><%= number_to_percentage(instance.k_pct, precision: 0) %></td>
                 <td class="py-1" data-column-view-category="stats"><%= instance.sb.ceil %></td>
                 <td class="py-1" data-column-view-category="stats"><%= instance.cs.ceil %></td>
-                <td class="py-1" data-column-view-category="stats"><%= instance.bavg %></td>
-                <td class="py-1" data-column-view-category="stats"><%= instance.obp %></td>
-                <td class="py-1" data-column-view-category="stats"><%= instance.slg %></td>
+                <td class="py-1" data-column-view-category="stats"><%= format_stat(instance.bavg) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= format_stat(instance.obp) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= format_stat(instance.slg) %></td>
                 <td class="py-1" data-column-view-category="stats"><%= instance.war.ceil %></td>
                 <td class="py-1" data-column-view-category="scouting"><%= instance.risk %></td>
                 <td class="py-1" data-column-view-category="scouting"><%= instance.eta %></td>

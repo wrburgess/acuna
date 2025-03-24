@@ -36,4 +36,8 @@ module ApplicationHelper
     projected = proj.nil? || proj.negative? ? 0 : proj.round
     "#{present} / #{projected}"
   end
+
+  def format_stat(val)
+    number_with_precision(val, precision: 3).sub(/^0/, '')
+  end
 end

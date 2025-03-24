@@ -15,7 +15,7 @@ class Admin::PlayersController < AdminController
     authorize(policy_class)
 
     @q = controller_class
-         .includes(:team, :roster, :level, :tracking_lists)
+         .includes(:team, :roster, :level, :status, :tracking_lists)
          .joins("LEFT JOIN stats ON stats.player_id = players.id AND stats.timeline = '2025' AND stats.timeline_type = 'ytd'")
          .joins("LEFT JOIN scouting_profiles ON scouting_profiles.player_id = players.id AND scouting_profiles.timeline = '2025' AND scouting_profiles.timeline_type = 'ytd'")
          .joins('LEFT JOIN tracking_list_players ON tracking_list_players.player_id = players.id')
@@ -28,6 +28,9 @@ class Admin::PlayersController < AdminController
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
     @pagy, @instances = pagy(@q.result)
 
+    @levels = Level.all.select_order
+    @statuses = Status.all.select_order
+    @tracking_lists = current_user.tracking_lists
     @instance = controller_class.new
   end
 
