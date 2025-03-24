@@ -8,90 +8,94 @@
 %>
 
 <%= render Admin::PageContainer::Component.new do %> 
-  <!-- Level Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Level</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><%= link_to "All Players", dashboard_admin_players_path, class: "nav-link active" %></li>
-          <% Level.select_order.each do |level| %>
-            <li class="nav-item"><%= link_to level.abbreviation, dashboard_admin_players_path(q: { level_id_eq: level.id }), class: "nav-link" %></li>
-          <% end %>
-        </ul>
+  <div data-controller="filter-navigation">
+    <!-- Level Filter Navigation -->
+    <div class="card mb-3">
+      <div class="card-body py-2">
+        <div class="d-flex align-items-center">
+          <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Level</div>
+          <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+            <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link", data: { filter_navigation_target: "levelLink", action: "click->filter-navigation#levelClick" } %></li>
+            <% Level.select_order.each do |level| %>
+              <li class="nav-item"><%= link_to level.abbreviation, dashboard_admin_players_path(q: { level_id_eq: level.id }), class: "nav-link", data: { filter_navigation_target: "levelLink", action: "click->filter-navigation#levelClick" } %></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- Status Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Status</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link" %></li>
-          <% Status.select_order.each do |status| %>
-            <li class="nav-item"><%= link_to status.abbreviation, dashboard_admin_players_path(q: { status_id_eq: status.id }), class: "nav-link" %></li>
-          <% end %>
-        </ul>
+    <!-- Status Filter Navigation -->
+    <div class="card mb-3">
+      <div class="card-body py-2">
+        <div class="d-flex align-items-center">
+          <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Status</div>
+          <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+            <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link", data: { filter_navigation_target: "statusLink", action: "click->filter-navigation#statusClick" } %></li>
+            <% Status.select_order.each do |status| %>
+              <li class="nav-item"><%= link_to status.abbreviation, dashboard_admin_players_path(q: { status_id_eq: status.id }), class: "nav-link", data: { filter_navigation_target: "statusLink", action: "click->filter-navigation#statusClick" } %></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- List Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Lists</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <% current_user.tracking_lists.each do |list| %>
-            <li class="nav-item"><%= link_to list.name, dashboard_admin_players_path(q: { tracking_list_players_tracking_list_id_eq: list.id }), class: "nav-link" %></li>
-          <% end %>
-        </ul>
+    <!-- Position Filter Navigation -->
+    <div class="card mb-3">
+      <div class="card-body py-2">
+        <div class="d-flex align-items-center">
+          <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Position</div>
+          <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+            <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "BAT", dashboard_admin_players_path(q: { position_in: ['1B', '2B', '3B', 'SS', 'C', 'LF', 'CF', 'RF', 'DH'] }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "CA", dashboard_admin_players_path(q: { position_eq: 'C' }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "MI", dashboard_admin_players_path(q: { position_in: ['SS', '2B'] }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "CI", dashboard_admin_players_path(q: { position_in: ['1B', '3B'] }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "1B", dashboard_admin_players_path(q: { position_eq: '1B' }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "2B", dashboard_admin_players_path(q: { position_eq: '2B' }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "SS", dashboard_admin_players_path(q: { position_eq: 'SS' }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "3B", dashboard_admin_players_path(q: { position_eq: '3B' }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "OF", dashboard_admin_players_path(q: { position_in: ['LF', 'CF', 'RF'] }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "RF", dashboard_admin_players_path(q: { position_eq: 'RF' }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "CF", dashboard_admin_players_path(q: { position_eq: 'CF' }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "LF", dashboard_admin_players_path(q: { position_eq: 'LF' }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "DH", dashboard_admin_players_path(q: { position_eq: 'DH' }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "PIT", dashboard_admin_players_path(q: { position_in: ['SP', 'RP', 'CL'] }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "SP", dashboard_admin_players_path(q: { position_eq: 'SP' }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+            <li class="nav-item"><%= link_to "RP", dashboard_admin_players_path(q: { position_eq: 'RP' }), class: "nav-link", data: { filter_navigation_target: "positionLink", action: "click->filter-navigation#positionClick" } %></li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Position Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Position</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><%= link_to "BAT", dashboard_admin_players_path(q: { position_in: ['SS', '2B'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "CA", dashboard_admin_players_path(q: { position_eq: 'C' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "MI", dashboard_admin_players_path(q: { position_in: ['SS', '2B'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "CI", dashboard_admin_players_path(q: { position_in: ['1B', '3B'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "1B", dashboard_admin_players_path(q: { position_eq: '1B' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "2B", dashboard_admin_players_path(q: { position_eq: '2B' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "SS", dashboard_admin_players_path(q: { position_eq: 'SS' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "3B", dashboard_admin_players_path(q: { position_eq: '3B' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "OF", dashboard_admin_players_path(q: { position_in: ['LF', 'CF', 'RF'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "RF", dashboard_admin_players_path(q: { position_eq: 'RF' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "CF", dashboard_admin_players_path(q: { position_eq: 'CF' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "LF", dashboard_admin_players_path(q: { position_eq: 'LF' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "DH", dashboard_admin_players_path(q: { position_eq: 'DH' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "PIT", dashboard_admin_players_path(q: { position_in: ['SP', 'RP', 'CL'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "SP", dashboard_admin_players_path(q: { position_eq: 'SP' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "RP", dashboard_admin_players_path(q: { position_eq: 'RP' }), class: "nav-link" %></li>
-        </ul>
+    <!-- List Filter Navigation -->
+    <div class="card mb-3">
+      <div class="card-body py-2">
+        <div class="d-flex align-items-center">
+          <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Lists</div>
+          <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+            <li class="nav-item"><%= link_to "All Lists", dashboard_admin_players_path, class: "nav-link", data: { filter_navigation_target: "listLink", action: "click->filter-navigation#listClick" } %></li>
+            <% current_user.tracking_lists.each do |list| %>
+              <li class="nav-item"><%= link_to list.name, dashboard_admin_players_path(q: { tracking_list_players_tracking_list_id_eq: list.id }), class: "nav-link", data: { filter_navigation_target: "listLink", action: "click->filter-navigation#listClick" } %></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Timeline Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Timeline</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><a class="nav-link" href="#">2023</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">2024</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">YTD</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">7 Days</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">14 Days</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">21 Days</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">30 Days</a></li>
-        </ul>
+    <!-- Timeline Filter Navigation -->
+    <div class="card mb-3">
+      <div class="card-body py-2">
+        <div class="d-flex align-items-center">
+          <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Timeline</div>
+          <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+            <li class="nav-item"><a class="nav-link" href="#" data-filter-navigation-target="timelineLink" data-action="click->filter-navigation#timelineClick">2023</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#" data-filter-navigation-target="timelineLink" data-action="click->filter-navigation#timelineClick">2024</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-filter-navigation-target="timelineLink" data-action="click->filter-navigation#timelineClick">YTD</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-filter-navigation-target="timelineLink" data-action="click->filter-navigation#timelineClick">7 Days</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-filter-navigation-target="timelineLink" data-action="click->filter-navigation#timelineClick">14 Days</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-filter-navigation-target="timelineLink" data-action="click->filter-navigation#timelineClick">21 Days</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-filter-navigation-target="timelineLink" data-action="click->filter-navigation#timelineClick">30 Days</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -180,7 +184,7 @@
                 <td class="py-1" data-column-view-category="base"><%= instance.level.abbreviation %></td>
                 <td class="py-1" data-column-view-category="base"><%= instance.status.abbreviation %></td>
                 <td class="py-1 border-end" data-column-view-category="base"><%= instance.age.ceil %></td>
-                <td class="py-1" data-column-view-category="stats scoring"><%= instance.ops %></td>
+                <td class="py-1" data-column-view-category="stats scoring"><%= format_stat(instance.ops) %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= instance.rbi.ceil %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= instance.hr.ceil %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= instance.runs.ceil %></td>
@@ -196,9 +200,9 @@
                 <td class="py-1" data-column-view-category="stats"><%= number_to_percentage(instance.k_pct, precision: 0) %></td>
                 <td class="py-1" data-column-view-category="stats"><%= instance.sb.ceil %></td>
                 <td class="py-1" data-column-view-category="stats"><%= instance.cs.ceil %></td>
-                <td class="py-1" data-column-view-category="stats"><%= instance.bavg %></td>
-                <td class="py-1" data-column-view-category="stats"><%= instance.obp %></td>
-                <td class="py-1" data-column-view-category="stats"><%= instance.slg %></td>
+                <td class="py-1" data-column-view-category="stats"><%= format_stat(instance.bavg) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= format_stat(instance.obp) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= format_stat(instance.slg) %></td>
                 <td class="py-1" data-column-view-category="stats"><%= instance.war.ceil %></td>
                 <td class="py-1" data-column-view-category="scouting"><%= instance.risk %></td>
                 <td class="py-1" data-column-view-category="scouting"><%= instance.eta %></td>

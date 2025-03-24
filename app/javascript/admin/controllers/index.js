@@ -10,3 +10,6 @@ application.register("form-validation", FormValidationController)
 
 import ColumnViewController from "./column_view_controller"
 application.register("column-view", ColumnViewController)
+
+import FilterNavigationController from "./filter_navigation_controller"
+application.register("filter-navigation", FilterNavigationController)
