@@ -90,6 +90,8 @@ Rails.application.routes.draw do
     resources :teams, concerns: [:archivable, :copyable, :collection_exportable]
     resources :timelines, concerns: [:archivable, :copyable, :collection_exportable]
     resources :tracking_lists, concerns: [:archivable, :copyable, :collection_exportable]
+    resources :tracking_list_players, only: [:create]
+    delete '/tracking_list_players/:tracking_list_id/:id', to: 'tracking_list_players#destroy'
 
     resources :users, concerns: :collection_exportable do
       member do

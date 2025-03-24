@@ -9,7 +9,6 @@
         <% card.with_link(name: "Player Stats", url: admin_stats_path, policy: Stat) %>
         <% card.with_link(name: "Scouting Profiles", url: admin_scouting_profiles_path, policy: ScoutingProfile) %>
         <% card.with_link(name: "Scouting Reports", url: admin_scouting_reports_path, policy: ScoutingReport) %>
-        <% card.with_link(name: "SQL Reports", url: admin_reports_path, policy: Report) %>
         <% card.with_link(name: "Tracking Lists", url: admin_teams_path, policy: TrackingList) %>
       <% end %>
     </div>
@@ -29,6 +28,7 @@
     <div class="col-4">
       <%= render Admin::DashboardCard::Component.new(title: "Management") do |card| %>
         <% card.with_link(name: "Data Logs", url: polymorphic_path([:admin, DataLog]), policy: DataLog) %>
+        <% card.with_link(name: "SQL Reports", url: admin_reports_path, policy: Report) %>
         <% card.with_link(name: "System Groups", url: polymorphic_path([:admin, SystemGroup]), policy: SystemGroup) %>
         <% card.with_link(name: "System Permissions", url: polymorphic_path([:admin, SystemPermission]), policy: SystemPermission) %>
         <% card.with_link(name: "System Roles", url: polymorphic_path([:admin, SystemRole]), policy: SystemRole) %>

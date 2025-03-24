@@ -115,7 +115,7 @@
         <table class="table table-sm table-hover" style="font-size: 0.8rem;">
           <thead>
             <tr class="bg-light">
-              <th class="py-1" data-column-view-category="base">TRX</th>
+              <th class="py-1" data-column-view-category="base">Track</th>
               <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :last_name, "Player", default_order: :asc) %></th>
               <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :roster_id, "Roster") %></th>
               <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :level_weight, "Level") %></th>
@@ -164,8 +164,22 @@
               <tr>
                 <td class="py-1" data-column-view-category="base">
                   <% current_user.tracking_lists.each do |tracking_list| %>
-                    <button type="button" class="btn btn-sm p-0" data-bs-toggle="tooltip" title="<%= instance.aggregated_tracking_list_ids.include?(tracking_list.id) ? "Remove from #{tracking_list.name}" : "Add to #{tracking_list.name}" %>">
-                      <i class="<%= instance.aggregated_tracking_list_ids.include?(tracking_list.id) ? "bi #{tracking_list.icon_name_on} text-warning" : "bi #{tracking_list.icon_name_off} text-muted" %>"></i>
+                    <% is_tracked = instance.aggregated_tracking_list_ids.include?(tracking_list.id) %>
+                    <button 
+                      type="button" 
+                      class="btn btn-sm p-0"
+                      data-controller="tracking-list-player"
+                      data-tracking-list-player-player-id-value="<%= instance.player_id %>"
+                      data-tracking-list-player-tracking-list-id-value="<%= tracking_list.id %>"
+                      data-tracking-list-player-tracked-value="<%= is_tracked %>"
+                      data-tracking-list-name="<%= tracking_list.name %>"
+                      data-icon-on="<%= tracking_list.icon_name_on %>"
+                      data-icon-off="<%= tracking_list.icon_name_off %>"
+                      data-tracking-list-player-target="button"
+                      data-action="click->tracking-list-player#toggle"
+                      data-bs-toggle="tooltip" 
+                      title="<%= is_tracked ? "Remove from #{tracking_list.name}" : "Add to #{tracking_list.name}" %>">
+                      <i class="<%= is_tracked ? "bi #{tracking_list.icon_name_on} text-warning" : "bi #{tracking_list.icon_name_off} text-muted" %>"></i>
                     </button>
                   <% end %>
                 </td>
