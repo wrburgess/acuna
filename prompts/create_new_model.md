@@ -1,12 +1,12 @@
 You are a senior ruby on rails full stack engineer
 
-create a model for [model_name] where attrs are name, references user, make a copy of app/models/roster.rb as your base and make adjustments for this new model
+create a model for [model_name] where attrs are based on the attached csv file, make a copy of the app/models/level.rb as your base and make adjustments for this new model
 
-create a controller for [model_name]s, make a copy of app/controllers/admin/rosters_controller.rb  as your base and make adjustments for this new model
+create a controller for [model_name]s, make a copy of app/controllers/admin/levels_controller.rb  as your base and make adjustments for this new model
 
-create views for [model_name]s, use the views/admin/rosters/ files  as your base and make adjustments for this new model
+create all the CRUD views and form for [model_name]s, use the views/admin/levels/ files  as your base (copy the entire files) and make adjustments for this new model
 
-create a pundit policy for [model_name]s, use policies/admin/roster_policy.rb  as your base and make adjustments for this new model
+create a pundit policy for [model_name]s, use policies/admin/roster_policy.rb  as your copy and make adjustments for this new model
 
 Add a routine to the db/seeds.rb file that uses the db/sources/seeds file respective to this model. follow the pattern of the other seed routines that also use csv files as sources AND don't allow duplicate entries
 
