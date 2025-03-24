@@ -83,3 +83,43 @@ CSV.foreach(csv_path, headers: true) do |row|
 end
 
 puts "Scouts import completed successfully!"
+
+puts "Importing baseball levels..."
+
+csv_path = File.join(File.dirname(__FILE__), 'sources', 'seeds', 'baseball_levels.csv')
+CSV.foreach(csv_path, headers: true) do |row|
+  name = row['name']
+  abbreviation = row['abbreviation']
+  weight = row['weight']
+
+  next if abbreviation.nil? || abbreviation.empty?
+
+  if level = Level.find_by(abbreviation: abbreviation)
+    puts "Found existing baseball level: #{name} (#{abbreviation})"
+  else
+    Level.create!(name: name, abbreviation: abbreviation, weight: weight)
+    puts "Created new baseball level: #{name} (#{abbreviation})"
+  end
+end
+
+puts "Baseball levels import completed successfully!"
+
+puts "Importing roster statuses..."
+
+csv_path = File.join(File.dirname(__FILE__), 'sources', 'seeds', 'roster_statuses.csv')
+CSV.foreach(csv_path, headers: true) do |row|
+  name = row['name']
+  abbreviation = row['abbreviation']
+  weight = row['weight']
+
+  next if abbreviation.nil? || abbreviation.empty?
+
+  if status = Status.find_by(abbreviation: abbreviation)
+    puts "Found existing roster status: #{name} (#{abbreviation})"
+  else
+    Status.create!(name: name, abbreviation: abbreviation, weight: weight)
+    puts "Created new roster status: #{name} (#{abbreviation})"
+  end
+end
+
+puts "Roster statuses import completed successfully!"

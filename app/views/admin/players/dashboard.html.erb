@@ -15,19 +15,9 @@
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Level</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
           <li class="nav-item"><%= link_to "All Players", dashboard_admin_players_path, class: "nav-link active" %></li>
-          <li class="nav-item"><%= link_to "Pro", dashboard_admin_players_path(q: { level_in: ['MLB', 'AAA', 'AA', 'A'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "MLB", dashboard_admin_players_path(q: { level_eq: 'MLB' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "MiLB", dashboard_admin_players_path(q: { level_in: ['AAA', 'AA', 'A', 'DSL'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "AAA", dashboard_admin_players_path(q: { level_eq: 'AAA' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "AA", dashboard_admin_players_path(q: { level_eq: 'AA' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "A", dashboard_admin_players_path(q: { level_eq: 'A' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "DSL", dashboard_admin_players_path(q: { level_eq: 'DSL' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "Asia", dashboard_admin_players_path(q: { level_in: ['NPB', 'KBO'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "NPB", dashboard_admin_players_path(q: { level_eq: 'NPB' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "KBO", dashboard_admin_players_path(q: { level_eq: 'KBO' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "CC", dashboard_admin_players_path(q: { level_eq: 'CC' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "NCAA", dashboard_admin_players_path(q: { level_eq: 'NCAA' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "Prep", dashboard_admin_players_path(q: { level_eq: 'PREP' }), class: "nav-link" %></li>
+          <% Level.select_order.each do |level| %>
+            <li class="nav-item"><%= link_to level.abbreviation, dashboard_admin_players_path(q: { level_id_eq: level.id }), class: "nav-link" %></li>
+          <% end %>
         </ul>
       </div>
     </div>
@@ -39,12 +29,9 @@
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Status</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
           <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "Free Agent", dashboard_admin_players_path(q: { roster_abbreviation_eq: 'FA' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "Rostered", dashboard_admin_players_path(q: { roster_abbreviation_not_eq: 'FA' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "Starting", dashboard_admin_players_path(q: { status_eq: 'starting' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "Benched", dashboard_admin_players_path(q: { status_eq: 'reserves' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "Minors", dashboard_admin_players_path(q: { status_eq: 'minors' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "Injured", dashboard_admin_players_path(q: { status_eq: 'injured' }), class: "nav-link" %></li>
+          <% Status.select_order.each do |status| %>
+            <li class="nav-item"><%= link_to status.abbreviation, dashboard_admin_players_path(q: { status_id_eq: status.id }), class: "nav-link" %></li>
+          <% end %>
         </ul>
       </div>
     </div>
@@ -133,9 +120,8 @@
               <th class="py-1" data-column-view-category="base">TRX</th>
               <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :last_name, "Player", default_order: :asc) %></th>
               <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :roster_id, "Roster") %></th>
-              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :roster_id, "Lists") %></th>
-              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :position, "Pos", default_order: :asc) %></th>
-              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :level, "Level") %></th>
+              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :level_weight, "Level") %></th>
+              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :status_weight, "Status") %></th>
               <th class="py-1 border-end" data-column-view-category="base"><%= sort_link([:admin, @q], :age, "Age") %></th>
               <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :ops, "OPS") %></th>
               <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :rbi, "RBI") %></th>
@@ -191,9 +177,8 @@
                 <td class="py-1" data-column-view-category="base">
                   <%= instance.roster ? link_to(instance.roster&.abbreviation, polymorphic_path([:admin, instance.roster])) : 'FA' %>
                 </td>
-                <td class="py-1" data-column-view-category="base"><%= instance.aggregated_tracking_list_ids %></td>
-                <td class="py-1" data-column-view-category="base"><%= instance.position %></td>
-                <td class="py-1" data-column-view-category="base"><%= instance.level %></td>
+                <td class="py-1" data-column-view-category="base"><%= instance.level.abbreviation %></td>
+                <td class="py-1" data-column-view-category="base"><%= instance.status.abbreviation %></td>
                 <td class="py-1 border-end" data-column-view-category="base"><%= instance.age.ceil %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= instance.ops %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= instance.rbi.ceil %></td>
@@ -306,26 +291,7 @@
     </div>
   </div>
 
-  <!-- Pagination Controls -->
-  <nav aria-label="Player pagination">
-    <ul class="pagination pagination-sm justify-content-center">
-      <li class="page-item disabled">
-        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-      </li>
-      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">4</a></li>
-      <li class="page-item"><a class="page-link" href="#">5</a></li>
-      <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-      <li class="page-item"><a class="page-link" href="#">28</a></li>
-      <li class="page-item"><a class="page-link" href="#">29</a></li>
-      <li class="page-item"><a class="page-link" href="#">30</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
-  </nav>
+  <%= render Admin::IndexPager::Component.new(pagy: @pagy, instance: @instance) %>
 
   <%= render Admin::FilterCard::Component.new do %>
     <%= simple_form_for [:admin, @q], url: polymorphic_path([:admin, @instance]), html: { method: :get }, wrapper: :floating_labels_form do |f| %>
@@ -333,10 +299,10 @@
       <%= f.input :first_name_cont, label: "First Name", placeholder: "First Name contains" %>
       <%= f.input :last_name_cont, label: "Last Name", placeholder: "Last Name contains" %>
       <%= f.input :position_eq, label: "Position", placeholder: "Position equals" %>
+      <%= f.input :level_id_eq, collection: Level.all, label: "Level", include_blank: "Any" %>
+      <%= f.input :status_id_eq, collection: Status.all, label: "Status", include_blank: "Any" %>
       <%= f.input :team_id_eq, collection: Team.all, label: "Team", include_blank: "Any" %>
       <%= f.input :roster_id_eq, collection: Roster.all, label: "Roster", include_blank: "Any" %>
-      <%= f.input :status_eq, collection: Player::STATUSES, label: "Status", include_blank: "Any" %>
-      <%= f.input :level_eq, collection: Player::LEVELS, label: "Level", include_blank: "Any" %>
       <%= f.input :archived_at_not_null, as: :boolean, label: "Archived?", wrapper: :custom_boolean_switch %>
       
       <%= render Admin::FormButton::Component.new(operation: :filter) %>

@@ -1,0 +1,17 @@
+name,abbreviation,weight
+Major League Baseball,MLB,10
+Triple-A,AAA,20
+Double-A,AA,30
+Complex,CPX,40
+High-A,A+,50
+Low-A,A,60
+Rookie,ROOK,70
+US College,NCAA,80
+US High School,PREP,90
+Dominican Summer League,DSL,100
+Spring Training,ST,110
+Nippon Professional Baseball,NPB,120
+International Amateur,INTL,130
+Korea Baseball Organization,KBO,140
+Chinese Professional Baseball League,CPBL,150
+Other,N/A,160

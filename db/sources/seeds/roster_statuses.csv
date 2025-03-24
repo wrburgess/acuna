@@ -1,0 +1,7 @@
+name,abbreviation,weight
+starting,START,10
+reserved,RESV,20
+injured,IL,30
+suspended,SUSP,40
+minors,MIN,50
+retired,RET,60

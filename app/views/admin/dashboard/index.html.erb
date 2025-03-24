@@ -2,21 +2,29 @@
 
 <%= render Admin::DashboardContainer::Component.new do |container| %>
   <div class="row my-3">
-    <div class="col-6">
+    <div class="col-4">
       <%= render Admin::DashboardCard::Component.new(title: "Data") do |card| %>
-        <% card.with_link(name: "Players", url: admin_players_path, policy: Player) %>
-        <% card.with_link(name: "Players Dashboard", url: dashboard_admin_players_path, policy: Player) %>
-        <% card.with_link(name: "Reports", url: polymorphic_path([:admin, Report]), policy: Report) %>
-        <% card.with_link(name: "Rosters", url: admin_rosters_path, policy: Roster) %>
+        <% card.with_link(name: "Players HQ", url: dashboard_admin_players_path, policy: Player) %>
+        <% card.with_link(name: "Players Records", url: admin_players_path, policy: Player) %>
+        <% card.with_link(name: "Player Stats", url: admin_stats_path, policy: Stat) %>
+        <% card.with_link(name: "Scouting Profiles", url: admin_scouting_profiles_path, policy: ScoutingProfile) %>
         <% card.with_link(name: "Scouting Reports", url: admin_scouting_reports_path, policy: ScoutingReport) %>
-        <% card.with_link(name: "Scouts", url: admin_scouts_path, policy: Scout) %>
-        <% card.with_link(name: "Stats", url: admin_stats_path, policy: Stat) %>
-        <% card.with_link(name: "Teams", url: admin_teams_path, policy: Team) %>
+        <% card.with_link(name: "SQL Reports", url: admin_reports_path, policy: Report) %>
         <% card.with_link(name: "Tracking Lists", url: admin_teams_path, policy: TrackingList) %>
       <% end %>
     </div>
 
-    <div class="col-6">
+    <div class="col-4">
+      <%= render Admin::DashboardCard::Component.new(title: "Meta") do |card| %>
+        <% card.with_link(name: "Baseball Levels", url: admin_levels_path, policy: Level) %>
+        <% card.with_link(name: "Baseball Scouts", url: admin_scouts_path, policy: Scout) %>
+        <% card.with_link(name: "Fantasy Rosters", url: admin_rosters_path, policy: Roster) %>
+        <% card.with_link(name: "MLB Teams", url: admin_teams_path, policy: Team) %>
+        <% card.with_link(name: "Roster Statuses", url: admin_statuses_path, policy: Status) %>
+      <% end %>
+    </div>
+
+    <div class="col-4">
       <%= render Admin::DashboardCard::Component.new(title: "Management") do |card| %>
         <% card.with_link(name: "Data Logs", url: polymorphic_path([:admin, DataLog]), policy: DataLog) %>
         <% card.with_link(name: "System Groups", url: polymorphic_path([:admin, SystemGroup]), policy: SystemGroup) %>

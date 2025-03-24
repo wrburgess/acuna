@@ -64,7 +64,7 @@ Rails.application.routes.draw do
     end
 
     resources :data_logs, only: [:index, :show], concerns: :collection_exportable
-
+    resources :levels, concerns: [:archivable, :copyable, :collection_exportable]
     resources :players, concerns: [:archivable, :copyable, :collection_exportable, :member_exportable] do
       member do
         get :profile
@@ -81,6 +81,7 @@ Rails.application.routes.draw do
     resources :scouting_reports, concerns: [:archivable, :copyable, :collection_exportable, :member_exportable]
     resources :scouts, concerns: [:archivable, :copyable, :collection_exportable]
     resources :stats, concerns: [:archivable, :copyable, :collection_exportable]
+    resources :statuses, concerns: [:archivable, :copyable, :collection_exportable]
     resources :system_groups, concerns: :collection_exportable
     resources :system_groups, concerns: :collection_exportable
     resources :system_permissions, concerns: [:copyable, :collection_exportable]

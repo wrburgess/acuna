@@ -23,21 +23,27 @@ module Maintenance
       lists = [
         {
           name: 'Trade Targets',
-          notes: 'Players to target in trade discussions with other managers'
+          notes: 'Players to target in trade discussions with other managers',
+          icon_name_on: 'bi-star-fill',
+          icon_name_off: 'bi-star'
         },
         {
           name: 'Prospect Watch List',
-          notes: 'Top prospects to monitor for potential call-ups and future value'
+          notes: 'Top prospects to monitor for potential call-ups and future value',
+          icon_name_on: 'bi-binoculars-fill',
+          icon_name_off: 'bi-binoculars'
         },
         {
           name: 'Recently Hyped',
-          notes: 'Players gaining attention and hype in recent weeks'
+          notes: 'Players gaining attention and hype in recent weeks',
+          icon_name_on: 'bi-megaphone-fill',
+          icon_name_off: 'bi-megaphone'
         }
       ]
 
       # Clear existing tracking lists for this user (optional)
-      # user.tracking_lists.destroy_all
-      # Rails.logger.info("Cleared existing tracking lists for user")
+      user.tracking_lists.destroy_all
+      Rails.logger.info('Cleared existing tracking lists for user')
 
       # Create tracking lists
       tracking_lists = []

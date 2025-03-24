@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_23_231604) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_24_015408) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -175,6 +175,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_231604) do
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
   end
 
+  create_table "levels", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "abbreviation"
+    t.integer "weight"
+    t.text "notes"
+    t.date "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "links", force: :cascade do |t|
     t.string "url_type"
     t.string "url"
@@ -229,8 +239,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_231604) do
     t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status", comment: "prospect, show, retired"
-    t.string "level", comment: "CAR, MEX, KOR, JPN, INTL, USHS, NCAA, LOW A, HIGH A, AA, AAA, MLB"
     t.string "fg_id"
     t.decimal "age", precision: 10, scale: 3
     t.string "height"
@@ -238,9 +246,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_231604) do
     t.string "bats"
     t.string "throws"
     t.string "eligible_positions", default: [], array: true
-    t.index ["level"], name: "index_players_on_level"
+    t.bigint "level_id"
+    t.bigint "status_id"
+    t.string "middle_name"
+    t.text "name_suffix"
+    t.index ["level_id"], name: "index_players_on_level_id"
     t.index ["roster_id"], name: "index_players_on_roster_id"
-    t.index ["status"], name: "index_players_on_status"
+    t.index ["status_id"], name: "index_players_on_status_id"
     t.index ["team_id"], name: "index_players_on_team_id"
   end
 
@@ -472,6 +484,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_231604) do
     t.index ["team_id"], name: "index_stats_on_team_id"
   end
 
+  create_table "statuses", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "abbreviation"
+    t.integer "weight"
+    t.text "notes"
+    t.date "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "system_group_system_roles", force: :cascade do |t|
     t.bigint "system_group_id"
     t.bigint "system_role_id"
@@ -592,7 +614,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_231604) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "players", "levels"
   add_foreign_key "players", "rosters"
+  add_foreign_key "players", "statuses"
   add_foreign_key "players", "teams"
   add_foreign_key "scouting_profile_reports", "scouting_profiles"
   add_foreign_key "scouting_profile_reports", "scouting_reports"
