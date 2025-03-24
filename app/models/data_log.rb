@@ -19,7 +19,10 @@ class DataLog < ApplicationRecord
   end
 
   def self.ransackable_associations(*)
-    %w[user loggable]
+    %w[
+      user
+      loggable
+    ]
   end
 
   def self.default_sort

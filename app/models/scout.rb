@@ -22,7 +22,7 @@ class Scout < ApplicationRecord
   end
 
   def self.ransackable_associations(*)
-    %i[
+    %w[
       scouting_reports
     ]
   end

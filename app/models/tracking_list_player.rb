@@ -14,7 +14,7 @@ class TrackingListPlayer < ApplicationRecord
   end
 
   def self.ransackable_associations(*)
-    %i[
+    %w[
       user
       tracking_list_player
       tracking_list

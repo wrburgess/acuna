@@ -75,6 +75,7 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :positions, concerns: [:archivable, :copyable, :collection_exportable]
     resources :reports, concerns: [:collection_exportable, :member_exportable]
     resources :rosters, concerns: [:archivable, :copyable, :collection_exportable]
     resources :scouting_profiles, concerns: [:archivable, :copyable, :collection_exportable, :member_exportable]
@@ -87,6 +88,7 @@ Rails.application.routes.draw do
     resources :system_permissions, concerns: [:copyable, :collection_exportable]
     resources :system_roles, concerns: :collection_exportable
     resources :teams, concerns: [:archivable, :copyable, :collection_exportable]
+    resources :timelines, concerns: [:archivable, :copyable, :collection_exportable]
     resources :tracking_lists, concerns: [:archivable, :copyable, :collection_exportable]
 
     resources :users, concerns: :collection_exportable do

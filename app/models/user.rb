@@ -36,7 +36,10 @@ class User < ApplicationRecord
   end
 
   def self.ransackable_associations(*)
-    []
+    %w[
+      system_groups
+      tracking_lists
+    ]
   end
 
   def admin?

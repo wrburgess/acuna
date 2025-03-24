@@ -1,10 +1,10 @@
 name,abbreviation,weight,default
-2023 Season,"2023",80,false
-2024 Season,"2024",90,false
-Current Season,Current,10,false
 Year to Date,ytd,20,true
-7 Days,ytd,30,false
+7 Days,7d,30,false
 14 Days,14d,40,false
 21 Days,21d,50,false
 30 Days,30d,60,false
 60 Days,60d,70,false
+90 Days,90d,80,false
+2023 Season,"2023",90,false
+2024 Season,"2024",100,false

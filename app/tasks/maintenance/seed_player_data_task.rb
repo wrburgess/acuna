@@ -67,15 +67,15 @@ module Maintenance
 
     def create_or_update_stats(player)
       # Find existing or create new stat
-      stat = Stat.find_or_initialize_by(player_id: player.id, timeline: '2025', timeline_type: 'ytd')
+      timeline = Timeline.find_by(default: true)
+      stat = Stat.find_or_initialize_by(player_id: player.id, timeline: timeline)
       is_new_record = stat.new_record?
 
       # Get available column names from the model's attributes
       available_columns = stat.attribute_names
 
       # Set common timeline attributes
-      stat.timeline = '2025'
-      stat.timeline_type = 'ytd'
+      stat.timeline = timeline
 
       # Determine if player is a pitcher based on position
       is_pitcher = %w[LHP RHP P SP RP CL].include?(player.position)
@@ -148,15 +148,15 @@ module Maintenance
 
     def create_or_update_scouting_profile(player)
       # Find existing or create new scouting profile
-      profile = ScoutingProfile.find_or_initialize_by(player_id: player.id, timeline: '2025', timeline_type: 'ytd')
+      timeline = Timeline.find_by(default: true)
+      profile = ScoutingProfile.find_or_initialize_by(player_id: player.id, timeline: timeline)
       is_new_record = profile.new_record?
 
       # Get available column names
       available_columns = profile.attribute_names
 
       # Set common attributes
-      profile.timeline = '2025'
-      profile.timeline_type = 'ytd'
+      profile.timeline = timeline
 
       # Only set these if they exist in the model
       set_if_column_exists(profile, 'risk', %w[Low Medium High].sample, available_columns)

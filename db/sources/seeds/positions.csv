@@ -1,18 +1,18 @@
-name,abbreviation,weight,collective_values
-Batter,BAT,10,['C','1B','2B','3B','SS','LF','CF','RF']
-Catcher,C,20,['CA']
-Middle Infield,MI,30,['2B','SS']
-Corner Infield,CI,40,['1B','3B']
-Infield,IF,50,['C','1B','2B','3B','SS']
-Outfield,OF,60,['LF','CF','RF']
-First Base,1B,70,['1B']
-Second Base,2B,80,['2B']
-Third Base,3B,90,['3B']
-Shortstop,SS,100,['SS']
-Left Field,LF,110,['LF']
-Center Field,CF,120,['CF']
-Right Field,RF,130,['RF']
-Designated Hitter,DH,140,['DH']
-Pitcher,P,150,['SP','RP']
-Starting Pitcher,SP,160,['SP']
-Relief Pitcher,RP,170,['RP']
+name,abbreviation,weight,collective_values,position_type,alternate_names
+Batter,BAT,10,"['C','1B','2B','3B','SS','LF','CF','RF']",group,"[]"
+Catcher,C,20,"['C']",actual,"['CA']"
+Middle Infield,MI,30,"['2B','SS']",group,"[]"
+Corner Infield,CI,40,"['1B','3B']",group,"[]"
+Infield,IF,50,"['C','1B','2B','3B','SS']",group,"[]"
+Outfield,OF,60,"['LF','CF','RF']",group,"[]"
+First Base,1B,70,"['1B']",actual,"[]"
+Second Base,2B,80,"['2B']",actual,"[]"
+Third Base,3B,90,"['3B']",actual,"[]"
+Shortstop,SS,100,"['SS']",actual,"[]"
+Left Field,LF,110,"['LF']",actual,"[]"
+Center Field,CF,120,"['CF']",actual,"[]"
+Right Field,RF,130,"['RF']",actual,"[]"
+Designated Hitter,DH,140,"['DH']",actual,"[]"
+Pitcher,P,150,"['SP','RP']",group,"['LHP','RHP']"
+Starting Pitcher,SP,160,"['SP']",actual,"['LHP','RHP']"
+Relief Pitcher,RP,170,"['RP']",actual,"['LHP','RHP','CL']"

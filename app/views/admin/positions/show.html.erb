@@ -1,0 +1,17 @@
+<%= render Admin::HeaderForShow::Component.new(instance: @instance, controller: params[:controller], action: params[:action], edit_button: true, archive_button: true, copy_button: true) %>
+
+<%= render Admin::PageContainer::Component.new do %>
+  <%= render Admin::TableForShow::Component.new(title: 'Position Data') do |table| %>
+    <% table.with_row(name: "ID", value: @instance.id) %>
+    <% table.with_row(name: "Name", value: @instance.name) %>
+    <% table.with_row(name: "Abbreviation", value: @instance.abbreviation) %>
+    <% table.with_row(name: "Type", value: @instance.position_type) %>
+    <% table.with_row(name: "Collective Values", value: @instance.collective_values) %>
+    <% table.with_row(name: "Alternate Names", value: @instance.alternate_names) %>
+    <% table.with_row(name: "Weight", value: @instance.weight) %>
+    <% table.with_row(name: "Notes", value: @instance.notes) %>
+    <% table.with_row(name: "Archived at", value: default_date_format(@instance.archived_at)) %>
+    <% table.with_row(name: "Created at", value: default_date_format(@instance.created_at)) %>
+    <% table.with_row(name: "Updated at", value: default_date_format(@instance.updated_at)) %>
+  <% end %>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_24_015408) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_24_143416) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -256,6 +256,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_015408) do
     t.index ["team_id"], name: "index_players_on_team_id"
   end
 
+  create_table "positions", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "abbreviation"
+    t.string "position_type"
+    t.string "alternate_names", default: [], array: true
+    t.string "collective_values", default: [], array: true
+    t.integer "weight"
+    t.text "notes"
+    t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["abbreviation"], name: "index_positions_on_abbreviation"
+    t.index ["archived_at"], name: "index_positions_on_archived_at"
+    t.index ["name"], name: "index_positions_on_name"
+  end
+
   create_table "reports", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -287,7 +303,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_015408) do
 
   create_table "scouting_profiles", force: :cascade do |t|
     t.bigint "player_id"
-    t.string "timeline"
     t.string "timeline_type"
     t.string "risk"
     t.string "eta"
@@ -347,7 +362,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_015408) do
     t.date "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "timeline_id"
     t.index ["player_id"], name: "index_scouting_profiles_on_player_id"
+    t.index ["timeline_id"], name: "index_scouting_profiles_on_timeline_id"
   end
 
   create_table "scouting_reports", force: :cascade do |t|
@@ -376,7 +393,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_015408) do
     t.decimal "raw_pwr_proj", precision: 10, scale: 3
     t.string "risk"
     t.string "eta"
-    t.string "timeline"
     t.string "timeline_type"
     t.decimal "fastball_proj", precision: 10, scale: 3
     t.decimal "sweeper_proj", precision: 10, scale: 3
@@ -399,9 +415,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_015408) do
     t.decimal "cutter_pres", precision: 10, scale: 3
     t.decimal "control_pres", precision: 10, scale: 3
     t.decimal "arm_pres", precision: 10, scale: 3
-    t.index ["player_id", "scout_id", "timeline", "timeline_type"], name: "index_scouting_reports_on_player_scout_and_timeline", unique: true
+    t.bigint "timeline_id"
     t.index ["player_id"], name: "index_scouting_reports_on_player_id"
     t.index ["scout_id"], name: "index_scouting_reports_on_scout_id"
+    t.index ["timeline_id"], name: "index_scouting_reports_on_timeline_id"
   end
 
   create_table "scouts", force: :cascade do |t|
@@ -416,7 +433,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_015408) do
 
   create_table "stats", force: :cascade do |t|
     t.bigint "player_id", null: false
-    t.string "timeline"
     t.string "timeline_type"
     t.decimal "pa", precision: 10, scale: 3
     t.decimal "ab", precision: 10, scale: 3
@@ -479,9 +495,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_015408) do
     t.decimal "nr", precision: 10, scale: 3
     t.decimal "xbh", precision: 10, scale: 3
     t.decimal "bavg", precision: 10, scale: 3
+    t.bigint "timeline_id"
     t.index ["opponent_id"], name: "index_stats_on_opponent_id"
     t.index ["player_id"], name: "index_stats_on_player_id"
     t.index ["team_id"], name: "index_stats_on_team_id"
+    t.index ["timeline_id"], name: "index_stats_on_timeline_id"
   end
 
   create_table "statuses", force: :cascade do |t|
@@ -559,6 +577,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_015408) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "timelines", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "abbreviation"
+    t.integer "weight"
+    t.boolean "default"
+    t.text "notes"
+    t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["abbreviation"], name: "index_timelines_on_abbreviation"
+    t.index ["archived_at"], name: "index_timelines_on_archived_at"
+    t.index ["name"], name: "index_timelines_on_name"
+  end
+
   create_table "tracking_list_players", force: :cascade do |t|
     t.bigint "tracking_list_id", null: false
     t.bigint "player_id", null: false
@@ -621,11 +653,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_015408) do
   add_foreign_key "scouting_profile_reports", "scouting_profiles"
   add_foreign_key "scouting_profile_reports", "scouting_reports"
   add_foreign_key "scouting_profiles", "players"
+  add_foreign_key "scouting_profiles", "timelines"
   add_foreign_key "scouting_reports", "players"
   add_foreign_key "scouting_reports", "scouts"
+  add_foreign_key "scouting_reports", "timelines"
   add_foreign_key "stats", "players"
   add_foreign_key "stats", "teams"
   add_foreign_key "stats", "teams", column: "opponent_id"
+  add_foreign_key "stats", "timelines"
   add_foreign_key "tracking_list_players", "players"
   add_foreign_key "tracking_list_players", "tracking_lists"
   add_foreign_key "tracking_lists", "users"

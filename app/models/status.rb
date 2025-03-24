@@ -21,7 +21,7 @@ class Status < ApplicationRecord
   end
 
   def self.ransackable_associations(*)
-    [
+    %w[
       players
     ]
   end

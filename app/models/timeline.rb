@@ -1,26 +1,34 @@
-class Roster < ApplicationRecord
+class Timeline < ApplicationRecord
   include Archivable
   include Loggable
 
-  has_many :players
   validates :name, presence: true
-  validates :abbreviation, presence: true
+
+  has_many :stats
+  has_many :scouting_reports
+  has_many :scouting_profiles
+
+  scope :select_order, -> { order(weight: :asc) }
 
   def self.ransackable_attributes(*)
     %w[
       abbreviation
       archived_at
       created_at
+      default
       id
       name
       notes
       updated_at
+      weight
     ]
   end
 
   def self.ransackable_associations(*)
     %w[
-      players
+      stats
+      scouting_reports
+      scouting_profiles
     ]
   end
 
@@ -29,6 +37,6 @@ class Roster < ApplicationRecord
   end
 
   def self.default_sort
-    ['name asc']
+    ['weight asc', 'name desc']
   end
 end

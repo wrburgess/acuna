@@ -6,6 +6,7 @@
 * https://stathead.com/
 * https://www.reddit.com/r/Sabermetrics/
 * https://natstat.com/
+* https://docs.google.com/document/d/1Q41-Pd0y1exehqKDVp0WD4h1AcROK3BQjuqOicWlxJk/edit?tab=t.0
 
 ## References
 

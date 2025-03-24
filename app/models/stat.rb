@@ -3,21 +3,12 @@ class Stat < ApplicationRecord
   include Loggable
 
   belongs_to :player
+  belongs_to :timeline
 
   validates :timeline, presence: true
   validates :timeline_type, presence: true
 
-  scope :archived, -> { where.not(archived_at: nil) }
-  scope :unarchived, -> { where(archived_at: nil) }
   scope :select_order, -> { order(timeline: :asc) }
-
-  def archive
-    update(archived_at: Time.current)
-  end
-
-  def unarchive
-    update(archived_at: nil)
-  end
 
   def self.ransackable_attributes(*)
     %w[
@@ -68,9 +59,10 @@ class Stat < ApplicationRecord
   end
 
   def self.ransackable_associations(*)
-    %i[
+    %w[
       player
       team
+      timeline
     ]
   end
 

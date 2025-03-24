@@ -1,19 +1,26 @@
-class Link < ApplicationRecord
+class Position < ApplicationRecord
   include Archivable
   include Loggable
 
-  validates :url, presence: true
+  validates :name, presence: true
 
-  scope :select_order, -> { order(url_type: :asc) }
+  has_many :players
+
+  scope :select_order, -> { order(weight: :asc) }
 
   def self.ransackable_attributes(*)
     %w[
+      abbreviation
+      alternate_names
       archived_at
+      collective_values
       created_at
       id
+      name
+      notes
+      position_type
       updated_at
-      url
-      url_type
+      weight
     ]
   end
 
@@ -26,10 +33,6 @@ class Link < ApplicationRecord
   end
 
   def self.default_sort
-    ['url asc', 'created_at desc']
-  end
-
-  def name
-    url
+    ['weight asc', 'name desc']
   end
 end

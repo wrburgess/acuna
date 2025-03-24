@@ -16,7 +16,9 @@
           <thead>
             <tr class="bg-light">
               <th><%= sort_link([:admin, @q], :first_name, "First Name", default_order: :asc) %></th>
+              <th><%= sort_link([:admin, @q], :middle_name, "Middle Name", default_order: :asc) %></th>
               <th><%= sort_link([:admin, @q], :last_name, "Last Name", default_order: :asc) %></th>
+              <th><%= sort_link([:admin, @q], :name_suffix, "Suffix", default_order: :asc) %></th>
               <th><%= sort_link([:admin, @q], :position, "Position") %></th>
               <th><%= sort_link([:admin, @q], :team_id, "Team") %></th>
               <th><%= sort_link([:admin, @q], :level, "Level") %></th>
@@ -28,7 +30,9 @@
             <% @instances.each do |instance| %>
               <tr>
                 <td><%= instance.first_name %></td>
-                <td><%= link_to instance.last_name, admin_player_path(instance) %></td>
+                <td><%= instance.middle_name %></td>
+                <td><%= instance.last_name %></td>
+                <td><%= instance.name_suffix %></td>
                 <td><%= instance.position %></td>
                 <td>
                   <% if instance.team %>
@@ -37,8 +41,8 @@
                     <span class="text-muted">Free Agent</span>
                   <% end %>
                 </td>
-                <td><%= instance.level %></td>
-                <td><%= instance.status %></td>
+                <td><%= instance.level&.abbreviation %></td>
+                <td><%= instance.status&.abbreviation %></td>
                 <td class="text-end">
                   <div class="btn-group btn-group-sm">
                     <%= link_to "View", admin_player_path(instance), class: "btn btn-primary" %>

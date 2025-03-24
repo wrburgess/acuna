@@ -38,7 +38,7 @@ class Player < ApplicationRecord
   end
 
   def self.ransackable_associations(*)
-    %i[
+    %w[
       team
       roster
       level

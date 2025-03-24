@@ -10,6 +10,27 @@ admins.each do |admin|
 end
 puts "END:   Create admins, Users Count: #{User.count}"
 
+puts "Importing timelines..."
+
+csv_path = File.join(File.dirname(__FILE__), 'sources', 'seeds', 'timelines.csv')
+CSV.foreach(csv_path, headers: true) do |row|
+  name = row['name']
+  abbreviation = row['abbreviation']
+  weight = row['weight']
+  default = row['default']
+
+  next if name.nil? || name.empty?
+
+  if timeline = Timeline.find_by(name: name)
+    puts "Found existing timeline: #{name} (#{abbreviation})"
+  else
+    Timeline.create!(name:, abbreviation:, weight:, default:)
+    puts "Created new timeline: #{name} (#{abbreviation})"
+  end
+end
+
+puts "Timelines import completed successfully!"
+
 puts "Importing MLB teams..."
 
 # Path to the CSV file
@@ -123,3 +144,26 @@ CSV.foreach(csv_path, headers: true) do |row|
 end
 
 puts "Roster statuses import completed successfully!"
+
+puts "Importing positions..."
+
+csv_path = File.join(File.dirname(__FILE__), 'sources', 'seeds', 'positions.csv')
+CSV.foreach(csv_path, headers: true) do |row|
+  name = row['name']
+  abbreviation = row['abbreviation']
+  weight = row['weight']
+  collective_values = row['collective_values']
+  alternate_names = row['alternate_names']
+  position_type = row['position_type']
+
+  next if name.nil? || name.empty?
+
+  if position = Position.find_by(name: name)
+    puts "Found existing position: #{name} (#{abbreviation})"
+  else
+    Position.create!(name:, abbreviation:, weight:, collective_values:, alternate_names:, position_type:)
+    puts "Created new position: #{name} (#{abbreviation})"
+  end
+end
+
+puts "Positions import completed successfully!"

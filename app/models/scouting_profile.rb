@@ -3,6 +3,7 @@ class ScoutingProfile < ApplicationRecord
   include Loggable
 
   belongs_to :player
+  belongs_to :timeline
   has_many :scouting_profile_reports, dependent: :destroy
   has_many :scouting_reports, through: :scouting_profile_reports
 
@@ -91,9 +92,10 @@ class ScoutingProfile < ApplicationRecord
   end
 
   def self.ransackable_associations(*)
-    %i[
+    %w[
       scouting_reports
       player
+      timeline
     ]
   end
 

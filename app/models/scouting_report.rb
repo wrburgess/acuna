@@ -4,6 +4,7 @@ class ScoutingReport < ApplicationRecord
 
   belongs_to :scout
   belongs_to :player
+  belongs_to :timeline
 
   has_many :scouting_profile_reports, dependent: :destroy
   has_many :scouting_profiles, through: :scouting_profile_reports
@@ -65,9 +66,10 @@ class ScoutingReport < ApplicationRecord
   end
 
   def self.ransackable_associations(*)
-    %i[
+    %w[
       scout
       player
+      timeline
     ]
   end
 

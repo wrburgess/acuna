@@ -85,13 +85,10 @@
       <div class="d-flex align-items-center">
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Timeline</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><a class="nav-link" href="#">2023</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">2024</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">YTD</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">7 Days</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">14 Days</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">21 Days</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">30 Days</a></li>
+          <li class="nav-item"><%= link_to "Current", dashboard_admin_players_path, class: "nav-link active" %></li>
+          <% @timelines.each do |timeline| %>
+            <li class="nav-item"><%= link_to timeline.abbreviation.upcase, dashboard_admin_players_path(q: { timeline_id_eq: timeline.id }), class: "nav-link" %></li>
+          <% end %>
         </ul>
       </div>
     </div>

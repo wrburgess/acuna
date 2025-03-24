@@ -19,7 +19,7 @@ class Team < ApplicationRecord
   end
 
   def self.ransackable_associations(*)
-    %i[
+    %w[
       players
     ]
   end

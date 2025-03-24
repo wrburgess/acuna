@@ -1,4 +1,4 @@
-class Admin::PlayersController < AdminController
+class Admin::PositionsController < AdminController
   include Pagy::Backend
 
   before_action :authenticate_user!
@@ -8,30 +8,6 @@ class Admin::PlayersController < AdminController
     @q = controller_class.ransack(params[:q])
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
     @pagy, @instances = pagy(@q.result)
-    @instance = controller_class.new
-  end
-
-  def dashboard
-    authorize(policy_class)
-
-    @q = controller_class
-         .includes(:team, :roster, :level, :status, :tracking_lists)
-         .joins('LEFT JOIN stats ON stats.player_id = players.id AND stats.timeline_id = 1')
-         .joins('LEFT JOIN scouting_profiles ON scouting_profiles.player_id = players.id AND scouting_profiles.timeline_id = 1')
-         .joins('LEFT JOIN tracking_list_players ON tracking_list_players.player_id = players.id')
-         .select(
-           "players.id AS player_id, players.*, stats.*, scouting_profiles.*,
-            COALESCE(array_agg(tracking_list_players.tracking_list_id) FILTER (WHERE tracking_list_players.tracking_list_id IS NOT NULL), ARRAY[]::integer[]) AS aggregated_tracking_list_ids"
-         )
-         .group('players.id, stats.id, scouting_profiles.id')
-         .ransack(params[:q])
-    @q.sorts = controller_class.default_sort if @q.sorts.empty?
-    @pagy, @instances = pagy(@q.result)
-
-    @levels = Level.all.select_order
-    @statuses = Status.all.select_order
-    @timelines = Timeline.all.select_order
-    @tracking_lists = current_user.tracking_lists
     @instance = controller_class.new
   end
 
@@ -110,11 +86,11 @@ class Admin::PlayersController < AdminController
       SELECT
         *
       FROM
-        players
+        positions
       WHERE
-        players.archived_at IS NULL
+        positions.archived_at IS NULL
       ORDER BY
-        players.created_at ASC
+        positions.created_at ASC
     )
 
     @results = ActiveRecord::Base.connection.select_all(sql)
@@ -140,11 +116,11 @@ class Admin::PlayersController < AdminController
       SELECT
         *
       FROM
-        players
+        positions
       WHERE
-        players.id = #{instance.id}
+        positions.id = #{instance.id}
       ORDER BY
-        players.created_at ASC
+        positions.created_at ASC
     )
 
     @results = ActiveRecord::Base.connection.select_all(sql)
@@ -162,35 +138,31 @@ class Admin::PlayersController < AdminController
     )
   end
 
-  def profile
-    @instance = controller_class.includes(:scouting_reports).find(params[:id])
-    @scouting_reports = @instance.scouting_reports
-  end
-
   private
 
   def create_params
-    params.require(:player).permit(
-      :level_id,
+    params.require(:position).permit(
+      :abbreviation,
+      :alternate_names,
+      :archived_at,
+      :collective_values,
       :name,
       :notes,
-      :position,
-      :roster_id,
-      :status_id,
-      :team_id,
+      :position_type,
+      :weight,
     )
   end
 
   def update_params
-    params.require(:player).permit(
+    params.require(:position).permit(
+      :abbreviation,
+      :alternate_names,
       :archived_at,
-      :level_id,
+      :collective_values,
       :name,
       :notes,
-      :position,
-      :roster_id,
-      :status_id,
-      :team_id,
+      :position_type,
+      :weight,
     )
   end
 end
