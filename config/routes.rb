@@ -87,7 +87,12 @@ Rails.application.routes.draw do
     resources :system_permissions, concerns: [:copyable, :collection_exportable]
     resources :system_roles, concerns: :collection_exportable
     resources :teams, concerns: [:archivable, :copyable, :collection_exportable]
-    resources :tracking_lists, concerns: [:archivable, :copyable, :collection_exportable]
+    resources :tracking_lists, concerns: [:archivable, :copyable, :collection_exportable] do
+      member do
+        post :add_player
+        post :remove_player
+      end
+    end
 
     resources :users, concerns: :collection_exportable do
       member do

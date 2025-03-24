@@ -14,7 +14,7 @@
       <div class="d-flex align-items-center">
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Level</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><%= link_to "All Players", dashboard_admin_players_path, class: "nav-link active" %></li>
+          <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link active" %></li>
           <% Level.select_order.each do |level| %>
             <li class="nav-item"><%= link_to level.abbreviation, dashboard_admin_players_path(q: { level_id_eq: level.id }), class: "nav-link" %></li>
           <% end %>
@@ -28,10 +28,37 @@
       <div class="d-flex align-items-center">
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Status</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link active" %></li>
           <% Status.select_order.each do |status| %>
             <li class="nav-item"><%= link_to status.abbreviation, dashboard_admin_players_path(q: { status_id_eq: status.id }), class: "nav-link" %></li>
           <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Position Filter Navigation -->
+  <div class="card mb-3">
+    <div class="card-body py-2">
+      <div class="d-flex align-items-center">
+        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Position</div>
+        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+          <li class="nav-item"><%= link_to "BAT", dashboard_admin_players_path(q: { position_in: ['C', '1B', '3B', 'SS', '2B', 'LF', 'CF', 'RF', 'DH'] }), class: "nav-link active" %></li>
+          <li class="nav-item"><%= link_to "CA", dashboard_admin_players_path(q: { position_eq: 'C' }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "MI", dashboard_admin_players_path(q: { position_in: ['SS', '2B'] }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "CI", dashboard_admin_players_path(q: { position_in: ['1B', '3B'] }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "1B", dashboard_admin_players_path(q: { position_eq: '1B' }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "2B", dashboard_admin_players_path(q: { position_eq: '2B' }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "SS", dashboard_admin_players_path(q: { position_eq: 'SS' }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "3B", dashboard_admin_players_path(q: { position_eq: '3B' }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "OF", dashboard_admin_players_path(q: { position_in: ['LF', 'CF', 'RF'] }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "RF", dashboard_admin_players_path(q: { position_eq: 'RF' }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "CF", dashboard_admin_players_path(q: { position_eq: 'CF' }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "LF", dashboard_admin_players_path(q: { position_eq: 'LF' }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "DH", dashboard_admin_players_path(q: { position_eq: 'DH' }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "PIT", dashboard_admin_players_path(q: { position_in: ['SP', 'RP'] }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "SP", dashboard_admin_players_path(q: { position_eq: 'SP' }), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "RP", dashboard_admin_players_path(q: { position_eq: 'RP' }), class: "nav-link" %></li>
         </ul>
       </div>
     </div>
@@ -46,33 +73,6 @@
           <% current_user.tracking_lists.each do |list| %>
             <li class="nav-item"><%= link_to list.name, dashboard_admin_players_path(q: { tracking_list_players_tracking_list_id_eq: list.id }), class: "nav-link" %></li>
           <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Position Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Position</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><%= link_to "BAT", dashboard_admin_players_path(q: { position_in: ['SS', '2B'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "CA", dashboard_admin_players_path(q: { position_eq: 'C' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "MI", dashboard_admin_players_path(q: { position_in: ['SS', '2B'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "CI", dashboard_admin_players_path(q: { position_in: ['1B', '3B'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "1B", dashboard_admin_players_path(q: { position_eq: '1B' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "2B", dashboard_admin_players_path(q: { position_eq: '2B' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "SS", dashboard_admin_players_path(q: { position_eq: 'SS' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "3B", dashboard_admin_players_path(q: { position_eq: '3B' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "OF", dashboard_admin_players_path(q: { position_in: ['LF', 'CF', 'RF'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "RF", dashboard_admin_players_path(q: { position_eq: 'RF' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "CF", dashboard_admin_players_path(q: { position_eq: 'CF' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "LF", dashboard_admin_players_path(q: { position_eq: 'LF' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "DH", dashboard_admin_players_path(q: { position_eq: 'DH' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "PIT", dashboard_admin_players_path(q: { position_in: ['SP', 'RP', 'CL'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "SP", dashboard_admin_players_path(q: { position_eq: 'SP' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "RP", dashboard_admin_players_path(q: { position_eq: 'RP' }), class: "nav-link" %></li>
         </ul>
       </div>
     </div>
@@ -166,9 +166,22 @@
               <tr>
                 <td class="py-1" data-column-view-category="base">
                   <% current_user.tracking_lists.each do |tracking_list| %>
-                    <button type="button" class="btn btn-sm p-0" data-bs-toggle="tooltip" title="<%= instance.aggregated_tracking_list_ids.include?(tracking_list.id) ? "Remove from #{tracking_list.name}" : "Add to #{tracking_list.name}" %>">
-                      <i class="<%= instance.aggregated_tracking_list_ids.include?(tracking_list.id) ? "bi #{tracking_list.icon_name_on} text-warning" : "bi #{tracking_list.icon_name_off} text-muted" %>"></i>
-                    </button>
+                    <% is_tracked = instance.aggregated_tracking_list_ids.include?(tracking_list.id) %>
+                    <div data-controller="tracking-list-button"
+                         data-tracking-list-button-player-id-value="<%= instance.player_id %>"
+                         data-tracking-list-button-tracking-list-id-value="<%= tracking_list.id %>"
+                         data-tracking-list-button-is-tracked-value="<%= is_tracked %>"
+                         data-tracking-list-button-icon-on-value="<%= tracking_list.icon_name_on %>"
+                         data-tracking-list-button-icon-off-value="<%= tracking_list.icon_name_off %>">
+                      <button type="button" 
+                              class="btn btn-sm p-0" 
+                              data-bs-toggle="tooltip" 
+                              data-tracking-list-button-target="button"
+                              data-action="click->tracking-list-button#toggle"
+                              title="<%= is_tracked ? "Remove from #{tracking_list.name}" : "Add to #{tracking_list.name}" %>">
+                        <i class="<%= is_tracked ? "bi #{tracking_list.icon_name_on} text-warning" : "bi #{tracking_list.icon_name_off} text-muted" %>"></i>
+                      </button>
+                    </div>
                   <% end %>
                 </td>
                 <td class="py-1" data-column-view-category="base">

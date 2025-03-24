@@ -10,3 +10,6 @@ application.register("form-validation", FormValidationController)
 
 import ColumnViewController from "./column_view_controller"
 application.register("column-view", ColumnViewController)
+
+import TrackingListButtonController from "./tracking_list_button_controller"
+application.register("tracking-list-button", TrackingListButtonController)
