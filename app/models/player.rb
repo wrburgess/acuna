@@ -19,6 +19,10 @@ class Player < ApplicationRecord
   scope :by_status, ->(status) { where(status: status) }
   scope :by_level, ->(level) { where(level: level) }
 
+  ransacker :player_status_weight do
+    Arel.sql('statuses.weight')
+  end
+
   def self.ransackable_attributes(*)
     %w[
       archived_at
@@ -65,6 +69,8 @@ class Player < ApplicationRecord
       pit_sel
       bat_ctrl
       hard_hit
+      player_status_weight
+      level_weight
     ]
   end
 

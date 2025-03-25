@@ -201,9 +201,9 @@
             <tr class="bg-light">
               <th class="py-1" data-column-view-category="base">Track</th>
               <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :last_name, "Player", default_order: :asc) %></th>
-              <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :roster_id, "Roster") %></th>
+              <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :roster_name, "Roster") %></th>
               <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :level_weight, "Level") %></th>
-              <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :status_weight, "Status") %></th>
+              <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :player_status_weight, "Status") %></th>
               <th class="py-1 border-end" data-column-view-category="base"><%= player_sort_link(@q, :age, "Age") %></th>
               <th class="py-1" data-column-view-category="stats scoring"><%= player_sort_link(@q, :ops, "OPS") %></th>
               <th class="py-1" data-column-view-category="stats scoring"><%= player_sort_link(@q, :rbi, "RBI") %></th>
@@ -273,8 +273,8 @@
                 <td class="py-1" data-column-view-category="base">
                   <%= instance.roster ? link_to(instance.roster&.abbreviation, polymorphic_path([:admin, instance.roster])) : 'FA' %>
                 </td>
-                <td class="py-1" data-column-view-category="base"><%= instance.level.abbreviation %></td>
-                <td class="py-1" data-column-view-category="base"><%= instance.status.abbreviation %></td>
+                <td class="py-1" data-column-view-category="base"><%= instance.level_abbreviation %></td>
+                <td class="py-1" data-column-view-category="base"><%= instance.status_abbreviation %></td>
                 <td class="py-1 border-end" data-column-view-category="base"><%= instance.age.ceil %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= format_stat(instance.ops) %></td>
                 <td class="py-1" data-column-view-category="stats scoring"><%= instance.rbi.ceil %></td>

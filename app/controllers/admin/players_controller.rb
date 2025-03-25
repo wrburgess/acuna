@@ -16,13 +16,23 @@ class Admin::PlayersController < AdminController
 
     @q = controller_class
          .select([
-           'players.*',
+           'players.id AS player_id',
+           'players.first_name',
+           'players.last_name',
+           'players.position',
+           'players.eligible_positions',
+           'players.age',
+           'players.team_id',
+           'players.roster_id',
+           'players.level_id',
+           'players.status_id',
            'stats.hr',
            'stats.ops',
            'stats.rbi',
            'stats.runs',
            'stats.nsb',
            'stats.errs',
+           'stats.wrc_plus',
            'stats.pa',
            'stats.ab',
            'stats.hits',
@@ -36,15 +46,52 @@ class Admin::PlayersController < AdminController
            'stats.obp',
            'stats.slg',
            'stats.war',
-           'stats.wrc_plus',
-           'scouting_profiles.*',
+           'scouting_profiles.risk',
+           'scouting_profiles.eta',
+           'scouting_profiles.ath_ovr_rnk',
+           'scouting_profiles.espn_ovr_rnk',
+           'scouting_profiles.fg_ovr_rnk',
+           'scouting_profiles.cbs_ovr_rnk',
+           'scouting_profiles.pl_ovr_rnk',
+           'scouting_profiles.espn_fv',
+           'scouting_profiles.fg_fv',
+           'scouting_profiles.game_pwr_pres',
+           'scouting_profiles.game_pwr_proj',
+           'scouting_profiles.raw_pwr_pres',
+           'scouting_profiles.raw_pwr_proj',
+           'scouting_profiles.spd_pres',
+           'scouting_profiles.spd_proj',
+           'scouting_profiles.fld_pres',
+           'scouting_profiles.fld_proj',
+           'scouting_profiles.pit_sel',
+           'scouting_profiles.bat_ctrl',
+           'scouting_profiles.hard_hit',
+           'rosters.name AS roster_name',
+           'rosters.abbreviation AS roster_abbreviation',
+           'teams.name AS team_name',
+           'teams.abbreviation AS team_abbreviation',
+           'levels.abbreviation AS level_abbreviation',
+           'levels.weight AS level_weight',
+           'statuses.abbreviation AS status_abbreviation',
+           'statuses.weight AS player_status_weight',
            'COALESCE(array_agg(tracking_list_players.tracking_list_id) FILTER (WHERE tracking_list_players.tracking_list_id IS NOT NULL), ARRAY[]::integer[]) AS aggregated_tracking_list_ids'
          ].join(', '))
-         .includes(:team, :roster, :level, :status)
+         .joins('LEFT JOIN rosters ON rosters.id = players.roster_id')
+         .joins('LEFT JOIN teams ON teams.id = players.team_id')
+         .joins('LEFT JOIN levels ON levels.id = players.level_id')
+         .joins('LEFT JOIN statuses ON statuses.id = players.status_id')
          .joins('LEFT JOIN stats ON stats.player_id = players.id AND stats.timeline_id = 1')
          .joins('LEFT JOIN scouting_profiles ON scouting_profiles.player_id = players.id AND scouting_profiles.timeline_id = 1')
          .joins('LEFT JOIN tracking_list_players ON tracking_list_players.player_id = players.id')
-         .group('players.id, stats.id, scouting_profiles.id')
+         .group([
+           'players.id',
+           'stats.id',
+           'scouting_profiles.id',
+           'rosters.id', 'rosters.name', 'rosters.abbreviation',
+           'teams.id', 'teams.name', 'teams.abbreviation',
+           'levels.id', 'levels.abbreviation', 'levels.weight',
+           'statuses.id', 'statuses.abbreviation', 'statuses.weight'
+         ].join(', '))
          .ransack(params[:q])
 
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
@@ -52,21 +99,6 @@ class Admin::PlayersController < AdminController
     puts "Sort params: #{params[:q]&.[](:s)}"
     puts "SQL: #{@q.result.to_sql}"
     @pagy, @instances = pagy(@q.result)
-
-    # @q = controller_class
-    #      .includes(:team, :roster, :level, :status, :tracking_lists)
-    #      .joins('LEFT JOIN stats ON stats.player_id = players.id AND stats.timeline_id = 1')
-    #      .joins('LEFT JOIN scouting_profiles ON scouting_profiles.player_id = players.id AND scouting_profiles.timeline_id = 1')
-    #      .joins('LEFT JOIN tracking_list_players ON tracking_list_players.player_id = players.id')
-    #      .select(
-    #        "players.id AS player_id, players.*, stats.*, stats.hr As stats_hr, scouting_profiles.*,
-    #         COALESCE(array_agg(tracking_list_players.tracking_list_id) FILTER (WHERE tracking_list_players.tracking_list_id IS NOT NULL), ARRAY[]::integer[]) AS aggregated_tracking_list_ids"
-    #      )
-    #      .group('players.id, stats.id, scouting_profiles.id')
-    #      .ransack(params[:q])
-
-    # @q.sorts = controller_class.default_sort if @q.sorts.empty?
-    # @pagy, @instances = pagy(@q.result)
 
     @levels = Level.all.select_order
     @statuses = Status.all.select_order
