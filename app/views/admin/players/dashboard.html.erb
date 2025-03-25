@@ -14,9 +14,18 @@
       <div class="d-flex align-items-center">
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Level</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link active" %></li>
+          <li class="nav-item">
+            <% all_level_params = params[:q] ? params[:q].to_unsafe_h.except(:level_id_eq) : {} %>
+            <%= link_to "All", dashboard_admin_players_path(q: all_level_params), 
+                  class: "nav-link #{'active' unless params[:q] && params[:q][:level_id_eq]}" %>
+          </li>
           <% @levels.each do |level| %>
-            <li class="nav-item"><%= link_to level.abbreviation, dashboard_admin_players_path(q: { level_id_eq: level.id }), class: "nav-link" %></li>
+            <li class="nav-item">
+              <% current_params = params[:q] ? params[:q].to_unsafe_h.dup : {} %>
+              <% current_params[:level_id_eq] = level.id %>
+              <%= link_to level.abbreviation, dashboard_admin_players_path(q: current_params), 
+                    class: "nav-link #{'active' if params[:q] && params[:q][:level_id_eq].to_i == level.id}" %>
+            </li>
           <% end %>
         </ul>
       </div>
@@ -29,9 +38,18 @@
       <div class="d-flex align-items-center">
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Status</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><%= link_to "All", dashboard_admin_players_path, class: "nav-link active" %></li>
+          <li class="nav-item">
+            <% all_status_params = params[:q] ? params[:q].to_unsafe_h.except(:status_id_eq) : {} %>
+            <%= link_to "All", dashboard_admin_players_path(q: all_status_params), 
+                  class: "nav-link #{'active' unless params[:q] && params[:q][:status_id_eq]}" %>
+          </li>
           <% @statuses.each do |status| %>
-            <li class="nav-item"><%= link_to status.abbreviation, dashboard_admin_players_path(q: { status_id_eq: status.id }), class: "nav-link" %></li>
+            <li class="nav-item">
+              <% current_params = params[:q] ? params[:q].to_unsafe_h.dup : {} %>
+              <% current_params[:status_id_eq] = status.id %>
+              <%= link_to status.abbreviation, dashboard_admin_players_path(q: current_params), 
+                    class: "nav-link #{'active' if params[:q] && params[:q][:status_id_eq].to_i == status.id}" %>
+            </li>
           <% end %>
         </ul>
       </div>
@@ -44,22 +62,41 @@
       <div class="d-flex align-items-center">
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Position</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><%= link_to "BAT", dashboard_admin_players_path(q: { position_in: ['SS', '2B'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "CA", dashboard_admin_players_path(q: { position_eq: 'C' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "MI", dashboard_admin_players_path(q: { position_in: ['SS', '2B'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "CI", dashboard_admin_players_path(q: { position_in: ['1B', '3B'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "1B", dashboard_admin_players_path(q: { position_eq: '1B' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "2B", dashboard_admin_players_path(q: { position_eq: '2B' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "SS", dashboard_admin_players_path(q: { position_eq: 'SS' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "3B", dashboard_admin_players_path(q: { position_eq: '3B' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "OF", dashboard_admin_players_path(q: { position_in: ['LF', 'CF', 'RF'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "RF", dashboard_admin_players_path(q: { position_eq: 'RF' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "CF", dashboard_admin_players_path(q: { position_eq: 'CF' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "LF", dashboard_admin_players_path(q: { position_eq: 'LF' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "DH", dashboard_admin_players_path(q: { position_eq: 'DH' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "PIT", dashboard_admin_players_path(q: { position_in: ['SP', 'RP', 'CL'] }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "SP", dashboard_admin_players_path(q: { position_eq: 'SP' }), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "RP", dashboard_admin_players_path(q: { position_eq: 'RP' }), class: "nav-link" %></li>
+          <% positions = [
+            { name: "BAT", value: { position_in: ['C', '1B', '3B', 'SS', '2B', 'LF', 'CF', 'RF', 'DH'] } },
+            { name: "CA", value: { position_eq: 'C' } },
+            { name: "MI", value: { position_in: ['SS', '2B'] } },
+            { name: "CI", value: { position_in: ['1B', '3B'] } },
+            { name: "1B", value: { position_eq: '1B' } },
+            { name: "2B", value: { position_eq: '2B' } },
+            { name: "SS", value: { position_eq: 'SS' } },
+            { name: "3B", value: { position_eq: '3B' } },
+            { name: "OF", value: { position_in: ['LF', 'CF', 'RF'] } },
+            { name: "RF", value: { position_eq: 'RF' } },
+            { name: "CF", value: { position_eq: 'CF' } },
+            { name: "LF", value: { position_eq: 'LF' } },
+            { name: "DH", value: { position_eq: 'DH' } },
+            { name: "PIT", value: { position_in: ['SP', 'RP', 'CL'] } },
+            { name: "SP", value: { position_eq: 'SP' } },
+            { name: "RP", value: { position_eq: 'RP' } }
+          ] %>
+
+          <% positions.each do |position| %>
+            <li class="nav-item">
+              <% current_params = params[:q] ? params[:q].to_unsafe_h.except(:position_in, :position_eq).dup : {} %>
+              <% position[:value].each { |key, val| current_params[key] = val } %>
+              <% is_active = false %>
+              <% if params[:q] %>
+                <% if position[:value][:position_eq] && params[:q][:position_eq] == position[:value][:position_eq] %>
+                  <% is_active = true %>
+                <% elsif position[:value][:position_in] && params[:q][:position_in] == position[:value][:position_in] %>
+                  <% is_active = true %>
+                <% end %>
+              <% end %>
+              <%= link_to position[:name], dashboard_admin_players_path(q: current_params), 
+                    class: "nav-link #{'active' if is_active}" %>
+            </li>
+          <% end %>
         </ul>
       </div>
     </div>
@@ -71,8 +108,19 @@
       <div class="d-flex align-items-center">
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Lists</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+          <li class="nav-item">
+            <% all_list_params = params[:q] ? params[:q].to_unsafe_h.except(:tracking_list_players_tracking_list_id_eq) : {} %>
+            <%= link_to "None", dashboard_admin_players_path(q: all_list_params), 
+              class: "nav-link #{'active' unless params[:q] && params[:q][:tracking_list_players_tracking_list_id_eq]}" %>
+          </li>
           <% current_user.tracking_lists.each do |list| %>
-            <li class="nav-item"><%= link_to list.name, dashboard_admin_players_path(q: { tracking_list_players_tracking_list_id_eq: list.id }), class: "nav-link" %></li>
+            <% current_params = params[:q] ? params[:q].to_unsafe_h.except(:tracking_list_players_tracking_list_id_eq).dup : {} %>
+            <% current_params[:tracking_list_players_tracking_list_id_eq] = list.id %>
+            <% is_active = params[:q] && params[:q][:tracking_list_players_tracking_list_id_eq].to_i == list.id %>
+            <li class="nav-item">
+              <%= link_to list.name, dashboard_admin_players_path(q: current_params), 
+                    class: "nav-link #{'active' if is_active}" %>
+            </li>
           <% end %>
         </ul>
       </div>
@@ -85,9 +133,18 @@
       <div class="d-flex align-items-center">
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Timeline</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><%= link_to "Current", dashboard_admin_players_path, class: "nav-link active" %></li>
+          <li class="nav-item">
+            <% timeline_params = params[:q] ? params[:q].to_unsafe_h.except(:timeline_id_eq) : {} %>
+            <%= link_to "Current", dashboard_admin_players_path(q: timeline_params), 
+                  class: "nav-link #{'active' unless params[:q] && params[:q][:timeline_id_eq]}" %>
+          </li>
           <% @timelines.each do |timeline| %>
-            <li class="nav-item"><%= link_to timeline.abbreviation.upcase, dashboard_admin_players_path(q: { timeline_id_eq: timeline.id }), class: "nav-link" %></li>
+            <% current_params = params[:q] ? params[:q].to_unsafe_h.dup : {} %>
+            <% current_params[:timeline_id_eq] = timeline.id %>
+            <li class="nav-item">
+              <%= link_to timeline.abbreviation.upcase, dashboard_admin_players_path(q: current_params), 
+                    class: "nav-link #{'active' if params[:q] && params[:q][:timeline_id_eq].to_i == timeline.id}" %>
+            </li>
           <% end %>
         </ul>
       </div>
@@ -100,9 +157,36 @@
       <div class="d-flex align-items-center" data-controller="column-view">
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Views</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item"><a class="nav-link active" href="#" data-action="click->column-view#showStats" data-column-view-target="statsButton">Stats</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" data-action="click->column-view#showScoring" data-column-view-target="scoringButton">Scoring</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" data-action="click->column-view#showScouting" data-column-view-target="scoutingButton">Scouting</a></li>
+          <% view = params[:view] || 'stats' %>
+          <% q_params = params[:q]&.to_unsafe_h || {} %>
+          
+          <li class="nav-item">
+            <%= link_to "Stats", 
+                dashboard_admin_players_path(view: 'stats', q: q_params), 
+                class: "nav-link #{view == 'stats' ? 'active' : ''}", 
+                data: { 
+                  action: "click->column-view#showStats",
+                  column_view_target: "statsButton" 
+                } %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Scoring", 
+                dashboard_admin_players_path(view: 'scoring', q: q_params), 
+                class: "nav-link #{view == 'scoring' ? 'active' : ''}", 
+                data: { 
+                  action: "click->column-view#showScoring",
+                  column_view_target: "scoringButton" 
+                } %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Scouting", 
+                dashboard_admin_players_path(view: 'scouting', q: q_params), 
+                class: "nav-link #{view == 'scouting' ? 'active' : ''}", 
+                data: { 
+                  action: "click->column-view#showScouting",
+                  column_view_target: "scoutingButton" 
+                } %>
+          </li>
         </ul>
       </div>
     </div>
@@ -116,47 +200,47 @@
           <thead>
             <tr class="bg-light">
               <th class="py-1" data-column-view-category="base">Track</th>
-              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :last_name, "Player", default_order: :asc) %></th>
-              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :roster_id, "Roster") %></th>
-              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :level_weight, "Level") %></th>
-              <th class="py-1" data-column-view-category="base"><%= sort_link([:admin, @q], :status_weight, "Status") %></th>
-              <th class="py-1 border-end" data-column-view-category="base"><%= sort_link([:admin, @q], :age, "Age") %></th>
-              <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :ops, "OPS") %></th>
-              <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :rbi, "RBI") %></th>
-              <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :hr, "HR") %></th>
-              <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :r, "R") %></th>
-              <th class="py-1" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :nsb, "NSB") %></th>
-              <th class="py-1 border-end" data-column-view-category="stats scoring"><%= sort_link([:admin, @q], :errs, "ER") %></th>
-              <th class="py-1 border-end" data-column-view-category="stats scouting"><%= sort_link([:admin, @q], :wrc_plus, "wRC+") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :pa, "PA") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :ab, "AB") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :h, "H") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :bb, "BB") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :bb_pct, "BB%") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :k, "K") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :k_pct, "K%") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :sb, "SB") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :cs, "CS") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :ba, "BA") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :obp, "OBP") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :slg, "SLG") %></th>
-              <th class="py-1" data-column-view-category="stats"><%= sort_link([:admin, @q], :war, "WAR") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :risk, "RISK") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :eta, "ETA") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :ath_ovr_rnk, "ATH") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :espn_ovr_rnk, "ESPN") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :fg_ovr_rnk, "FG") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :cbs_ovr_rnk, "CBS") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :pl_ovr_rnk, "PL") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :fg_fv, "FGFV") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :espn_fv, "EFV") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :game_pwr_proj, "GPW") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :raw_pwr_proj, "RPW") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :spd_proj, "SPD") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :fld_proj, "FLD") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :pit_sel, "PSEL") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :bat_ctrl, "BCTL") %></th>
-              <th class="py-1" data-column-view-category="scouting"><%= sort_link([:admin, @q], :hard_hit, "HH%") %></th>
+              <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :last_name, "Player", default_order: :asc) %></th>
+              <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :roster_id, "Roster") %></th>
+              <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :level_weight, "Level") %></th>
+              <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :status_weight, "Status") %></th>
+              <th class="py-1 border-end" data-column-view-category="base"><%= player_sort_link(@q, :age, "Age") %></th>
+              <th class="py-1" data-column-view-category="stats scoring"><%= player_sort_link(@q, :ops, "OPS") %></th>
+              <th class="py-1" data-column-view-category="stats scoring"><%= player_sort_link(@q, :rbi, "RBI") %></th>
+              <th class="py-1" data-column-view-category="stats scoring"><%= player_sort_link(@q, :hr, "HR") %></th>
+              <th class="py-1" data-column-view-category="stats scoring"><%= player_sort_link(@q, :r, "R") %></th>
+              <th class="py-1" data-column-view-category="stats scoring"><%= player_sort_link(@q, :nsb, "NSB") %></th>
+              <th class="py-1 border-end" data-column-view-category="stats scoring"><%= player_sort_link(@q, :errs) %></th>
+              <th class="py-1 border-end" data-column-view-category="stats scouting"><%= player_sort_link(@q, :wrc_plus, "wRC+") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :pa, "PA") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :ab, "AB") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :h, "H") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :bb, "BB") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :bb_pct, "BB%") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :k, "K") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :k_pct, "K%") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :sb, "SB") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :cs, "CS") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :ba, "BA") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :obp, "OBP") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :slg, "SLG") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :war, "WAR") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :risk, "RISK") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :eta, "ETA") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :ath_ovr_rnk, "ATH") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :espn_ovr_rnk, "ESPN") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :fg_ovr_rnk, "FG") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :cbs_ovr_rnk, "CBS") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :pl_ovr_rnk, "PL") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :fg_fv, "FGFV") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :espn_fv, "EFV") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :game_pwr_proj, "GPW") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :raw_pwr_proj, "RPW") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :spd_proj, "SPD") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :fld_proj, "FLD") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :pit_sel, "PSEL") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :bat_ctrl, "BCTL") %></th>
+              <th class="py-1" data-column-view-category="scouting"><%= player_sort_link(@q, :hard_hit, "HH%") %></th>
             </tr>
           </thead>
           <tbody>

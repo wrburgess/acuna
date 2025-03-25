@@ -40,4 +40,13 @@ module ApplicationHelper
   def format_stat(val)
     number_with_precision(val, precision: 3).sub(/^0/, '')
   end
+
+  def player_sort_link(q, attribute, label = nil, html_options = {})
+    sort_link(
+      [:admin, q],
+      attribute,
+      label,
+      { view: params[:view] || 'stats' }.merge(html_options)
+    )
+  end
 end

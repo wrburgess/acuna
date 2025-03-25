@@ -4,26 +4,29 @@ export default class extends Controller {
   static targets = ["statsButton", "scoringButton", "scoutingButton"]
 
   connect() {
-    // Show stats view by default
-    this.showStats()
+    const view = new URLSearchParams(window.location.search).get('view') || 'stats'
+    this[`show${view.charAt(0).toUpperCase() + view.slice(1)}`]()
   }
 
   showStats(event) {
     if (event) event.preventDefault()
     this.toggleActiveButton('stats')
     this.showColumns('stats')
+    this.updateUrl('stats')
   }
 
   showScoring(event) {
     if (event) event.preventDefault()
     this.toggleActiveButton('scoring')
     this.showColumns('scoring')
+    this.updateUrl('scoring')
   }
 
   showScouting(event) {
     if (event) event.preventDefault()
     this.toggleActiveButton('scouting')
     this.showColumns('scouting')
+    this.updateUrl('scouting')
   }
 
   toggleActiveButton(activeView) {
@@ -33,7 +36,6 @@ export default class extends Controller {
   }
 
   showColumns(activeView) {
-    // Always show base columns
     const allColumnElements = document.querySelectorAll('[data-column-view-category]')
     
     // First hide all non-base columns
@@ -55,5 +57,15 @@ export default class extends Controller {
         element.style.display = ''
       }
     })
+  }
+
+  updateUrl(view) {
+    const url = new URL(window.location.href)
+    const params = new URLSearchParams(url.search)
+    params.set('view', view)
+    
+    // Preserve existing query parameters
+    const newUrl = `${url.pathname}?${params.toString()}`
+    window.history.pushState({}, '', newUrl)
   }
 }

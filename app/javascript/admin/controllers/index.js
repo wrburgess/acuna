@@ -1,7 +1,5 @@
 import { application } from "../../controllers/application"
 
-// console.log("Admin JavaScript bundle loaded")
-
 import TomSelectController from "./tom_select_controller"
 application.register("tom-select", TomSelectController)
 

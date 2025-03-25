@@ -35,6 +35,36 @@ class Player < ApplicationRecord
       status_id
       team_id
       updated_at
+      age
+      hr
+      ops
+      rbi
+      runs
+      nsb
+      errs
+      wrc_plus
+      pa
+      ab
+      hits
+      bb
+      bb_pct
+      k
+      k_pct
+      sb
+      cs
+      bavg
+      obp
+      slg
+      war
+      risk
+      eta
+      game_pwr_proj
+      raw_pwr_proj
+      spd_proj
+      fld_proj
+      pit_sel
+      bat_ctrl
+      hard_hit
     ]
   end
 
@@ -47,6 +77,20 @@ class Player < ApplicationRecord
       tracking_list_players
       tracking_lists
     ]
+  end
+
+  # Stats ransackers
+  %w[hr ops rbi runs nsb errs pa ab hits bb bb_pct k k_pct sb cs bavg obp slg war wrc_plus].each do |stat|
+    ransacker stat.to_sym do
+      Arel.sql("stats.#{stat}")
+    end
+  end
+
+  # Scouting ransackers
+  %w[risk eta game_pwr_proj raw_pwr_proj spd_proj fld_proj pit_sel bat_ctrl hard_hit].each do |attr|
+    ransacker attr.to_sym do
+      Arel.sql("scouting_profiles.#{attr}")
+    end
   end
 
   def self.options_for_select

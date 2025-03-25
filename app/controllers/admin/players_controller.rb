@@ -15,18 +15,58 @@ class Admin::PlayersController < AdminController
     authorize(policy_class)
 
     @q = controller_class
-         .includes(:team, :roster, :level, :status, :tracking_lists)
+         .select([
+           'players.*',
+           'stats.hr',
+           'stats.ops',
+           'stats.rbi',
+           'stats.runs',
+           'stats.nsb',
+           'stats.errs',
+           'stats.pa',
+           'stats.ab',
+           'stats.hits',
+           'stats.bb',
+           'stats.bb_pct',
+           'stats.k',
+           'stats.k_pct',
+           'stats.sb',
+           'stats.cs',
+           'stats.bavg',
+           'stats.obp',
+           'stats.slg',
+           'stats.war',
+           'stats.wrc_plus',
+           'scouting_profiles.*',
+           'COALESCE(array_agg(tracking_list_players.tracking_list_id) FILTER (WHERE tracking_list_players.tracking_list_id IS NOT NULL), ARRAY[]::integer[]) AS aggregated_tracking_list_ids'
+         ].join(', '))
+         .includes(:team, :roster, :level, :status)
          .joins('LEFT JOIN stats ON stats.player_id = players.id AND stats.timeline_id = 1')
          .joins('LEFT JOIN scouting_profiles ON scouting_profiles.player_id = players.id AND scouting_profiles.timeline_id = 1')
          .joins('LEFT JOIN tracking_list_players ON tracking_list_players.player_id = players.id')
-         .select(
-           "players.id AS player_id, players.*, stats.*, scouting_profiles.*,
-            COALESCE(array_agg(tracking_list_players.tracking_list_id) FILTER (WHERE tracking_list_players.tracking_list_id IS NOT NULL), ARRAY[]::integer[]) AS aggregated_tracking_list_ids"
-         )
          .group('players.id, stats.id, scouting_profiles.id')
          .ransack(params[:q])
+
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
+
+    puts "Sort params: #{params[:q]&.[](:s)}"
+    puts "SQL: #{@q.result.to_sql}"
     @pagy, @instances = pagy(@q.result)
+
+    # @q = controller_class
+    #      .includes(:team, :roster, :level, :status, :tracking_lists)
+    #      .joins('LEFT JOIN stats ON stats.player_id = players.id AND stats.timeline_id = 1')
+    #      .joins('LEFT JOIN scouting_profiles ON scouting_profiles.player_id = players.id AND scouting_profiles.timeline_id = 1')
+    #      .joins('LEFT JOIN tracking_list_players ON tracking_list_players.player_id = players.id')
+    #      .select(
+    #        "players.id AS player_id, players.*, stats.*, stats.hr As stats_hr, scouting_profiles.*,
+    #         COALESCE(array_agg(tracking_list_players.tracking_list_id) FILTER (WHERE tracking_list_players.tracking_list_id IS NOT NULL), ARRAY[]::integer[]) AS aggregated_tracking_list_ids"
+    #      )
+    #      .group('players.id, stats.id, scouting_profiles.id')
+    #      .ransack(params[:q])
+
+    # @q.sorts = controller_class.default_sort if @q.sorts.empty?
+    # @pagy, @instances = pagy(@q.result)
 
     @levels = Level.all.select_order
     @statuses = Status.all.select_order
