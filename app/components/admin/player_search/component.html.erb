@@ -1,0 +1,21 @@
+<div class="player-search-container mx-2" data-controller="player-search">
+  <div class="input-group">
+    <input 
+      type="text" 
+      class="form-control" 
+      placeholder="Search by player name..." 
+      aria-label="Search players" 
+      data-player-search-target="input"
+      data-action="input->player-search#search">
+    <span class="input-group-text">
+      <i class="bi bi-search"></i>
+    </span>
+  </div>
+  <div class="position-relative">
+    <div 
+      class="dropdown-menu w-100 player-search-results d-none" 
+      data-player-search-target="results">
+      <!-- Results will be populated here -->
+    </div>
+  </div>
+</div>
