@@ -271,7 +271,7 @@
                   <% end %>
                 </td>
                 <td class="py-1" data-column-view-category="base">
-                  <%= link_to(instance.full_description, admin_player_path(id: instance.player_id), class: "text-decoration-none") %>
+                  <%= link_to(instance.full_description, profile_admin_player_path(id: instance.player_id), class: "text-decoration-none") %>
                 </td>
                 <td class="py-1" data-column-view-category="base">
                   <%= instance.roster ? link_to(instance.roster&.abbreviation, polymorphic_path([:admin, instance.roster])) : 'FA' %>
