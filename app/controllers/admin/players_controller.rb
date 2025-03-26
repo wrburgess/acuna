@@ -234,8 +234,38 @@ class Admin::PlayersController < AdminController
   end
 
   def profile
+    authorize(policy_class)
+
     @instance = controller_class.includes(:scouting_reports).find(params[:id])
     @scouting_reports = @instance.scouting_reports
+  end
+
+  def search
+    authorize(policy_class)
+
+    return render json: [] if params[:q].blank? || params[:q].length < 2
+
+    @players = Player.includes(:team, :roster)
+                     .where('first_name ILIKE ? OR last_name ILIKE ?',
+                            "%#{params[:q]}%", "%#{params[:q]}%")
+                     .order(last_name: :asc)
+                     .limit(15)
+
+    result = @players.map do |player|
+      roster_name = player.roster&.abbreviation || 'FA'
+      team_name = player.team&.abbreviation || ''
+      positions = player.eligible_positions&.join(', ') || player.position
+
+      formatted_name = "#{player.last_name}, #{player.first_name} (#{positions}) #{team_name} / #{roster_name}"
+
+      {
+        id: player.id,
+        formatted_name: formatted_name,
+        profile_url: profile_admin_player_path(id: player.id)
+      }
+    end
+
+    render json: result
   end
 
   private

@@ -11,3 +11,6 @@ application.register("column-view", ColumnViewController)
 
 import TrackingListPlayerController from "./tracking_list_player_controller"
 application.register("tracking-list-player", TrackingListPlayerController)
+
+import PlayerSearchController from "./player_search_controller"
+application.register("player-search", PlayerSearchController)

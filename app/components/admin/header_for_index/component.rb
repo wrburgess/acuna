@@ -7,7 +7,8 @@ class Admin::HeaderForIndex::Component < ApplicationComponent
     upload_new_button: false,
     upload_file_button: false,
     collection_export_xlsx_button: false,
-    show_filtering: false
+    show_filtering: false,
+    search_box: false
   )
     @instance = instance
     @action = action
@@ -17,6 +18,7 @@ class Admin::HeaderForIndex::Component < ApplicationComponent
     @upload_file_button = upload_file_button
     @collection_export_xlsx_button = collection_export_xlsx_button
     @show_filtering = show_filtering
+    @search_box = search_box
   end
 
   def headline

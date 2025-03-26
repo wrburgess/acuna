@@ -30,3 +30,18 @@ thead.table-dark a {
     width: 15%;
   }
 }
+
+.player-search-container {
+  min-width: 300px;
+  position: relative;
+}
+
+.player-search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  max-height: 400px;
+  overflow-y: auto;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
