@@ -4,15 +4,15 @@ export default class extends Controller {
   static targets = ["input", "results"]
   
   connect() {
-    // Close dropdown when clicking outside
-    document.addEventListener('click', this.closeDropdown.bind(this))
+    console.log("Player search controller connected")
+    document.addEventListener('click', this.handleClickOutside.bind(this))
   }
   
   disconnect() {
-    document.removeEventListener('click', this.closeDropdown.bind(this))
+    document.removeEventListener('click', this.handleClickOutside.bind(this))
   }
   
-  closeDropdown(event) {
+  handleClickOutside(event) {
     if (!this.element.contains(event.target)) {
       this.resultsTarget.classList.add('d-none')
     }
@@ -20,15 +20,23 @@ export default class extends Controller {
   
   search() {
     const query = this.inputTarget.value.trim()
+    console.log("Searching for:", query)
     
     if (query.length < 2) {
       this.resultsTarget.classList.add('d-none')
       return
     }
     
+    // Add debug log
+    console.log(`Fetching from: /admin/players/search?q=${encodeURIComponent(query)}`)
+    
     fetch(`/admin/players/search?q=${encodeURIComponent(query)}`)
-      .then(response => response.json())
+      .then(response => {
+        console.log("Response status:", response.status)
+        return response.json()
+      })
       .then(data => {
+        console.log("Received data:", data)
         this.resultsTarget.innerHTML = ''
         
         if (data.length === 0) {
@@ -47,6 +55,7 @@ export default class extends Controller {
         }
         
         this.resultsTarget.classList.remove('d-none')
+        this.resultsTarget.classList.add('d-block')
       })
       .catch(error => {
         console.error('Error searching players:', error)

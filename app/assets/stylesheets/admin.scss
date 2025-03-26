@@ -32,7 +32,7 @@ thead.table-dark a {
 }
 
 .player-search-container {
-  min-width: 300px;
+  min-width: 400px;
   position: relative;
 }
 
@@ -41,7 +41,21 @@ thead.table-dark a {
   top: 100%;
   left: 0;
   z-index: 1000;
+  width: 100%;
   max-height: 400px;
   overflow-y: auto;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 0.25rem;
+  background-color: rgb(236, 237, 190);
+}
+
+.player-search-results .dropdown-item {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  white-space: normal;
+}
+
+.player-search-results .dropdown-item:hover {
+  background-color: #f8f9fa;
 }

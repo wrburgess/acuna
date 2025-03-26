@@ -241,7 +241,7 @@ class Admin::PlayersController < AdminController
   end
 
   def search
-    authorize(policy_class)
+    authorize(Admin::PlayerPolicy)
 
     return render json: [] if params[:q].blank? || params[:q].length < 2
 
@@ -251,17 +251,20 @@ class Admin::PlayersController < AdminController
                      .order(last_name: :asc)
                      .limit(15)
 
+    # Add this line for debugging
+    Rails.logger.debug "Search query: #{params[:q]}, Found: #{@players.count} players"
+
     result = @players.map do |player|
       roster_name = player.roster&.abbreviation || 'FA'
       team_name = player.team&.abbreviation || ''
-      positions = player.eligible_positions&.join(', ') || player.position
+      positions = player.eligible_positions.present? ? player.eligible_positions.first : 'U'
 
       formatted_name = "#{player.last_name}, #{player.first_name} (#{positions}) #{team_name} / #{roster_name}"
 
       {
         id: player.id,
         formatted_name: formatted_name,
-        profile_url: profile_admin_player_path(id: player.id)
+        profile_url: profile_admin_player_path(player)
       }
     end
 
