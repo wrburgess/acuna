@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_24_143416) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_26_182500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -496,6 +496,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_143416) do
     t.decimal "xbh", precision: 10, scale: 3
     t.decimal "bavg", precision: 10, scale: 3
     t.bigint "timeline_id"
+    t.decimal "k_9", precision: 10, scale: 3
+    t.decimal "bb_9", precision: 10, scale: 3
+    t.decimal "hr_9", precision: 10, scale: 3
+    t.decimal "lob_pct", precision: 10, scale: 3
+    t.decimal "gb_pct", precision: 10, scale: 3
+    t.decimal "fip", precision: 10, scale: 3
+    t.decimal "xfip", precision: 10, scale: 3
+    t.decimal "hbatter", precision: 10, scale: 3
+    t.decimal "ibb", precision: 10, scale: 3
+    t.decimal "tbf", precision: 10, scale: 3
+    t.decimal "blk", precision: 10, scale: 3
+    t.decimal "wp", precision: 10, scale: 3
+    t.decimal "k_bb_pct", precision: 10, scale: 3
+    t.decimal "k_bb_ratio", precision: 10, scale: 3
     t.index ["opponent_id"], name: "index_stats_on_opponent_id"
     t.index ["player_id"], name: "index_stats_on_player_id"
     t.index ["team_id"], name: "index_stats_on_team_id"
