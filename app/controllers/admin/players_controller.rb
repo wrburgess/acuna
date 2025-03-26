@@ -71,7 +71,7 @@ class Admin::PlayersController < AdminController
            'teams.name AS team_name',
            'teams.abbreviation AS team_abbreviation',
            'levels.abbreviation AS level_abbreviation',
-           'levels.weight AS level_weight',
+           'levels.weight AS player_level_weight',
            'statuses.abbreviation AS status_abbreviation',
            'statuses.weight AS player_status_weight',
            'COALESCE(array_agg(tracking_list_players.tracking_list_id) FILTER (WHERE tracking_list_players.tracking_list_id IS NOT NULL), ARRAY[]::integer[]) AS aggregated_tracking_list_ids'
@@ -95,13 +95,12 @@ class Admin::PlayersController < AdminController
          .ransack(params[:q])
 
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
-
-    puts "Sort params: #{params[:q]&.[](:s)}"
-    puts "SQL: #{@q.result.to_sql}"
-    @pagy, @instances = pagy(@q.result)
+    total = @q.result.unscope(:order, :group).count('distinct players.id')
+    @pagy, @instances = pagy(@q.result, count: total)
 
     @levels = Level.all.select_order
     @statuses = Status.all.select_order
+    @positions = Position.all.select_order
     @timelines = Timeline.all.select_order
     @tracking_lists = current_user.tracking_lists
     @instance = controller_class.new
@@ -243,8 +242,13 @@ class Admin::PlayersController < AdminController
 
   def create_params
     params.require(:player).permit(
+      :age,
+      :archived_at,
+      :first__name,
+      :last_name,
       :level_id,
-      :name,
+      :middle_name,
+      :name_suffix,
       :notes,
       :position,
       :roster_id,
@@ -255,9 +259,13 @@ class Admin::PlayersController < AdminController
 
   def update_params
     params.require(:player).permit(
+      :age,
       :archived_at,
+      :first__name,
+      :last_name,
       :level_id,
-      :name,
+      :middle_name,
+      :name_suffix,
       :notes,
       :position,
       :roster_id,

@@ -19,6 +19,10 @@ class Player < ApplicationRecord
   scope :by_status, ->(status) { where(status: status) }
   scope :by_level, ->(level) { where(level: level) }
 
+  ransacker :player_level_weight do
+    Arel.sql('levels.weight')
+  end
+
   ransacker :player_status_weight do
     Arel.sql('statuses.weight')
   end
@@ -70,7 +74,7 @@ class Player < ApplicationRecord
       bat_ctrl
       hard_hit
       player_status_weight
-      level_weight
+      player_level_weight
     ]
   end
 

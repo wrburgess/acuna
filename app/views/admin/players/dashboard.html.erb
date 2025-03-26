@@ -62,38 +62,34 @@
       <div class="d-flex align-items-center">
         <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Position</div>
         <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <% positions = [
-            { name: "BAT", value: { position_in: ['C', '1B', '3B', 'SS', '2B', 'LF', 'CF', 'RF', 'DH'] } },
-            { name: "CA", value: { position_eq: 'C' } },
-            { name: "MI", value: { position_in: ['SS', '2B'] } },
-            { name: "CI", value: { position_in: ['1B', '3B'] } },
-            { name: "1B", value: { position_eq: '1B' } },
-            { name: "2B", value: { position_eq: '2B' } },
-            { name: "SS", value: { position_eq: 'SS' } },
-            { name: "3B", value: { position_eq: '3B' } },
-            { name: "OF", value: { position_in: ['LF', 'CF', 'RF'] } },
-            { name: "RF", value: { position_eq: 'RF' } },
-            { name: "CF", value: { position_eq: 'CF' } },
-            { name: "LF", value: { position_eq: 'LF' } },
-            { name: "DH", value: { position_eq: 'DH' } },
-            { name: "PIT", value: { position_in: ['SP', 'RP', 'CL'] } },
-            { name: "SP", value: { position_eq: 'SP' } },
-            { name: "RP", value: { position_eq: 'RP' } }
-          ] %>
+          <%# "All" link: remove any position filter keys %>
+          <% all_position_params = params[:q] ? params[:q].to_unsafe_h.except(:position_in, :position_eq) : {} %>
+          <li class="nav-item">
+            <%= link_to "All", dashboard_admin_players_path(q: all_position_params),
+                  class: "nav-link #{'active' unless (params[:q] && (params[:q][:position_in].present? || params[:q][:position_eq].present?))}" %>
+          </li>
 
-          <% positions.each do |position| %>
+          <%# Load positions from the model and order as desired %>
+          <% @positions.each do |position| %>
             <li class="nav-item">
               <% current_params = params[:q] ? params[:q].to_unsafe_h.except(:position_in, :position_eq).dup : {} %>
-              <% position[:value].each { |key, val| current_params[key] = val } %>
+              <% if position.collective_values.present? && position.collective_values.size > 1 %>
+                <% current_params[:position_in] = position.collective_values %>
+              <% else %>
+                <% current_params[:position_eq] = position.abbreviation %>
+              <% end %>
+
+              <%# Determine if this link should be "active" by comparing the filter value %>
               <% is_active = false %>
               <% if params[:q] %>
-                <% if position[:value][:position_eq] && params[:q][:position_eq] == position[:value][:position_eq] %>
+                <% if current_params[:position_in] && params[:q][:position_in].to_s == current_params[:position_in].to_s %>
                   <% is_active = true %>
-                <% elsif position[:value][:position_in] && params[:q][:position_in] == position[:value][:position_in] %>
+                <% elsif current_params[:position_eq] && params[:q][:position_eq].to_s == current_params[:position_eq].to_s %>
                   <% is_active = true %>
                 <% end %>
               <% end %>
-              <%= link_to position[:name], dashboard_admin_players_path(q: current_params), 
+
+              <%= link_to position.abbreviation, dashboard_admin_players_path(q: current_params),
                     class: "nav-link #{'active' if is_active}" %>
             </li>
           <% end %>
@@ -118,8 +114,9 @@
             <% current_params[:tracking_list_players_tracking_list_id_eq] = list.id %>
             <% is_active = params[:q] && params[:q][:tracking_list_players_tracking_list_id_eq].to_i == list.id %>
             <li class="nav-item">
-              <%= link_to list.name, dashboard_admin_players_path(q: current_params), 
-                    class: "nav-link #{'active' if is_active}" %>
+              <%= link_to dashboard_admin_players_path(q: current_params), class: "nav-link #{'active' if is_active}" do %>
+                <i class="bi <%= list.icon_name_off %> me-1"></i> <%= list.name %>
+              <% end %>
             </li>
           <% end %>
         </ul>
@@ -202,16 +199,22 @@
               <th class="py-1" data-column-view-category="base">Track</th>
               <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :last_name, "Player", default_order: :asc) %></th>
               <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :roster_name, "Roster") %></th>
-              <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :level_weight, "Level") %></th>
+              <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :player_level_weight, "Level") %></th>
               <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :player_status_weight, "Status") %></th>
-              <th class="py-1 border-end" data-column-view-category="base"><%= player_sort_link(@q, :age, "Age") %></th>
-              <th class="py-1" data-column-view-category="stats scoring"><%= player_sort_link(@q, :ops, "OPS") %></th>
-              <th class="py-1" data-column-view-category="stats scoring"><%= player_sort_link(@q, :rbi, "RBI") %></th>
-              <th class="py-1" data-column-view-category="stats scoring"><%= player_sort_link(@q, :hr, "HR") %></th>
-              <th class="py-1" data-column-view-category="stats scoring"><%= player_sort_link(@q, :r, "R") %></th>
-              <th class="py-1" data-column-view-category="stats scoring"><%= player_sort_link(@q, :nsb, "NSB") %></th>
-              <th class="py-1 border-end" data-column-view-category="stats scoring"><%= player_sort_link(@q, :errs) %></th>
-              <th class="py-1 border-end" data-column-view-category="stats scouting"><%= player_sort_link(@q, :wrc_plus, "wRC+") %></th>
+              <th class="py-1" data-column-view-category="base"><%= player_sort_link(@q, :age, "Age") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :ops, "OPS") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :rbi, "RBI") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :hr, "HR") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :r, "R") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :nsb, "NSB") %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :errs) %></th>
+              <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :wrc_plus, "wRC+") %></th>
+              <th class="py-1" data-column-view-category="scoring"><%= player_sort_link(@q, :ops, "OPS") %></th>
+              <th class="py-1" data-column-view-category="scoring"><%= player_sort_link(@q, :rbi, "RBI") %></th>
+              <th class="py-1" data-column-view-category="scoring"><%= player_sort_link(@q, :hr, "HR") %></th>
+              <th class="py-1" data-column-view-category="scoring"><%= player_sort_link(@q, :r, "R") %></th>
+              <th class="py-1" data-column-view-category="scoring"><%= player_sort_link(@q, :nsb, "NSB") %></th>
+              <th class="py-1" data-column-view-category="scoring"><%= player_sort_link(@q, :errs) %></th>
               <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :pa, "PA") %></th>
               <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :ab, "AB") %></th>
               <th class="py-1" data-column-view-category="stats"><%= player_sort_link(@q, :h, "H") %></th>
@@ -275,14 +278,20 @@
                 </td>
                 <td class="py-1" data-column-view-category="base"><%= instance.level_abbreviation %></td>
                 <td class="py-1" data-column-view-category="base"><%= instance.status_abbreviation %></td>
-                <td class="py-1 border-end" data-column-view-category="base"><%= instance.age.ceil %></td>
-                <td class="py-1" data-column-view-category="stats scoring"><%= format_stat(instance.ops) %></td>
-                <td class="py-1" data-column-view-category="stats scoring"><%= instance.rbi.ceil %></td>
-                <td class="py-1" data-column-view-category="stats scoring"><%= instance.hr.ceil %></td>
-                <td class="py-1" data-column-view-category="stats scoring"><%= instance.runs.ceil %></td>
-                <td class="py-1" data-column-view-category="stats scoring"><%= instance.nsb.ceil %></td>
-                <td class="py-1 border-end" data-column-view-category="stats scoring"><%= instance.errs %></td>
-                <td class="py-1 border-end" data-column-view-category="stats scouting"><%= instance.wrc_plus.ceil %></td>
+                <td class="py-1" data-column-view-category="base"><%= instance.age.ceil %></td>
+                <td class="py-1" data-column-view-category="stats"><%= format_stat(instance.ops) %></td>
+                <td class="py-1" data-column-view-category="stats"><%= instance.rbi.ceil %></td>
+                <td class="py-1" data-column-view-category="stats"><%= instance.hr.ceil %></td>
+                <td class="py-1" data-column-view-category="stats"><%= instance.runs.ceil %></td>
+                <td class="py-1" data-column-view-category="stats"><%= instance.nsb.ceil %></td>
+                <td class="py-1" data-column-view-category="stats"><%= instance.errs %></td>
+                <td class="py-1" data-column-view-category="stats"><%= instance.wrc_plus.ceil %></td>
+                <td class="py-1" data-column-view-category="scoring"><%= format_stat(instance.ops) %></td>
+                <td class="py-1" data-column-view-category="scoring"><%= instance.rbi.ceil %></td>
+                <td class="py-1" data-column-view-category="scoring"><%= instance.hr.ceil %></td>
+                <td class="py-1" data-column-view-category="scoring"><%= instance.runs.ceil %></td>
+                <td class="py-1" data-column-view-category="scoring"><%= instance.nsb.ceil %></td>
+                <td class="py-1" data-column-view-category="scoring"><%= instance.errs %></td>
                 <td class="py-1" data-column-view-category="stats"><%= instance.pa.ceil %></td>
                 <td class="py-1" data-column-view-category="stats"><%= instance.ab.ceil %></td>
                 <td class="py-1" data-column-view-category="stats"><%= instance.hits.ceil %></td>
