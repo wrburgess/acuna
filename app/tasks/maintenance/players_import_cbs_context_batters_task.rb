@@ -1,7 +1,7 @@
 require 'csv'
 
 module Maintenance
-  class PlayersImportCbsContextTask < MaintenanceTasks::Task
+  class PlayersImportCbsContextBattersTask < MaintenanceTasks::Task
     no_collection
 
     attribute :file_name, :string
@@ -136,6 +136,7 @@ module Maintenance
             player = Player.new(
               first_name: first_name,
               last_name: last_name,
+              player_type: 'batter',
               position: position_code,
               eligible_positions: eligible_positions_info,
               team: team

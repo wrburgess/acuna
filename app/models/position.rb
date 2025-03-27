@@ -18,6 +18,7 @@ class Position < ApplicationRecord
       id
       name
       notes
+      player_type
       position_type
       updated_at
       weight

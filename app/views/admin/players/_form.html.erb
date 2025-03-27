@@ -9,6 +9,7 @@
         <%= f.input :last_name, wrapper: :floating_label_form %>
         <%= f.input :name_suffix, wrapper: :floating_label_form %>
         <%= f.input :position, wrapper: :floating_label_form %>
+        <%= f.input :player_type, wrapper: :floating_label_form %>
         <%= f.association :team, wrapper: :floating_label_form %>
         <%= f.association :roster, wrapper: :floating_label_form %>
         <%= f.input :status_id, collection: Status.all, include_blank: true, wrapper: :floating_label_form %>

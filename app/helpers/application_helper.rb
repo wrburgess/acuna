@@ -38,6 +38,8 @@ module ApplicationHelper
   end
 
   def format_stat(val)
+    return 0 if val.nil?
+
     number_with_precision(val, precision: 3).sub(/^0/, '')
   end
 end

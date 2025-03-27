@@ -148,6 +148,7 @@ class Admin::PositionsController < AdminController
       :collective_values,
       :name,
       :notes,
+      :player_type,
       :position_type,
       :weight,
     )
@@ -161,6 +162,7 @@ class Admin::PositionsController < AdminController
       :collective_values,
       :name,
       :notes,
+      :player_type,
       :position_type,
       :weight,
     )

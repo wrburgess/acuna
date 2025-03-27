@@ -14,3 +14,6 @@ application.register("player-search", PlayerSearchController)
 
 import ColumnViewController from "./column_view_controller"
 application.register("column-view", ColumnViewController)
+
+import PlayerTypeController from "./player_type_controller"
+application.register("player-type", PlayerTypeController)

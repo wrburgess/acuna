@@ -14,9 +14,14 @@ class Admin::PlayersController < AdminController
   def dashboard
     authorize(policy_class)
 
+    # Filter by player_type directly instead of position
+    player_type = params[:player_type] || 'batter'
+    player_type_filter = { player_type_eq: player_type }
+
     @q = controller_class
          .select([
            'players.id AS player_id',
+           'players.player_type',
            'players.first_name',
            'players.last_name',
            'players.position',
@@ -60,6 +65,9 @@ class Admin::PlayersController < AdminController
            'stats.bs',
            'stats.rw',
            'stats.k_9',
+           'stats.bb_9',
+           'stats.hr_9',
+           'stats.holds',
            'scouting_profiles.risk',
            'scouting_profiles.eta',
            'scouting_profiles.ath_ovr_rnk',
@@ -106,7 +114,7 @@ class Admin::PlayersController < AdminController
            'levels.id', 'levels.abbreviation', 'levels.weight',
            'statuses.id', 'statuses.abbreviation', 'statuses.weight'
          ].join(', '))
-         .ransack(params[:q])
+         .ransack(params[:q]&.merge(player_type_filter))
 
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
     total = @q.result.unscope(:order, :group).count('distinct players.id')
@@ -114,7 +122,7 @@ class Admin::PlayersController < AdminController
 
     @levels = Level.all.select_order
     @statuses = Status.all.select_order
-    @positions = Position.all.select_order
+    @positions = Position.where(player_type: player_type).select_order
     @timelines = Timeline.all.select_order
     @tracking_lists = current_user.tracking_lists
     @instance = controller_class.new
@@ -297,6 +305,7 @@ class Admin::PlayersController < AdminController
       :middle_name,
       :name_suffix,
       :notes,
+      :player_type,
       :position,
       :roster_id,
       :status_id,
@@ -314,6 +323,7 @@ class Admin::PlayersController < AdminController
       :middle_name,
       :name_suffix,
       :notes,
+      :player_type,
       :position,
       :roster_id,
       :status_id,
