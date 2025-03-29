@@ -14,9 +14,9 @@ class Admin::PlayersController < AdminController
   def dashboard
     authorize(policy_class)
 
-    # Filter by player_type directly instead of position
-    player_type = params[:player_type] || 'batter'
-    player_type_filter = { player_type_eq: player_type }
+    # Extract player_type from params and ensure it's saved for the view
+    @player_type = params[:player_type] || 'batter'
+    player_type_filter = { player_type_eq: @player_type }
 
     @q = controller_class
          .select([
@@ -122,7 +122,7 @@ class Admin::PlayersController < AdminController
 
     @levels = Level.all.select_order
     @statuses = Status.all.select_order
-    @positions = Position.where(player_type: player_type).select_order
+    @positions = Position.where(player_type: @player_type).select_order
     @timelines = Timeline.all.select_order
     @tracking_lists = current_user.tracking_lists
     @instance = controller_class.new

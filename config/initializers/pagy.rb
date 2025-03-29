@@ -113,6 +113,26 @@ Pagy::DEFAULT[:limit] = 50 # default
 # See https://ddnexus.github.io/pagy/docs/extras/bootstrap
 require 'pagy/extras/bootstrap'
 
+Pagy::Frontend.module_eval do
+  # Override the pagy_url_for method to ensure player_type is included
+  alias_method :original_pagy_url_for, :pagy_url_for
+
+  def pagy_url_for(n, pagy)
+    url = original_pagy_url_for(n, pagy)
+
+    # Get the player_type from request params
+    player_type = params[:player_type]
+
+    # Add player_type to the URL if present
+    if player_type.present? && !url.include?('player_type=')
+      connector = url.include?('?') ? '&' : '?'
+      url = "#{url}#{connector}player_type=#{player_type}"
+    end
+
+    url
+  end
+end
+
 # Bulma extra: Add nav, nav_js and combo_nav_js helpers and templates for Bulma pagination
 # See https://ddnexus.github.io/pagy/docs/extras/bulma
 # require 'pagy/extras/bulma'
@@ -150,7 +170,6 @@ require 'pagy/extras/bootstrap'
 
 # Trim extra: Remove the page=1 param from links
 # See https://ddnexus.github.io/pagy/docs/extras/trim
-# require 'pagy/extras/trim'
 # set to false only if you want to make :trim_extra an opt-in variable
 # Pagy::DEFAULT[:trim_extra] = false # default true
 

@@ -42,4 +42,17 @@ module ApplicationHelper
 
     number_with_precision(val, precision: 3).sub(/^0/, '')
   end
+
+  # Override the sort_link helper to preserve player_type
+  def sort_link(search_object, attribute, *args, **options)
+    # Make sure player_type is preserved when sorting
+    if options[:player_type].present?
+      # Ensure params hash exists in options
+      options[:params] ||= {}
+      # Add player_type to params
+      options[:params][:player_type] = options.delete(:player_type)
+    end
+
+    super(search_object, attribute, *args, **options)
+  end
 end

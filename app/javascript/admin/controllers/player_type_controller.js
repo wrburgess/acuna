@@ -27,6 +27,10 @@ export default class extends Controller {
     // Update URL without page reload
     const url = new URL(window.location)
     url.searchParams.set("player_type", clickedType)
+    
+    // Clear any page parameter to ensure we start at page 1 for the new type
+    url.searchParams.delete("page")
+    
     window.history.pushState({}, "", url)
     
     // Show/hide appropriate tables

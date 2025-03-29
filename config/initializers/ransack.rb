@@ -6,4 +6,14 @@ Ransack.configure do |config|
                        validator: proc { |v| v.present? },
                        compounds: true,
                        type: :integer
+
+  # Customize sort link arrows
+  config.custom_arrows = {
+    up_arrow: '<i class="bi bi-arrow-up"></i>',
+    down_arrow: '<i class="bi bi-arrow-down"></i>',
+    default_arrow: '<i class="bi bi-arrow-up"></i>'
+  }
+
+  # Instead of before_performing_search, we'll rely on the helper method
+  # we already added to ApplicationHelper to preserve player_type in sort_link
 end
