@@ -24,20 +24,13 @@ export default class extends Controller {
     // Update type value
     this.typeValue = clickedType
     
-    // Update URL without page reload
+    // Instead of just updating URL and tables, we'll do a full page reload
+    // to make sure all the filter links are regenerated with the correct player_type
     const url = new URL(window.location)
     url.searchParams.set("player_type", clickedType)
     
-    // Clear any page parameter to ensure we start at page 1 for the new type
-    url.searchParams.delete("page")
-    
-    window.history.pushState({}, "", url)
-    
-    // Show/hide appropriate tables
-    this.updateTables()
-    
-    // Update active state in nav links
-    this.updateActiveLink()
+    // Navigate to the new URL instead of using pushState
+    window.location.href = url.toString()
   }
   
   updateTables() {
