@@ -17,6 +17,7 @@ class Admin::PlayersController < AdminController
     @q = controller_class
          .select([
            'players.id AS player_id',
+           'players.player_type',
            'players.first_name',
            'players.last_name',
            'players.position',
@@ -60,6 +61,9 @@ class Admin::PlayersController < AdminController
            'stats.bs',
            'stats.rw',
            'stats.k_9',
+           'stats.bb_9',
+           'stats.hr_9',
+           'stats.holds',
            'scouting_profiles.risk',
            'scouting_profiles.eta',
            'scouting_profiles.ath_ovr_rnk',
@@ -297,6 +301,7 @@ class Admin::PlayersController < AdminController
       :middle_name,
       :name_suffix,
       :notes,
+      :player_type,
       :position,
       :roster_id,
       :status_id,
@@ -314,6 +319,7 @@ class Admin::PlayersController < AdminController
       :middle_name,
       :name_suffix,
       :notes,
+      :player_type,
       :position,
       :roster_id,
       :status_id,

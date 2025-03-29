@@ -19,6 +19,7 @@
               <th><%= sort_link([:admin, @q], :middle_name, "Middle Name", default_order: :asc) %></th>
               <th><%= sort_link([:admin, @q], :last_name, "Last Name", default_order: :asc) %></th>
               <th><%= sort_link([:admin, @q], :name_suffix, "Suffix", default_order: :asc) %></th>
+              <th><%= sort_link([:admin, @q], :player_type, "Player Type") %></th>
               <th><%= sort_link([:admin, @q], :position, "Position") %></th>
               <th><%= sort_link([:admin, @q], :team_id, "Team") %></th>
               <th><%= sort_link([:admin, @q], :level, "Level") %></th>
@@ -33,6 +34,7 @@
                 <td><%= instance.middle_name %></td>
                 <td><%= instance.last_name %></td>
                 <td><%= instance.name_suffix %></td>
+                <td><%= instance.player_type %></td>
                 <td><%= instance.position %></td>
                 <td>
                   <% if instance.team %>
@@ -76,6 +78,7 @@
       <%= f.input :id_eq, label: "ID", placeholder: "ID equals" %>
       <%= f.input :first_name_cont, label: "First Name", placeholder: "First Name contains" %>
       <%= f.input :last_name_cont, label: "Last Name", placeholder: "Last Name contains" %>
+      <%= f.input :player_type_cont, label: "Player Type", placeholder: "Player Type contains" %>
       <%= f.input :position_eq, label: "Position", placeholder: "Position equals" %>
       <%= f.input :team_id_eq, collection: Team.all, label: "Team", include_blank: "Any" %>
       <%= f.input :roster_id_eq, collection: Roster.all, label: "Roster", include_blank: "Any" %>

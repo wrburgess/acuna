@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_26_182500) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_29_165954) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -250,6 +250,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_182500) do
     t.bigint "status_id"
     t.string "middle_name"
     t.text "name_suffix"
+    t.string "player_type"
     t.index ["level_id"], name: "index_players_on_level_id"
     t.index ["roster_id"], name: "index_players_on_roster_id"
     t.index ["status_id"], name: "index_players_on_status_id"
@@ -267,6 +268,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_182500) do
     t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "player_type"
     t.index ["abbreviation"], name: "index_positions_on_abbreviation"
     t.index ["archived_at"], name: "index_positions_on_archived_at"
     t.index ["name"], name: "index_positions_on_name"
@@ -510,6 +512,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_182500) do
     t.decimal "wp", precision: 10, scale: 3
     t.decimal "k_bb_pct", precision: 10, scale: 3
     t.decimal "k_bb_ratio", precision: 10, scale: 3
+    t.decimal "holds", precision: 10, scale: 3
     t.index ["opponent_id"], name: "index_stats_on_opponent_id"
     t.index ["player_id"], name: "index_stats_on_player_id"
     t.index ["team_id"], name: "index_stats_on_team_id"

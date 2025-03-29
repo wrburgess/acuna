@@ -14,6 +14,7 @@
     <% table.with_column(sort_link([:admin, @q], :name, "name")) { |instance| instance.name } %>
     <% table.with_column(sort_link([:admin, @q], :abbreviation, "Abbrev")) { |instance| instance.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :weight, "Weight", default_order: :asc)) { |instance| instance.weight.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :player_type, "Player Type")) { |instance| instance.player_type } %>
     <% table.with_column(sort_link([:admin, @q], :position_type, "Type")) { |instance| instance.position_type } %>
     <% table.with_column(sort_link([:admin, @q], :updated_at, "Updated")) { |instance| default_date_format(instance.updated_at) } %>
     <% table.with_column("Actions") do |instance| %>
@@ -29,7 +30,8 @@
       <%= f.input :id_eq, label: "ID", placeholder: "ID equals" %>
       <%= f.input :name_cont, label: "Name", placeholder: "Name contains" %>
       <%= f.input :abbreviation_cont, label: "Abbreviation", placeholder: "Abbreviation contains" %>
-      <%= f.input :position_type_cont, label: "Type", placeholder: "Type contains" %>
+      <%= f.input :player_type_cont, label: "Player Type", placeholder: "Player Type contains" %>
+      <%= f.input :position_type_cont, label: "Position Type", placeholder: "Position Type contains" %>
       <%= f.input :archived_at_not_null, as: :boolean, label: "Archived?", wrapper: :custom_boolean_switch %>
       
       <%= render Admin::FormButton::Component.new(operation: :filter) %>

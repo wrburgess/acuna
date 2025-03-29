@@ -38,6 +38,7 @@ class Player < ApplicationRecord
       level_id
       name_suffix
       notes
+      player_type
       position
       roster_id
       status_id
