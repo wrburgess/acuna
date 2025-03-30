@@ -1,23 +1,39 @@
-Stat Model schema
-    
-player_id, bigint, meta
-team_id, bigint, meta
-opponent_id, bigint, meta
-timeline_id, bigint, meta
+Dashboard Table Schema
 
-mlbam_id, string
-game_number, integer
-game_time, datetime
-game_location, string
-game_result, string
-text, notes
+Player
 
-datetime, recorded_at
-datetime, archived_at
-datetime, created_at
-datetime, updated_at
+full_name (elibigle_positions), Player, base
+team_abbreviation, TEAM, base
+level, LEVEL, base
+roster_abbreviation, ROS, base
+status, STAT, base
+age, AGE, base
 
-bat_obp, OBP, "batting - on base percentage", decimal, scoring
+risk, RISK, fangraphs, string, scout
+eta, ETA, fangraphs, string, scout
+espn_overall_rank, EOVR, espn, decimal, scout
+ath_overall_rank, AOVR, athletic, decimal, scout
+ba_overall_rank, BOVR, baseball america, decimal, scout
+pl_overall_rank, POVR, prospects live, decimal, scout
+cbs_overall_rank, COVR, cbs, decimal, scout
+fg_overall_rank, FOVR, fangraphs, decimal, scout
+self_overall_rank, SOVR, user, decimal, scout
+espn_team_rank, ETM, espn, decimal, scout
+ath_team_rank, ATM, athletic, decimal, scout
+ba_team_rank, BTM, baseball america, decimal, scout
+pl_team_rank, PTM, prospects live, decimal, scout
+cbs_team_rank, CTM, cbs, decimal, scout
+fg_team_rank, FTM, fangraphs, decimal, scout
+self_team_rank, STM, user, decimal, scout
+espn_future_value, EFV, espn, decimal, scout
+ath_future_value, ATHFV, athletic, decimal, scout
+ba_future_value, BAFV, baseball america, decimal, scout
+pl_future_value, PLFV, prospects live, decimal, scout
+cbs_future_value, CFV, cbs, decimal, scout
+fg_future_value, FFV, fangraphs, decimal, scout
+self_future_value, SFV, user, decimal, scout
+
+bat_ops, OPS, "batting - on-base plus slugging percentage", decimal, stats
 bat_hr, HR, "batting - total home runs", decimal, scoring 
 bat_runs, R, "batting - total runs", decimal, scoring
 bat_rbi, RBI, "batting - total runs batted in", decimal, scoring 
@@ -52,7 +68,21 @@ bat_wraa, "batting - weighted runs above average (wRAA)", decimal, stats
 bat_wrc, "batting - weighted runs created (wRC)", decimal, stats
 bat_wrc_plus, "batting - weighted runs created plus (wRC+)", decimal, stats
 bat_wsb, "batting - weighted stolen base runs (wSB)", decimal, stats
-bat_xbh, "batting - extra base hits", decimal,stats 
+bat_xbh, "batting - extra base hits", decimal, stats 
+
+bat_hit_pres, HIT, decimal, scout
+bat_hit_proj, HIT, decimal, scout
+bat_game_pwr_pres, GPWR, decimal, scout
+bat_game_pwr_proj, GPWR, decimal, scout
+bat_raw_pwr_pres, RPWR, decimal, scout
+bat_raw_pwr_proj, RPWR, decimal, scout
+bat_pit_sel, PSEL, decimal, scout
+bat_bat_ctrl, BCTL, decimal, scout
+bat_hard_hit, HH%, decimal, scout
+bat_spd_pres, SPEED, decimal, scout
+bat_spd_proj, SPEED, decimal, scout
+bat_fld_pres, FIELD, decimal, scout
+bat_fld_proj, FIELD, decimal, scout
 
 pit_qs, QS, "pitching - total quality starts", decimal, scoring
 pit_k_9, K/9, "pitching - strikeouts per nine innings", decimal, scoring
@@ -97,3 +127,23 @@ pit_nr, NR, "pitching - net reliefs (saves + holds + relief wins - blown saves),
 pit_hit_bats, HB, "pitching - total hit batters", decimal, stats
 pit_balks, BLK, "pitching - total balks", decimal, stats
 pit_wilds, WP, "pitching - total wild pitches", decimal, stats
+
+pit_control_pres, CNT, decimal, scout
+pit_control_proj, CNT, decimal, scout
+pit_command_pres, CMD, decimal, scout
+pit_command_proj, CMD, decimal, scout
+pit_fastball_pres, FB, decimal, scout
+pit_fastball_proj, FB, decimal, scout
+pit_fastball_type, FBT, decimal, scout
+pit_curve_pres, CURV, decimal, scout
+pit_curve_proj, CURV, decimal, scout
+pit_slider_pres, SLDR, decimal, scout
+pit_slider_proj, SLDR, decimal, scout
+pit_sweeper_pres, SWEEP, decimal, scout
+pit_sweeper_proj, SWEEP, decimal, scout
+pit_changeup_pres, CHGUP, decimal, scout
+pit_changeup_proj, CHGUP, decimal, scout
+pit_cutter_pres, CUTTR, decimal, scout
+pit_cutter_proj, CUTTR, decimal, scout
+pit_arm_pres, ARM, decimal, scout
+pit_arm_proj, ARM, decimal, scout

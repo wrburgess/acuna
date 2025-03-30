@@ -1,0 +1,25 @@
+<div class="card mb-3">
+  <div class="card-body py-2">
+    <div class="d-flex align-items-center" data-controller="column-view">
+      <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Views</div>
+      <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+        <% q_params = params[:q]&.to_unsafe_h || {} %>
+        <li class="nav-item">
+          <%= link_to "Stats", dashboard_admin_players_path(view: :stats, q: q_params), 
+              class: "nav-link #{'active' if !params[:view] || params[:view] == 'stats'}", 
+              data: { column_view_target: "link" } %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Scoring", dashboard_admin_players_path(view: :scoring, q: q_params), 
+              class: "nav-link #{'active' if params[:view] == 'scoring'}", 
+              data: { column_view_target: "link" } %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Scouting", dashboard_admin_players_path(view: :scouting, q: q_params), 
+              class: "nav-link #{'active' if params[:view] == 'scouting'}", 
+              data: { column_view_target: "link" } %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

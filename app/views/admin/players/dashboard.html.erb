@@ -10,402 +10,45 @@
 
 <%= render Admin::PageContainer::Component.new do %> 
   <!-- Level Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Level</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item">
-            <% all_level_params = params[:q] ? params[:q].to_unsafe_h.except(:level_id_eq) : {} %>
-            <%= link_to "All", dashboard_admin_players_path(q: all_level_params), 
-                  class: "nav-link #{'active' unless params[:q] && params[:q][:level_id_eq]}" %>
-          </li>
-          <% @levels.each do |level| %>
-            <li class="nav-item">
-              <% current_params = params[:q] ? params[:q].to_unsafe_h.dup : {} %>
-              <% current_params[:level_id_eq] = level.id %>
-              <%= link_to level.abbreviation, dashboard_admin_players_path(q: current_params), 
-                    class: "nav-link #{'active' if params[:q] && params[:q][:level_id_eq].to_i == level.id}" %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <%= render partial: "filter_levels", locals: { params: params, levels: @levels } %>
 
   <!-- Status Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Status</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item">
-            <% all_status_params = params[:q] ? params[:q].to_unsafe_h.except(:status_id_eq) : {} %>
-            <%= link_to "All", dashboard_admin_players_path(q: all_status_params), 
-                  class: "nav-link #{'active' unless params[:q] && params[:q][:status_id_eq]}" %>
-          </li>
-          <% @statuses.each do |status| %>
-            <li class="nav-item">
-              <% current_params = params[:q] ? params[:q].to_unsafe_h.dup : {} %>
-              <% current_params[:status_id_eq] = status.id %>
-              <%= link_to status.abbreviation, dashboard_admin_players_path(q: current_params), 
-                    class: "nav-link #{'active' if params[:q] && params[:q][:status_id_eq].to_i == status.id}" %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
-
+  <%= render partial: "filter_statuses", locals: { params: params, statuses: @statuses } %>
+ 
   <!-- Position Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Position</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <%# "All" link: remove any position filter keys %>
-          <% all_position_params = params[:q] ? params[:q].to_unsafe_h.except(:position_in, :position_eq) : {} %>
-          <li class="nav-item">
-            <%= link_to "All", dashboard_admin_players_path(q: all_position_params),
-                  class: "nav-link #{'active' unless (params[:q] && (params[:q][:position_in].present? || params[:q][:position_eq].present?))}" %>
-          </li>
+  <%= render partial: "filter_positions", locals: { params: params, positions: @positions } %>
 
-          <%# Load positions from the model and order as desired %>
-          <% @positions.each do |position| %>
-            <li class="nav-item">
-              <% current_params = params[:q] ? params[:q].to_unsafe_h.except(:position_in, :position_eq).dup : {} %>
-              <% if position.collective_values.present? && position.collective_values.size > 1 %>
-                <% current_params[:position_in] = position.collective_values %>
-              <% else %>
-                <% current_params[:position_eq] = position.abbreviation %>
-              <% end %>
-
-              <%# Determine if this link should be "active" by comparing the filter value %>
-              <% is_active = false %>
-              <% if params[:q] %>
-                <% if current_params[:position_in] && params[:q][:position_in].to_s == current_params[:position_in].to_s %>
-                  <% is_active = true %>
-                <% elsif current_params[:position_eq] && params[:q][:position_eq].to_s == current_params[:position_eq].to_s %>
-                  <% is_active = true %>
-                <% end %>
-              <% end %>
-
-              <%= link_to position.abbreviation, dashboard_admin_players_path(q: current_params),
-                    class: "nav-link #{'active' if is_active}" %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- List Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Lists</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item">
-            <% all_list_params = params[:q] ? params[:q].to_unsafe_h.except(:tracking_list_players_tracking_list_id_eq) : {} %>
-            <%= link_to "None", dashboard_admin_players_path(q: all_list_params), 
-              class: "nav-link #{'active' unless params[:q] && params[:q][:tracking_list_players_tracking_list_id_eq]}" %>
-          </li>
-          <% current_user.tracking_lists.each do |list| %>
-            <% current_params = params[:q] ? params[:q].to_unsafe_h.except(:tracking_list_players_tracking_list_id_eq).dup : {} %>
-            <% current_params[:tracking_list_players_tracking_list_id_eq] = list.id %>
-            <% is_active = params[:q] && params[:q][:tracking_list_players_tracking_list_id_eq].to_i == list.id %>
-            <li class="nav-item">
-              <%= link_to dashboard_admin_players_path(q: current_params), class: "nav-link #{'active' if is_active}" do %>
-                <i class="bi <%= list.icon_name_off %> me-1"></i> <%= list.name %>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <!-- Tracking List Filter Navigation -->
+  <%= render partial: "filter_tracking_lists", locals: { params: params, tracking_lists: @tracking_lists } %>
 
   <!-- Timeline Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Timeline</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <li class="nav-item">
-            <% timeline_params = params[:q] ? params[:q].to_unsafe_h.except(:timeline_id_eq) : {} %>
-            <%= link_to "Current", dashboard_admin_players_path(q: timeline_params), 
-                  class: "nav-link #{'active' unless params[:q] && params[:q][:timeline_id_eq]}" %>
-          </li>
-          <% @timelines.each do |timeline| %>
-            <% current_params = params[:q] ? params[:q].to_unsafe_h.dup : {} %>
-            <% current_params[:timeline_id_eq] = timeline.id %>
-            <li class="nav-item">
-              <%= link_to timeline.abbreviation.upcase, dashboard_admin_players_path(q: current_params), 
-                    class: "nav-link #{'active' if params[:q] && params[:q][:timeline_id_eq].to_i == timeline.id}" %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <%= render partial: "filter_timelines", locals: { params: params, timelines: @timelines } %>
 
-  <!-- Views Filter Navigation -->
-  <div class="card mb-3">
-    <div class="card-body py-2">
-      <div class="d-flex align-items-center" data-controller="column-view">
-        <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Views</div>
-        <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-          <% q_params = params[:q]&.to_unsafe_h || {} %>
-          <li class="nav-item">
-            <%= link_to "Stats", dashboard_admin_players_path(view: :stats, q: q_params), 
-                class: "nav-link #{'active' if !params[:view] || params[:view] == 'stats'}", 
-                data: { column_view_target: "link" } %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Scoring", dashboard_admin_players_path(view: :scoring, q: q_params), 
-                class: "nav-link #{'active' if params[:view] == 'scoring'}", 
-                data: { column_view_target: "link" } %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Scouting", dashboard_admin_players_path(view: :scouting, q: q_params), 
-                class: "nav-link #{'active' if params[:view] == 'scouting'}", 
-                data: { column_view_target: "link" } %>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <!-- View Filter Navigation -->
+  <%= render partial: "filter_views", locals: { params: params } %>
 
-  <!-- Batter Data Table -->
-  <div class="card mb-3">
-    <div class="card-body p-0">
-      <div class="table-responsive" data-controller="column-view">
-        <table class="table table-sm table-hover" style="font-size: 0.8rem;">
-          <thead>
-            <tr class="bg-light">
-              <th class="py-1">Track</th>
-              <th class="py-1"><%= sort_link([:admin, @q], :last_name, "Player", default_order: :asc, view: :base) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :roster_name, "Roster", view: :base) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :player_level_weight, "Level", view: :base) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :player_status_weight, "Status", view: :base) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :age, "Age", view: :base) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :ops, "OPS", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :rbi, "RBI", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :hr, "HR", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :r, "R", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :nsb, "NSB", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :errs, "E", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :wrc_plus, "wRC+", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :ops, "OPS", view: :scoring) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :rbi, "RBI", view: :scoring) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :hr, "HR", view: :scoring) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :r, "R", view: :scoring) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :nsb, "NSB", view: :scoring) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :errs, "E", view: :scoring) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :pa, "PA", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :ab, "AB", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :h, "H", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :bb, "BB", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :bb_pct, "BB%", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :k, "K", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :k_pct, "K%", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :sb, "SB", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :cs, "CS", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :ba, "BA", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :obp, "OBP", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :slg, "SLG", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :war, "WAR", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :risk, "RISK", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :eta, "ETA", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :ath_ovr_rnk, "ATH", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :espn_ovr_rnk, "ESPN", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :fg_ovr_rnk, "FG", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :cbs_ovr_rnk, "CBS", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :pl_ovr_rnk, "PL", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :fg_fv, "FGFV", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :espn_fv, "EFV", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :game_pwr_proj, "GPW", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :raw_pwr_proj, "RPW", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :spd_proj, "SPD", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :fld_proj, "FLD", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :pit_sel, "PSEL", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :bat_ctrl, "BCTL", view: :scouting) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :hard_hit, "HH%", view: :scouting) %></th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @instances.each do |instance| %>
-              <tr>
-                <td class="py-1">
-                  <% current_user.tracking_lists.each do |tracking_list| %>
-                    <% is_tracked = instance.aggregated_tracking_list_ids.include?(tracking_list.id) %>
-                    <button 
-                      type="button" 
-                      class="btn btn-sm p-0"
-                      data-controller="tracking-list-player"
-                      data-tracking-list-player-player-id-value="<%= instance.player_id %>"
-                      data-tracking-list-player-tracking-list-id-value="<%= tracking_list.id %>"
-                      data-tracking-list-player-tracked-value="<%= is_tracked %>"
-                      data-tracking-list-name="<%= tracking_list.name %>"
-                      data-icon-on="<%= tracking_list.icon_name_on %>"
-                      data-icon-off="<%= tracking_list.icon_name_off %>"
-                      data-tracking-list-player-target="button"
-                      data-action="click->tracking-list-player#toggle"
-                      data-bs-toggle="tooltip" 
-                      title="<%= is_tracked ? "Remove from #{tracking_list.name}" : "Add to #{tracking_list.name}" %>">
-                      <i class="<%= is_tracked ? "bi #{tracking_list.icon_name_on} text-warning" : "bi #{tracking_list.icon_name_off} text-muted" %>"></i>
-                    </button>
-                  <% end %>
-                </td>
-                <td class="py-1">
-                  <%= link_to(instance.full_description, profile_admin_player_path(id: instance.player_id), class: "text-decoration-none") %>
-                </td>
-                <td class="py-1">
-                  <%= instance.roster ? link_to(instance.roster&.abbreviation, polymorphic_path([:admin, instance.roster])) : 'FA' %>
-                </td>
-                <td class="py-1"><%= instance.level_abbreviation %></td>
-                <td class="py-1"><%= instance.status_abbreviation %></td>
-                <td class="py-1"><%= instance.age.ceil %></td>
-                <td class="py-1"><%= format_stat(instance.ops) %></td>
-                <td class="py-1"><%= instance.rbi.ceil %></td>
-                <td class="py-1"><%= instance.hr.ceil %></td>
-                <td class="py-1"><%= instance.runs.ceil %></td>
-                <td class="py-1"><%= instance.nsb.ceil %></td>
-                <td class="py-1"><%= instance.errs %></td>
-                <td class="py-1"><%= instance.wrc_plus.ceil %></td>
-                <td class="py-1"><%= format_stat(instance.ops) %></td>
-                <td class="py-1"><%= instance.rbi.ceil %></td>
-                <td class="py-1"><%= instance.hr.ceil %></td>
-                <td class="py-1"><%= instance.runs.ceil %></td>
-                <td class="py-1"><%= instance.nsb.ceil %></td>
-                <td class="py-1"><%= instance.errs %></td>
-                <td class="py-1"><%= instance.pa.ceil %></td>
-                <td class="py-1"><%= instance.ab.ceil %></td>
-                <td class="py-1"><%= instance.hits.ceil %></td>
-                <td class="py-1"><%= instance.bb.ceil %></td>
-                <td class="py-1"><%= number_to_percentage(instance.bb_pct, precision: 0) %></td>
-                <td class="py-1"><%= instance.k.ceil %></td>
-                <td class="py-1"><%= number_to_percentage(instance.k_pct, precision: 0) %></td>
-                <td class="py-1"><%= instance.sb.ceil %></td>
-                <td class="py-1"><%= instance.cs.ceil %></td>
-                <td class="py-1"><%= format_stat(instance.bavg) %></td>
-                <td class="py-1"><%= format_stat(instance.obp) %></td>
-                <td class="py-1"><%= format_stat(instance.slg) %></td>
-                <td class="py-1"><%= instance.war.ceil %></td>
-                <td class="py-1"><%= instance.risk %></td>
-                <td class="py-1"><%= instance.eta %></td>
-                <td class="py-1"><%= format_rnk(instance.ath_ovr_rnk) %></td>
-                <td class="py-1"><%= format_rnk(instance.fg_ovr_rnk) %></td>
-                <td class="py-1"><%= format_rnk(instance.espn_ovr_rnk) %></td>
-                <td class="py-1"><%= format_rnk(instance.cbs_ovr_rnk) %></td>
-                <td class="py-1"><%= format_rnk(instance.pl_ovr_rnk) %></td>
-                <td class="py-1"><%= format_rnk(instance.fg_fv) %></td>
-                <td class="py-1"><%= format_rnk(instance.espn_fv) %></td>
-                <td class="py-1"><%= format_rating(instance.game_pwr_pres, instance.game_pwr_proj) %></td>
-                <td class="py-1"><%= format_rating(instance.raw_pwr_pres, instance.raw_pwr_proj) %></td>
-                <td class="py-1"><%= format_rating(instance.spd_pres, instance.spd_proj) %></td>
-                <td class="py-1"><%= format_rating(instance.fld_pres, instance.fld_proj) %></td>
-                <td class="py-1"><%= format_rnk(instance.pit_sel) %></td>
-                <td class="py-1"><%= format_rnk(instance.bat_ctrl) %></td>
-                <td class="py-1"><%= number_to_percentage(instance.hard_hit, precision: 0) %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+  <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
+    <% table.with_column(sort_link([:admin, @q], :last_name, "Player", :base, default_order: :asc)) { |instance| instance.full_description } %>
+    <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", :base)) { |instance| instance.level&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL", :base)) { |instance| instance.level&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", :base)) { |instance| instance.status&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", :base)) { |instance| instance.status&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS", :scoring)) { |instance| instance.bat_ops } %>
+    <% table.with_column(sort_link([:admin, @q], :bat_hits, "H", :stats)) { |instance| instance.bat_hits } %>
+    <% table.with_column(sort_link([:admin, @q], :bat_bat_ctrl, "BCTL", :scouting)) { |instance| instance.bat_bat_ctrl } %>
+  <% end %>
 
-  <!-- Pitcher Data Table (Hidden by default) -->
-  <div class="card mb-3 d-none">
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table table-sm table-hover" style="font-size: 0.8rem;">
-          <thead>
-            <tr class="bg-light">
-              <th class="py-1">Track</th>
-              <th class="py-1"><%= sort_link([:admin, @q], :last_name, "Player", default_order: :asc, view: :base) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :roster_name, "Roster", view: :base) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :player_level_weight, "Level", view: :base) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :player_status_weight, "Status", view: :base) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :age, "Age", view: :base) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :qs, "QS", view: :scoring) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :k_pct, "K/9", view: :scoring) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :era, "ERA", view: :scoring) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :whip, "WHIP", view: :scoring) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :nr, "NR", view: :scoring) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :inn, "INN", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :w, "W-L", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :ha, "HA", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :hra, "HRA", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :baa, "BAA", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :s, "S", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :bs, "BS", view: :stats) %></th>
-              <th class="py-1"><%= sort_link([:admin, @q], :rw, "RW", view: :stats) %></th>
-              <th class="py-1">Track</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @instances.each do |instance| %>
-              <tr>
-                <td class="py-1">
-                  <% current_user.tracking_lists.each do |tracking_list| %>
-                    <% is_tracked = instance.aggregated_tracking_list_ids.include?(tracking_list.id) %>
-                    <button 
-                      type="button" 
-                      class="btn btn-sm p-0"
-                      data-controller="tracking-list-player"
-                      data-tracking-list-player-player-id-value="<%= instance.player_id %>"
-                      data-tracking-list-player-tracking-list-id-value="<%= tracking_list.id %>"
-                      data-tracking-list-player-tracked-value="<%= is_tracked %>"
-                      data-tracking-list-name="<%= tracking_list.name %>"
-                      data-icon-on="<%= tracking_list.icon_name_on %>"
-                      data-icon-off="<%= tracking_list.icon_name_off %>"
-                      data-tracking-list-player-target="button"
-                      data-action="click->tracking-list-player#toggle"
-                      data-bs-toggle="tooltip" 
-                      title="<%= is_tracked ? "Remove from #{tracking_list.name}" : "Add to #{tracking_list.name}" %>">
-                      <i class="<%= is_tracked ? "bi #{tracking_list.icon_name_on} text-warning" : "bi #{tracking_list.icon_name_off} text-muted" %>"></i>
-                    </button>
-                  <% end %>
-                </td>
-                <td class="py-1">
-                  <%= link_to(instance.full_description, profile_admin_player_path(id: instance.player_id), class: "text-decoration-none") %>
-                </td>
-                <td class="py-1">
-                  <%= instance.roster ? link_to(instance.roster&.abbreviation, polymorphic_path([:admin, instance.roster])) : 'FA' %>
-                </td>
-                <td class="py-1"><%= instance.level_abbreviation %></td>
-                <td class="py-1"><%= instance.status_abbreviation %></td>
-                <td class="py-1"><%= instance.age&.ceil %></td>
-                <td class="py-1"><%= instance.qs&.ceil %></td>
-                <td class="py-1"><%= instance.k_9&.ceil %></td>
-                <td class="py-1"><%= instance.era&.ceil %></td>
-                <td class="py-1"><%= instance.whip&.ceil %></td>
-                <td class="py-1"><%= instance.nr&.ceil %></td>
-                <td class="py-1"><%= instance.inn&.ceil %></td>
-                <td class="py-1"><%= instance.win&.ceil %></td>
-                <td class="py-1"><%= instance.ha&.ceil %></td>
-                <td class="py-1"><%= instance.hra&.ceil %></td>
-                <td class="py-1"><%= instance.baa&.ceil %></td>
-                <td class="py-1"><%= instance.saves&.ceil %></td>
-                <td class="py-1"><%= instance.bs&.ceil %></td>
-                <td class="py-1"><%= instance.rw&.ceil %></td>
-                <td class="py-1">
-                  <button type="button" class="btn btn-sm p-0" data-bs-toggle="tooltip" title="<%= instance.present? ? 'Mark as tracked' : 'Untrack player' %>">
-                    <i class="<%= instance.present? ? 'bi bi-star text-muted' : 'bi bi-star-fill text-warning' %>"></i>
-                  </button>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+  <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
+    <% table.with_column(sort_link([:admin, @q], :last_name, "Player", :base, default_order: :asc)) { |instance| instance.full_description } %>
+    <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", :base)) { |instance| instance.level&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL", :base)) { |instance| instance.level&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", :base)) { |instance| instance.status&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", :base)) { |instance| instance.status&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :bat_ops, "QS", :scoring)) { |instance| instance.pit_qs } %>
+    <% table.with_column(sort_link([:admin, @q], :bat_hits, "INN", :stats)) { |instance| instance.pit_inn } %>
+    <% table.with_column(sort_link([:admin, @q], :pit_control_pres, "CNTL", :scouting)) { |instance| instance.pit_control_pres } %>
+  <% end %>
 
   <%= render Admin::IndexPager::Component.new(pagy: @pagy, instance: @instance) %>
-<% end %>
 
-<style>
-</style>
+<% end %>

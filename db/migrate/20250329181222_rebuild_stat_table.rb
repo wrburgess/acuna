@@ -14,14 +14,15 @@ class RebuildStatTable < ActiveRecord::Migration[8.0]
       # Meta fields
       t.string :mlbam_id
       t.string :game_number
-      t.string :game_time
+      t.datetime :game_date
       t.string :game_location
       t.string :game_result
+      t.datetime :started_at
+      t.datetime :ended_at
       t.text :notes
 
       # Batting stats - all decimal with precision: 10, scale: 3
       t.decimal :bat_ab, precision: 10, scale: 3, comment: "batting - total at bats"
-      t.decimal :bat_app, precision: 10, scale: 3, comment: "batting - total appearances"
       t.decimal :bat_avg, precision: 10, scale: 3, comment: "batting - batting average"
       t.decimal :bat_babip, precision: 10, scale: 3, comment: "batting - batting average on balls in play"
       t.decimal :bat_bb, precision: 10, scale: 3, comment: "batting - total base on balls (walks)"
@@ -53,11 +54,12 @@ class RebuildStatTable < ActiveRecord::Migration[8.0]
       t.decimal :bat_xbh, precision: 10, scale: 3, comment: "batting - extra base hits"
 
       # Pitching stats - all decimal with precision: 10, scale: 3
-      t.decimal :k_bb_pct_diff, precision: 10, scale: 3, comment: "pitching - diff between k pct and bb pct (K-BB%)"
-      t.decimal :k_bb_ratio, precision: 10, scale: 3, comment: "pitching - k to bb ratio (K/BB)"
+      t.decimal :pit_k_bb_pct_diff, precision: 10, scale: 3, comment: "pitching - diff between k pct and bb pct (K-BB%)"
+      t.decimal :pit_k_bb_ratio, precision: 10, scale: 3, comment: "pitching - k to bb ratio (K/BB)"
       t.decimal :pit_baa, precision: 10, scale: 3, comment: "pitching - batting average against"
       t.decimal :pit_babip, precision: 10, scale: 3, comment: "pitching - batting average balls in play against"
       t.decimal :pit_balks, precision: 10, scale: 3, comment: "pitching - total balks"
+      t.decimal :pit_bb, precision: 10, scale: 3, comment: "pitching - total base on balls"
       t.decimal :pit_bb_9, precision: 10, scale: 3, comment: "pitching - walks per nine innings"
       t.decimal :pit_bb_k, precision: 10, scale: 3, comment: "pitching - walk and strikeout ratio"
       t.decimal :pit_bb_pct, precision: 10, scale: 3, comment: "pitching - base on ball percentage"

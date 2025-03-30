@@ -1,0 +1,40 @@
+<div class="card mb-3">
+  <div class="card-body py-2">
+    <div class="d-flex align-items-center">
+      <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Position</div>
+      <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+        <%# "All" link: remove any position filter keys %>
+        <% all_position_params = params[:q] ? params[:q].to_unsafe_h.except(:position_in, :position_eq) : {} %>
+        <li class="nav-item">
+          <%= link_to "All", dashboard_admin_players_path(q: all_position_params),
+                class: "nav-link #{'active' unless (params[:q] && (params[:q][:position_in].present? || params[:q][:position_eq].present?))}" %>
+        </li>
+
+        <%# Load positions from the model and order as desired %>
+        <% @positions.each do |position| %>
+          <li class="nav-item">
+            <% current_params = params[:q] ? params[:q].to_unsafe_h.except(:position_in, :position_eq).dup : {} %>
+            <% if position.collective_values.present? && position.collective_values.size > 1 %>
+              <% current_params[:position_in] = position.collective_values %>
+            <% else %>
+              <% current_params[:position_eq] = position.abbreviation %>
+            <% end %>
+
+            <%# Determine if this link should be "active" by comparing the filter value %>
+            <% is_active = false %>
+            <% if params[:q] %>
+              <% if current_params[:position_in] && params[:q][:position_in].to_s == current_params[:position_in].to_s %>
+                <% is_active = true %>
+              <% elsif current_params[:position_eq] && params[:q][:position_eq].to_s == current_params[:position_eq].to_s %>
+                <% is_active = true %>
+              <% end %>
+            <% end %>
+
+            <%= link_to position.abbreviation, dashboard_admin_players_path(q: current_params),
+                  class: "nav-link #{'active' if is_active}" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

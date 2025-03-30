@@ -1,0 +1,24 @@
+<div class="card mb-3">
+  <div class="card-body py-2">
+    <div class="d-flex align-items-center">
+      <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Lists</div>
+      <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+        <li class="nav-item">
+          <% all_list_params = params[:q] ? params[:q].to_unsafe_h.except(:tracking_list_players_tracking_list_id_eq) : {} %>
+          <%= link_to "None", dashboard_admin_players_path(q: all_list_params), 
+            class: "nav-link #{'active' unless params[:q] && params[:q][:tracking_list_players_tracking_list_id_eq]}" %>
+        </li>
+        <% @tracking_lists.each do |list| %>
+          <% current_params = params[:q] ? params[:q].to_unsafe_h.except(:tracking_list_players_tracking_list_id_eq).dup : {} %>
+          <% current_params[:tracking_list_players_tracking_list_id_eq] = list.id %>
+          <% is_active = params[:q] && params[:q][:tracking_list_players_tracking_list_id_eq].to_i == list.id %>
+          <li class="nav-item">
+            <%= link_to dashboard_admin_players_path(q: current_params), class: "nav-link #{'active' if is_active}" do %>
+              <i class="bi <%= list.icon_name_off %> me-1"></i> <%= list.name %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

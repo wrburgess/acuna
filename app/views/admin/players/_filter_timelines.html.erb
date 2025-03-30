@@ -1,0 +1,22 @@
+<div class="card mb-3">
+  <div class="card-body py-2">
+    <div class="d-flex align-items-center">
+      <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Timeline</div>
+      <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+        <li class="nav-item">
+          <% timeline_params = params[:q] ? params[:q].to_unsafe_h.except(:timeline_id_eq) : {} %>
+          <%= link_to "Current", dashboard_admin_players_path(q: timeline_params), 
+                class: "nav-link #{'active' unless params[:q] && params[:q][:timeline_id_eq]}" %>
+        </li>
+        <% @timelines.each do |timeline| %>
+          <% current_params = params[:q] ? params[:q].to_unsafe_h.dup : {} %>
+          <% current_params[:timeline_id_eq] = timeline.id %>
+          <li class="nav-item">
+            <%= link_to timeline.abbreviation.upcase, dashboard_admin_players_path(q: current_params), 
+                  class: "nav-link #{'active' if params[:q] && params[:q][:timeline_id_eq].to_i == timeline.id}" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

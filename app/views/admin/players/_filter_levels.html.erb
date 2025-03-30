@@ -1,0 +1,22 @@
+<div class="card mb-3">
+  <div class="card-body py-2">
+    <div class="d-flex align-items-center">
+      <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Level</div>
+      <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+        <li class="nav-item">
+          <% all_level_params = params[:q] ? params[:q].to_unsafe_h.except(:level_id_eq) : {} %>
+          <%= link_to "All", dashboard_admin_players_path(q: all_level_params), 
+                class: "nav-link #{'active' unless params[:q] && params[:q][:level_id_eq]}" %>
+        </li>
+        <% @levels.each do |level| %>
+          <li class="nav-item">
+            <% current_params = params[:q] ? params[:q].to_unsafe_h.dup : {} %>
+            <% current_params[:level_id_eq] = level.id %>
+            <%= link_to level.abbreviation, dashboard_admin_players_path(q: current_params), 
+                  class: "nav-link #{'active' if params[:q] && params[:q][:level_id_eq].to_i == level.id}" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="card mb-3">
+  <div class="card-body py-2">
+    <div class="d-flex align-items-center">
+      <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Status</div>
+      <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+        <li class="nav-item">
+          <% all_status_params = params[:q] ? params[:q].to_unsafe_h.except(:status_id_eq) : {} %>
+          <%= link_to "All", dashboard_admin_players_path(q: all_status_params), 
+                class: "nav-link #{'active' unless params[:q] && params[:q][:status_id_eq]}" %>
+        </li>
+        <% @statuses.each do |status| %>
+          <li class="nav-item">
+            <% current_params = params[:q] ? params[:q].to_unsafe_h.dup : {} %>
+            <% current_params[:status_id_eq] = status.id %>
+            <%= link_to status.abbreviation, dashboard_admin_players_path(q: current_params), 
+                  class: "nav-link #{'active' if params[:q] && params[:q][:status_id_eq].to_i == status.id}" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
