@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_29_181222) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_30_220829) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -305,66 +305,67 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_29_181222) do
 
   create_table "scouting_profiles", force: :cascade do |t|
     t.bigint "player_id"
-    t.string "timeline_type"
+    t.bigint "timeline_id"
     t.string "risk"
     t.string "eta"
-    t.decimal "espn_ovr_rnk", precision: 10, scale: 3
-    t.decimal "ath_ovr_rnk", precision: 10, scale: 3
-    t.decimal "ba_ovr_rnk", precision: 10, scale: 3
-    t.decimal "pl_ovr_rnk", precision: 10, scale: 3
-    t.decimal "cbs_ovr_rnk", precision: 10, scale: 3
-    t.decimal "fg_ovr_rnk", precision: 10, scale: 3
-    t.decimal "self_ovr_rnk", precision: 10, scale: 3
-    t.decimal "espn_tm_rnk", precision: 10, scale: 3
-    t.decimal "ath_tm_rnk", precision: 10, scale: 3
-    t.decimal "ba_tm_rnk", precision: 10, scale: 3
-    t.decimal "pl_tm_rnk", precision: 10, scale: 3
-    t.decimal "cbs_tm_rnk", precision: 10, scale: 3
-    t.decimal "fg_tm_rnk", precision: 10, scale: 3
-    t.decimal "self_tm_rnk", precision: 10, scale: 3
-    t.decimal "espn_fv", precision: 10, scale: 3
-    t.decimal "ath_fv", precision: 10, scale: 3
-    t.decimal "ba_fv", precision: 10, scale: 3
-    t.decimal "pl_fv", precision: 10, scale: 3
-    t.decimal "cbs_fv", precision: 10, scale: 3
-    t.decimal "fg_fv", precision: 10, scale: 3
-    t.decimal "self_fv", precision: 10, scale: 3
-    t.decimal "hit_pres", precision: 10, scale: 3
-    t.decimal "hit_proj", precision: 10, scale: 3
-    t.decimal "game_pwr_pres", precision: 10, scale: 3
-    t.decimal "game_pwr_proj", precision: 10, scale: 3
-    t.decimal "raw_pwr_pres", precision: 10, scale: 3
-    t.decimal "raw_pwr_proj", precision: 10, scale: 3
-    t.decimal "pit_sel", precision: 10, scale: 3
-    t.decimal "bat_ctrl", precision: 10, scale: 3
-    t.decimal "hard_hit", precision: 10, scale: 3
-    t.decimal "spd_pres", precision: 10, scale: 3
-    t.decimal "spd_proj", precision: 10, scale: 3
-    t.decimal "fld_pres", precision: 10, scale: 3
-    t.decimal "fld_proj", precision: 10, scale: 3
-    t.decimal "control_pres", precision: 10, scale: 3
-    t.decimal "control_proj", precision: 10, scale: 3
-    t.decimal "command_pres", precision: 10, scale: 3
-    t.decimal "command_proj", precision: 10, scale: 3
-    t.decimal "fastball_pres", precision: 10, scale: 3
-    t.decimal "fastball_proj", precision: 10, scale: 3
-    t.decimal "fastball_type", precision: 10, scale: 3
-    t.decimal "curve_pres", precision: 10, scale: 3
-    t.decimal "curve_proj", precision: 10, scale: 3
-    t.decimal "slider_pres", precision: 10, scale: 3
-    t.decimal "slider_proj", precision: 10, scale: 3
-    t.decimal "sweeper_pres", precision: 10, scale: 3
-    t.decimal "sweeper_proj", precision: 10, scale: 3
-    t.decimal "changeup_pres", precision: 10, scale: 3
-    t.decimal "changeup_proj", precision: 10, scale: 3
-    t.decimal "cutter_pres", precision: 10, scale: 3
-    t.decimal "cutter_proj", precision: 10, scale: 3
-    t.decimal "arm_pres", precision: 10, scale: 3
-    t.decimal "arm_proj", precision: 10, scale: 3
-    t.date "archived_at"
+    t.text "note"
+    t.decimal "espn_overall_rank", precision: 10, scale: 3
+    t.decimal "ath_overall_rank", precision: 10, scale: 3
+    t.decimal "ba_overall_rank", precision: 10, scale: 3
+    t.decimal "pl_overall_rank", precision: 10, scale: 3
+    t.decimal "cbs_overall_rank", precision: 10, scale: 3
+    t.decimal "fg_overall_rank", precision: 10, scale: 3
+    t.decimal "self_overall_rank", precision: 10, scale: 3
+    t.decimal "espn_team_rank", precision: 10, scale: 3
+    t.decimal "ath_team_rank", precision: 10, scale: 3
+    t.decimal "ba_team_rank", precision: 10, scale: 3
+    t.decimal "pl_team_rank", precision: 10, scale: 3
+    t.decimal "cbs_team_rank", precision: 10, scale: 3
+    t.decimal "fg_team_rank", precision: 10, scale: 3
+    t.decimal "self_team_rank", precision: 10, scale: 3
+    t.decimal "espn_future_value", precision: 10, scale: 3
+    t.decimal "ath_future_value", precision: 10, scale: 3
+    t.decimal "ba_future_value", precision: 10, scale: 3
+    t.decimal "pl_future_value", precision: 10, scale: 3
+    t.decimal "cbs_future_value", precision: 10, scale: 3
+    t.decimal "fg_future_value", precision: 10, scale: 3
+    t.decimal "self_future_value", precision: 10, scale: 3
+    t.decimal "bat_hit_pres", precision: 10, scale: 3
+    t.decimal "bat_hit_proj", precision: 10, scale: 3
+    t.decimal "bat_game_pwr_pres", precision: 10, scale: 3
+    t.decimal "bat_game_pwr_proj", precision: 10, scale: 3
+    t.decimal "bat_raw_pwr_pres", precision: 10, scale: 3
+    t.decimal "bat_raw_pwr_proj", precision: 10, scale: 3
+    t.decimal "bat_pit_sel", precision: 10, scale: 3
+    t.decimal "bat_bat_ctrl", precision: 10, scale: 3
+    t.decimal "bat_hard_hit", precision: 10, scale: 3
+    t.decimal "bat_spd_pres", precision: 10, scale: 3
+    t.decimal "bat_spd_proj", precision: 10, scale: 3
+    t.decimal "bat_fld_pres", precision: 10, scale: 3
+    t.decimal "bat_fld_proj", precision: 10, scale: 3
+    t.decimal "pit_control_pres", precision: 10, scale: 3
+    t.decimal "pit_control_proj", precision: 10, scale: 3
+    t.decimal "pit_command_pres", precision: 10, scale: 3
+    t.decimal "pit_command_proj", precision: 10, scale: 3
+    t.decimal "pit_fastball_pres", precision: 10, scale: 3
+    t.decimal "pit_fastball_proj", precision: 10, scale: 3
+    t.decimal "pit_fastball_type", precision: 10, scale: 3
+    t.decimal "pit_curve_pres", precision: 10, scale: 3
+    t.decimal "pit_curve_proj", precision: 10, scale: 3
+    t.decimal "pit_slider_pres", precision: 10, scale: 3
+    t.decimal "pit_slider_proj", precision: 10, scale: 3
+    t.decimal "pit_sweeper_pres", precision: 10, scale: 3
+    t.decimal "pit_sweeper_proj", precision: 10, scale: 3
+    t.decimal "pit_changeup_pres", precision: 10, scale: 3
+    t.decimal "pit_changeup_proj", precision: 10, scale: 3
+    t.decimal "pit_cutter_pres", precision: 10, scale: 3
+    t.decimal "pit_cutter_proj", precision: 10, scale: 3
+    t.decimal "pit_arm_pres", precision: 10, scale: 3
+    t.decimal "pit_arm_proj", precision: 10, scale: 3
+    t.datetime "recorded_at"
+    t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "timeline_id"
     t.index ["player_id"], name: "index_scouting_profiles_on_player_id"
     t.index ["timeline_id"], name: "index_scouting_profiles_on_timeline_id"
   end
@@ -431,94 +432,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_29_181222) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["first_name", "last_name"], name: "index_scouts_on_first_name_and_last_name"
-  end
-
-  create_table "stats", force: :cascade do |t|
-    t.bigint "player_id"
-    t.bigint "team_id"
-    t.bigint "opponent_id"
-    t.bigint "timeline_id"
-    t.string "mlbam_id"
-    t.string "game_number"
-    t.string "game_time"
-    t.string "game_location"
-    t.string "game_result"
-    t.text "notes"
-    t.decimal "bat_ab", precision: 10, scale: 3, comment: "batting - total at bats"
-    t.decimal "bat_app", precision: 10, scale: 3, comment: "batting - total appearances"
-    t.decimal "bat_avg", precision: 10, scale: 3, comment: "batting - batting average"
-    t.decimal "bat_babip", precision: 10, scale: 3, comment: "batting - batting average on balls in play"
-    t.decimal "bat_bb", precision: 10, scale: 3, comment: "batting - total base on balls (walks)"
-    t.decimal "bat_cs", precision: 10, scale: 3, comment: "batting - total caught stealings"
-    t.decimal "bat_doubles", precision: 10, scale: 3, comment: "batting - total doubles"
-    t.decimal "bat_errors", precision: 10, scale: 3, comment: "batting - total errors"
-    t.decimal "bat_gdp", precision: 10, scale: 3, comment: "batting - total ground into double plays"
-    t.decimal "bat_hbp", precision: 10, scale: 3, comment: "batting - total hits by pitches"
-    t.decimal "bat_hits", precision: 10, scale: 3, comment: "batting - total_hits"
-    t.decimal "bat_hr", precision: 10, scale: 3, comment: "batting - total home runs"
-    t.decimal "bat_iso", precision: 10, scale: 3, comment: "batting - isolated power"
-    t.decimal "bat_k", precision: 10, scale: 3, comment: "batting - total strikeouts"
-    t.decimal "bat_nsb", precision: 10, scale: 3, comment: "batting - net stolen bases (sb - cs)"
-    t.decimal "bat_obp", precision: 10, scale: 3, comment: "batting - on base percentage"
-    t.decimal "bat_ops", precision: 10, scale: 3, comment: "batting - on-base plus slugging percentage"
-    t.decimal "bat_pa", precision: 10, scale: 3, comment: "batting - total plate appearances"
-    t.decimal "bat_rbi", precision: 10, scale: 3, comment: "batting - total runs batted in"
-    t.decimal "bat_runs", precision: 10, scale: 3, comment: "batting - total runs"
-    t.decimal "bat_sb", precision: 10, scale: 3, comment: "batting - total stolen bases"
-    t.decimal "bat_sf", precision: 10, scale: 3, comment: "batting - total sacrifice flies"
-    t.decimal "bat_slg", precision: 10, scale: 3, comment: "batting - slugging percentage"
-    t.decimal "bat_triples", precision: 10, scale: 3, comment: "batting - total triples"
-    t.decimal "bat_war", precision: 10, scale: 3, comment: "batting - weighted runs created plus (wRC+)"
-    t.decimal "bat_woba", precision: 10, scale: 3, comment: "batting - weighted on-base average (wOBA)"
-    t.decimal "bat_wraa", precision: 10, scale: 3, comment: "batting - weighted runs above average (wRAA)"
-    t.decimal "bat_wrc", precision: 10, scale: 3, comment: "batting - weighted runs created (wRC)"
-    t.decimal "bat_wrc_plus", precision: 10, scale: 3, comment: "batting - weighted runs created plus (wRC+)"
-    t.decimal "bat_wsb", precision: 10, scale: 3, comment: "batting - weighted stolen base runs (wSB)"
-    t.decimal "bat_xbh", precision: 10, scale: 3, comment: "batting - extra base hits"
-    t.decimal "k_bb_pct_diff", precision: 10, scale: 3, comment: "pitching - diff between k pct and bb pct (K-BB%)"
-    t.decimal "k_bb_ratio", precision: 10, scale: 3, comment: "pitching - k to bb ratio (K/BB)"
-    t.decimal "pit_baa", precision: 10, scale: 3, comment: "pitching - batting average against"
-    t.decimal "pit_babip", precision: 10, scale: 3, comment: "pitching - batting average balls in play against"
-    t.decimal "pit_balks", precision: 10, scale: 3, comment: "pitching - total balks"
-    t.decimal "pit_bb_9", precision: 10, scale: 3, comment: "pitching - walks per nine innings"
-    t.decimal "pit_bb_k", precision: 10, scale: 3, comment: "pitching - walk and strikeout ratio"
-    t.decimal "pit_bb_pct", precision: 10, scale: 3, comment: "pitching - base on ball percentage"
-    t.decimal "pit_bs", precision: 10, scale: 3, comment: "pitching - total blown saves"
-    t.decimal "pit_cg", precision: 10, scale: 3, comment: "pitching - total complete games pitched"
-    t.decimal "pit_era", precision: 10, scale: 3, comment: "pitching - earned run average"
-    t.decimal "pit_fip", precision: 10, scale: 3, comment: "pitching - fielder independent pitching"
-    t.decimal "pit_gb_pct", precision: 10, scale: 3, comment: "pitching - ground ball percentage"
-    t.decimal "pit_gs", precision: 10, scale: 3, comment: "pitching - total games started"
-    t.decimal "pit_ha", precision: 10, scale: 3, comment: "pitching - total hits against"
-    t.decimal "pit_hit_bats", precision: 10, scale: 3, comment: "pitching - total hit batters"
-    t.decimal "pit_holds", precision: 10, scale: 3, comment: "pitching - total holds"
-    t.decimal "pit_hr_9", precision: 10, scale: 3, comment: "pitching - home runs per nine innings"
-    t.decimal "pit_hra", precision: 10, scale: 3, comment: "pitching - total home runs against"
-    t.decimal "pit_ibb", precision: 10, scale: 3, comment: "pitching - intentional base on balls allowed"
-    t.decimal "pit_inn", precision: 10, scale: 3, comment: "pitching - total innings pitched"
-    t.decimal "pit_k_9", precision: 10, scale: 3, comment: "pitching - strikeouts per nine innings"
-    t.decimal "pit_k_pct", precision: 10, scale: 3, comment: "pitching - strikeout percentage"
-    t.decimal "pit_ks", precision: 10, scale: 3, comment: "pitching - total strikeouts"
-    t.decimal "pit_lob_pct", precision: 10, scale: 3, comment: "pitching - left on base percentage"
-    t.decimal "pit_losses", precision: 10, scale: 3, comment: "pitching - total losses"
-    t.decimal "pit_nr", precision: 10, scale: 3, comment: "pitching - net reliefs (saves + holds + relief wins - blown saves)"
-    t.decimal "pit_qs", precision: 10, scale: 3, comment: "pitching - total quality starts"
-    t.decimal "pit_rw", precision: 10, scale: 3, comment: "pitching - total relief wins"
-    t.decimal "pit_saves", precision: 10, scale: 3, comment: "pitching - total saves"
-    t.decimal "pit_tbf", precision: 10, scale: 3, comment: "pitching - total batters faced"
-    t.decimal "pit_whip", precision: 10, scale: 3, comment: "pitching - walks and hits per inning pitched"
-    t.decimal "pit_wilds", precision: 10, scale: 3, comment: "pitching - total wild pitches"
-    t.decimal "pit_wins", precision: 10, scale: 3, comment: "pitching - total wins"
-    t.decimal "pit_xera", precision: 10, scale: 3, comment: "pitching - expected earned run average"
-    t.decimal "pit_xfip", precision: 10, scale: 3, comment: "pitching - expected fielder independent pitching (HRs are 10.5% of Fly Balls induced)"
-    t.datetime "recorded_at"
-    t.datetime "archived_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["opponent_id"], name: "index_stats_on_opponent_id"
-    t.index ["player_id"], name: "index_stats_on_player_id"
-    t.index ["team_id"], name: "index_stats_on_team_id"
-    t.index ["timeline_id"], name: "index_stats_on_timeline_id"
   end
 
   create_table "statuses", force: :cascade do |t|
@@ -669,17 +582,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_29_181222) do
   add_foreign_key "players", "rosters"
   add_foreign_key "players", "statuses"
   add_foreign_key "players", "teams"
-  add_foreign_key "scouting_profile_reports", "scouting_profiles"
   add_foreign_key "scouting_profile_reports", "scouting_reports"
   add_foreign_key "scouting_profiles", "players"
   add_foreign_key "scouting_profiles", "timelines"
   add_foreign_key "scouting_reports", "players"
   add_foreign_key "scouting_reports", "scouts"
   add_foreign_key "scouting_reports", "timelines"
-  add_foreign_key "stats", "players"
-  add_foreign_key "stats", "teams"
-  add_foreign_key "stats", "teams", column: "opponent_id"
-  add_foreign_key "stats", "timelines"
   add_foreign_key "tracking_list_players", "players"
   add_foreign_key "tracking_list_players", "tracking_lists"
   add_foreign_key "tracking_lists", "users"

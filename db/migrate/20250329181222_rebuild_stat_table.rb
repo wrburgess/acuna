@@ -1,5 +1,23 @@
 class RebuildStatTable < ActiveRecord::Migration[8.0]
   def up
+    # First, find and remove all foreign key constraints pointing to stats table
+    execute <<-SQL
+      DO $$
+      DECLARE
+        r RECORD;
+      BEGIN
+        FOR r IN (
+          SELECT conname, conrelid::regclass AS table_name
+          FROM pg_constraint
+          WHERE confrelid = 'stats'::regclass
+        )
+        LOOP
+          EXECUTE 'ALTER TABLE ' || r.table_name || ' DROP CONSTRAINT ' || r.conname;
+        END LOOP;
+      END
+      $$;
+    SQL
+
     # Drop the existing stats table
     drop_table :stats if table_exists?(:stats)
 

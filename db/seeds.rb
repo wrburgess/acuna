@@ -167,3 +167,16 @@ CSV.foreach(csv_path, headers: true) do |row|
 end
 
 puts "Positions import completed successfully!"
+
+Maintenance::SeedTrackingListsTask.new.process
+puts "Tracking Lists import successful"
+
+task = Maintenance::PlayersImportCbsContextBattersTask.new
+task.file_name = 'cbs_batter_status.csv'
+task.process
+puts "Batters import from CBS successful"
+
+task = Maintenance::PlayersImportCbsContextPitchersTask.new
+task.file_name = 'cbs_pitcher_status.csv'
+task.process
+puts "Pitchers import from CBS successful"
