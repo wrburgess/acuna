@@ -180,3 +180,8 @@ task = Maintenance::PlayersImportCbsContextPitchersTask.new
 task.file_name = 'cbs_pitcher_status.csv'
 task.process
 puts "Pitchers import from CBS successful"
+
+task = Maintenance::SeedPlayerDataTask.new
+task.process
+puts "Stats mock data creation successful"
+puts "Scouting Profile mock data creation successful"

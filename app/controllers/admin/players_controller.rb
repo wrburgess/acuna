@@ -177,6 +177,9 @@ class Admin::PlayersController < AdminController
            'statuses.weight AS player_status_weight',
            'COALESCE(array_agg(tracking_list_players.tracking_list_id) FILTER (WHERE tracking_list_players.tracking_list_id IS NOT NULL), ARRAY[]::integer[]) AS aggregated_tracking_list_ids'
          ].join(', '))
+         .includes(
+           :team,
+         )
          .joins('LEFT JOIN rosters ON rosters.id = players.roster_id')
          .joins('LEFT JOIN teams ON teams.id = players.team_id')
          .joins('LEFT JOIN levels ON levels.id = players.level_id')
