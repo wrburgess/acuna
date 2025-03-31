@@ -1,0 +1,8 @@
+<%= button_to(
+  @tracking_status ? admin_player_untrack_path(@player) : admin_player_track_path(@player),
+  method: @tracking_status ? :delete : :post,
+  class: @css_class,
+  data: { turbo: @options[:turbo] || true }
+) do %>
+  <i class="<%= @icon_class %>"></i> <%= @button_text %>
+<% end %>
