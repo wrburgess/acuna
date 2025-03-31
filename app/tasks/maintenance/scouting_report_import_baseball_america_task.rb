@@ -6,7 +6,6 @@ module Maintenance
     no_collection
 
     attribute :timeline, :string, default: '2025'
-    attribute :timeline_type, :string, default: 'preseason'
     attribute :file_name, :string, default: 'baseball_america_scouting_reports.csv'
 
     def process
@@ -92,7 +91,6 @@ module Maintenance
             player_id: player.id,
             scout_id: scout.id,
             timeline: timeline,
-            timeline_type: timeline_type
           )
 
           # Set basic attributes

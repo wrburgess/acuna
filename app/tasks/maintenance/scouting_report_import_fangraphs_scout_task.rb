@@ -6,7 +6,6 @@ module Maintenance
     no_collection
 
     attribute :timeline, :string, default: '2025'
-    attribute :timeline_type, :string, default: 'preseason'
     attribute :file_name, :string, default: 'fangraphs-the-board-scout.csv'
 
     def process
@@ -98,8 +97,7 @@ module Maintenance
           scouting_report = ScoutingReport.find_or_initialize_by(
             player_id: player.id,
             scout_id: scout.id,
-            timeline: timeline,
-            timeline_type: timeline_type
+            timeline: timeline
           )
 
           # Set basic attributes

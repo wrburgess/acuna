@@ -54,6 +54,7 @@ group :development do
   gem 'bundler-audit', '0.9.2', require: false
   gem 'lookbook', '2.3.8'
   gem 'rubocop', '1.75.1', require: false
+  gem 'squasher', '0.8.0'
   gem 'web-console', '4.2.1'
 end
 

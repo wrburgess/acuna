@@ -1,7 +1,6 @@
   player
   
   string "timeline"
-  string "timeline_type"
   
   string "risk"
   string "eta"

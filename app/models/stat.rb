@@ -6,7 +6,6 @@ class Stat < ApplicationRecord
   belongs_to :timeline
 
   validates :timeline, presence: true
-  validates :timeline_type, presence: true
 
   scope :select_order, -> { order(timeline: :asc) }
 
@@ -53,7 +52,6 @@ class Stat < ApplicationRecord
       slg
       team_id
       timeline
-      timeline_type
       updated_at
     ]
   end
@@ -75,7 +73,7 @@ class Stat < ApplicationRecord
   end
 
   def display_name
-    "#{player.try(:name)} - #{timeline} (#{timeline_type})"
+    "#{player.try(:name)} - #{timeline.name})"
   end
 
   def class_name_title

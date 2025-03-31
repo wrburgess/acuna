@@ -59,7 +59,6 @@ class ScoutingReport < ApplicationRecord
       sweeper_proj
       team_ranking
       timeline
-      timeline_type
       title
       updated_at
     ]

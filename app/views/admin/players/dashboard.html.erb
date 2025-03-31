@@ -9,6 +9,9 @@
 %>
 
 <%= render Admin::PageContainer::Component.new do %> 
+  <!-- Player Context Filter Navigation -->
+  <%= render partial: "filter_context", locals: { params: params, player_type: @player_type } %>
+
   <!-- Level Filter Navigation -->
   <%= render partial: "filter_levels", locals: { params: params, levels: @levels } %>
 
@@ -28,27 +31,68 @@
   <%= render partial: "filter_views", locals: { params: params } %>
 
   <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
-    <% table.with_column(sort_link([:admin, @q], :last_name, "Player", :base, default_order: :asc)) { |instance| instance.full_description } %>
-    <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", :base)) { |instance| instance.level&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL", :base)) { |instance| instance.level&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", :base)) { |instance| instance.status&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", :base)) { |instance| instance.status&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS", :scoring)) { |instance| instance.bat_ops } %>
-    <% table.with_column(sort_link([:admin, @q], :bat_hits, "H", :stats)) { |instance| instance.bat_hits } %>
-    <% table.with_column(sort_link([:admin, @q], :bat_bat_ctrl, "BCTL", :scouting)) { |instance| instance.bat_bat_ctrl } %>
+    <% table.with_column("Track") do |instance| %>
+      <% current_user.tracking_lists.each do |tracking_list| %>
+        <% is_tracked = instance.aggregated_tracking_list_ids.include?(tracking_list.id) %>
+        <button 
+          type="button" 
+          class="btn btn-sm p-0"
+          data-controller="tracking-list-player"
+          data-tracking-list-player-player-id-value="<%= instance.player_id %>"
+          data-tracking-list-player-tracking-list-id-value="<%= tracking_list.id %>"
+          data-tracking-list-player-tracked-value="<%= is_tracked %>"
+          data-tracking-list-name="<%= tracking_list.name %>"
+          data-icon-on="<%= tracking_list.icon_name_on %>"
+          data-icon-off="<%= tracking_list.icon_name_off %>"
+          data-tracking-list-player-target="button"
+          data-action="click->tracking-list-player#toggle"
+          data-bs-toggle="tooltip" 
+          title="<%= is_tracked ? "Remove from #{tracking_list.name}" : "Add to #{tracking_list.name}" %>">
+          <i class="<%= is_tracked ? "bi #{tracking_list.icon_name_on} text-warning" : "bi #{tracking_list.icon_name_off} text-muted" %>"></i>
+        </button>
+      <% end %>
+    <% end %>
+    <% table.with_column(sort_link([:admin, @q], :last_name, "Player", class: :base, default_order: :asc)) { |instance| instance.full_description } %>
+    <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", class: :base)) { |instance| instance.level&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL", class: :base)) { |instance| instance.level&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", class: :base)) { |instance| instance.status&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", class: :base)) { |instance| instance.status&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS", class: :scoring)) { |instance| instance.bat_ops } %>
+    <% table.with_column(sort_link([:admin, @q], :bat_hits, "H", class: :stats)) { |instance| instance.bat_hits } %>
+    <% table.with_column(sort_link([:admin, @q], :bat_bat_ctrl, "BCTL", class: :scouting)) { |instance| instance.bat_bat_ctrl } %>
   <% end %>
 
   <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
-    <% table.with_column(sort_link([:admin, @q], :last_name, "Player", :base, default_order: :asc)) { |instance| instance.full_description } %>
-    <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", :base)) { |instance| instance.level&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL", :base)) { |instance| instance.level&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", :base)) { |instance| instance.status&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", :base)) { |instance| instance.status&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :bat_ops, "QS", :scoring)) { |instance| instance.pit_qs } %>
-    <% table.with_column(sort_link([:admin, @q], :bat_hits, "INN", :stats)) { |instance| instance.pit_inn } %>
-    <% table.with_column(sort_link([:admin, @q], :pit_control_pres, "CNTL", :scouting)) { |instance| instance.pit_control_pres } %>
+    <% table.with_column("Track") do |instance| %>
+      <% current_user.tracking_lists.each do |tracking_list| %>
+        <% is_tracked = instance.aggregated_tracking_list_ids.include?(tracking_list.id) %>
+        <button 
+          type="button" 
+          class="btn btn-sm p-0"
+          data-controller="tracking-list-player"
+          data-tracking-list-player-player-id-value="<%= instance.player_id %>"
+          data-tracking-list-player-tracking-list-id-value="<%= tracking_list.id %>"
+          data-tracking-list-player-tracked-value="<%= is_tracked %>"
+          data-tracking-list-name="<%= tracking_list.name %>"
+          data-icon-on="<%= tracking_list.icon_name_on %>"
+          data-icon-off="<%= tracking_list.icon_name_off %>"
+          data-tracking-list-player-target="button"
+          data-action="click->tracking-list-player#toggle"
+          data-bs-toggle="tooltip" 
+          title="<%= is_tracked ? "Remove from #{tracking_list.name}" : "Add to #{tracking_list.name}" %>">
+          <i class="<%= is_tracked ? "bi #{tracking_list.icon_name_on} text-warning" : "bi #{tracking_list.icon_name_off} text-muted" %>"></i>
+        </button>
+      <% end %>
+    <% end %>
+    <% table.with_column(sort_link([:admin, @q], :last_name, "Player", class: :base, default_order: :asc)) { |instance| instance.full_description } %>
+    <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", class: :base)) { |instance| instance.level&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL", class: :base)) { |instance| instance.level&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", class: :base)) { |instance| instance.status&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", class: :base)) { |instance| instance.status&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :pit_qs, "QS", class: :scoring)) { |instance| instance.pit_qs } %>
+    <% table.with_column(sort_link([:admin, @q], :pit_inn, "INN", class: :stats)) { |instance| instance.pit_inn } %>
+    <% table.with_column(sort_link([:admin, @q], :pit_control_pres, "CNTL", class: :scouting)) { |instance| instance.pit_control_pres } %>
   <% end %>
 
   <%= render Admin::IndexPager::Component.new(pagy: @pagy, instance: @instance) %>
-
 <% end %>

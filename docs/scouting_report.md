@@ -3,7 +3,6 @@
 * scout_name - Scout
 * company_name - Scout
 * timeline - ScoutingReport, "2005"
-* timeline_type - ScoutingReport, "preseason"
 * reported_at - ScoutingReport
 
 ## Player

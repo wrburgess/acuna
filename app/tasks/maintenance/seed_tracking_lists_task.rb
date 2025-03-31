@@ -48,7 +48,7 @@ module Maintenance
       # Create tracking lists
       tracking_lists = []
       lists.each do |list_data|
-        list = TrackingList.find_or_create_by(name: list_data[:name], user: user) do |l|
+        list = TrackingList.find_or_create_by(name: list_data[:name], user: user, icon_name_on: list_data[:icon_name_on], icon_name_off: list_data[:icon_name_off]) do |l|
           l.notes = list_data[:notes]
         end
 

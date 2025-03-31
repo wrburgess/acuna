@@ -6,7 +6,6 @@
     <% table.with_row(name: "Scout", value: link_to(@instance.scout.name, admin_scout_path(@instance.scout)) ) if @instance.scout %>
     <% table.with_row(name: "Player", value: link_to(@instance.player.name, admin_player_path(@instance.player)) ) if @instance.player %>
     <% table.with_row(name: "Timeline", value: @instance.timeline) %>
-    <% table.with_row(name: "Timeline Type", value: @instance.timeline_type) %>
     <% table.with_row(name: "Reported At", value: default_date_format(@instance.reported_at)) %>
     <% table.with_row(name: "Body", value: simple_format(@instance.body)) %>
     <% table.with_row(name: "Overall Ranking", value: @instance.overall_ranking) %>

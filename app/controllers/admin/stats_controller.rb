@@ -180,7 +180,6 @@ class Admin::StatsController < AdminController
       :sb,
       :slg,
       :timeline,
-      :timeline_type,
     )
   end
 
@@ -224,7 +223,6 @@ class Admin::StatsController < AdminController
       :sb,
       :slg,
       :timeline,
-      :timeline_type,
     )
   end
 end

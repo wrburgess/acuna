@@ -1,0 +1,38 @@
+<div class="card mb-3">
+  <div class="card-body py-2">
+    <div class="d-flex align-items-center">
+      <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Type</div>
+      <ul class="nav nav-pills nav-fill me-3" style="flex: 1;">
+        <% q_params = params[:q]&.to_unsafe_h || {} %>
+        <% url_params = request.query_parameters.except("player_type") %>
+        <li class="nav-item">
+          <a href="<%= dashboard_admin_players_path(url_params.merge(player_type: 'batter')) %>" 
+            class="nav-link <%= @player_type != 'pitcher' ? 'active' : '' %>" 
+            data-player-type-target="typeLink" 
+            data-action="click->player-type#switchType"
+            data-type="batter">Batter</a>
+        </li>
+        <li class="nav-item">
+          <a href="<%= dashboard_admin_players_path(url_params.merge(player_type: 'pitcher')) %>" 
+            class="nav-link <%= @player_type == 'pitcher' ? 'active' : '' %>" 
+            data-player-type-target="typeLink" 
+            data-action="click->player-type#switchType"
+            data-type="pitcher">Pitcher</a>
+        </li>
+      </ul>
+      
+      <!-- Player Name Filter -->
+      <div class="ms-auto d-flex align-items-center" style="min-width: 300px;">
+        <label for="player-name-filter" class="me-1 fw-bold text-secondary" style="min-width:90px;">Last Name:</label>
+        <input 
+          type="text" 
+          id="player-name-filter" 
+          class="form-control form-control-sm" 
+          placeholder="Filter by last name"
+          value="<%= params[:q] && params[:q][:last_name_cont] %>"
+          data-action="input->player-type#filterByName keyup->player-type#handleNameFilterKeyup"
+          data-player-type-target="nameFilter">
+      </div>
+    </div>
+  </div>
+</div>

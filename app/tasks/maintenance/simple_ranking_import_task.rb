@@ -96,8 +96,7 @@ module Maintenance
             scouting_report = ScoutingReport.find_or_initialize_by(
               player_id: player.id,
               scout_id: scout.id,
-              timeline: '2025',
-              timeline_type: 'preseason'
+              timeline: '2025'
             )
             scouting_report.reported_at = Time.zone.now
             # Only update if scouting report is new or rank changed
