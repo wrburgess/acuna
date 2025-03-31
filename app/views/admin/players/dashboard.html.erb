@@ -52,14 +52,14 @@
         </button>
       <% end %>
     <% end %>
-    <% table.with_column(sort_link([:admin, @q], :last_name, "Player", class: :base, default_order: :asc)) { |instance| instance.full_description } %>
+    <% table.with_column(sort_link([:admin, @q], :last_name, "Player1", class: :base, default_order: :asc)) { |instance| link_to(instance.full_description, profile_admin_player_path(id: instance.player_id)) } %>
     <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", class: :base)) { |instance| instance.level&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL", class: :base)) { |instance| instance.level&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", class: :base)) { |instance| instance.status&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", class: :base)) { |instance| instance.status&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS", class: :scoring)) { |instance| instance.bat_ops } %>
-    <% table.with_column(sort_link([:admin, @q], :bat_hits, "H", class: :stats)) { |instance| instance.bat_hits } %>
-    <% table.with_column(sort_link([:admin, @q], :bat_bat_ctrl, "BCTL", class: :scouting)) { |instance| instance.bat_bat_ctrl } %>
+    <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS", class: :scoring)) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
+    <% table.with_column(sort_link([:admin, @q], :bat_hits, "H", class: :stats)) { |instance| format_stat(instance.bat_hits, :hundreths) } %>
+    <% table.with_column(sort_link([:admin, @q], :bat_bat_ctrl, "BCTL", class: :scouting)) { |instance| format_stat(instance.bat_bat_ctrl, :hundreths) } %>
   <% end %>
 
   <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
@@ -84,14 +84,14 @@
         </button>
       <% end %>
     <% end %>
-    <% table.with_column(sort_link([:admin, @q], :last_name, "Player", class: :base, default_order: :asc)) { |instance| instance.full_description } %>
+    <% table.with_column(sort_link([:admin, @q], :last_name, "Player1", class: :base, default_order: :asc)) { |instance| link_to(instance.full_description, profile_admin_player_path(id: instance.player_id)) } %>
     <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", class: :base)) { |instance| instance.level&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL", class: :base)) { |instance| instance.level&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", class: :base)) { |instance| instance.status&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", class: :base)) { |instance| instance.status&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :pit_qs, "QS", class: :scoring)) { |instance| instance.pit_qs } %>
-    <% table.with_column(sort_link([:admin, @q], :pit_inn, "INN", class: :stats)) { |instance| instance.pit_inn } %>
-    <% table.with_column(sort_link([:admin, @q], :pit_control_pres, "CNTL", class: :scouting)) { |instance| instance.pit_control_pres } %>
+    <% table.with_column(sort_link([:admin, @q], :pit_qs, "QS", class: :scoring)) { |instance| format_stat(instance.pit_qs, :integer) } %>
+    <% table.with_column(sort_link([:admin, @q], :pit_inn, "INN", class: :stats)) { |instance| format_stat(instance.pit_inn, :integer) } %>
+    <% table.with_column(sort_link([:admin, @q], :pit_control_pres, "CNTL", class: :scouting)) { |instance| format_stat(instance.pit_control_pres, :integer) } %>
   <% end %>
 
   <%= render Admin::IndexPager::Component.new(pagy: @pagy, instance: @instance) %>

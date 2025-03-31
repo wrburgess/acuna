@@ -37,7 +37,18 @@ module ApplicationHelper
     "#{present} / #{projected}"
   end
 
-  def format_stat(val)
-    number_with_precision(val, precision: 3).sub(/^0/, '')
+  def format_stat(val, type)
+    return '0' if val.nil? || val.negative?
+
+    case type
+    when :hundreths
+      number_with_precision(val, precision: 3).sub(/^0/, '')
+    when :integer
+      val.to_i.to_s
+    when :percent
+      "#{number_with_precision(val, precision: 0)}%"
+    else
+      val.to_s
+    end
   end
 end
