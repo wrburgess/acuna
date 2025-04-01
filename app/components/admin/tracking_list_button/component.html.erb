@@ -1,8 +1,16 @@
-<%= button_to(
-  @tracking_status ? admin_player_untrack_path(@player) : admin_player_track_path(@player),
-  method: @tracking_status ? :delete : :post,
-  class: @css_class,
-  data: { turbo: @options[:turbo] || true }
-) do %>
-  <i class="<%= @icon_class %>"></i> <%= @button_text %>
-<% end %>
+<button 
+  type="button" 
+  class="btn btn-sm p-0"
+  data-controller="tracking-list-player"
+  data-tracking-list-player-player-id-value="<%= @instance.player_id %>"
+  data-tracking-list-player-tracking-list-id-value="<%= @tracking_list.id %>"
+  data-tracking-list-player-tracked-value="<%= @is_tracked %>"
+  data-tracking-list-name="<%= @tracking_list.name %>"
+  data-icon-on="<%= @tracking_list.icon_name_on %>"
+  data-icon-off="<%= @tracking_list.icon_name_off %>"
+  data-tracking-list-player-target="button"
+  data-action="click->tracking-list-player#toggle"
+  data-bs-toggle="tooltip" 
+  title="<%= tooltip_text %>">
+  <i class="<%= icon_class %>"></i>
+</button>

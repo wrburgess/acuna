@@ -1,36 +1,21 @@
 class Admin::TrackingListButton::Component < ViewComponent::Base
-  def initialize(player:, tracking_status: false, options: {})
-    @player = player
-    @tracking_status = tracking_status
-    @options = options
-    @css_class = determine_css_class
-    @icon_class = determine_icon_class
-    @button_text = determine_button_text
+  def initialize(instance:, tracking_list:, is_tracked: false)
+    @instance = instance
+    @tracking_list = tracking_list
+    @is_tracked = is_tracked
   end
 
   private
 
-  def determine_css_class
-    if @tracking_status
-      "btn btn-sm btn-danger #{@options[:class]}"
-    else
-      "btn btn-sm btn-primary #{@options[:class]}"
-    end
+  def tooltip_text
+    @is_tracked ? "Remove from #{@tracking_list.name}" : "Add to #{@tracking_list.name}"
   end
 
-  def determine_icon_class
-    if @tracking_status
-      'fas fa-times-circle'
+  def icon_class
+    if @is_tracked
+      "bi #{@tracking_list.icon_name_on} text-warning"
     else
-      'fas fa-plus-circle'
-    end
-  end
-
-  def determine_button_text
-    if @tracking_status
-      @options[:remove_text] || 'Remove from Tracking'
-    else
-      @options[:add_text] || 'Add to Tracking'
+      "bi #{@tracking_list.icon_name_off} text-muted"
     end
   end
 end
