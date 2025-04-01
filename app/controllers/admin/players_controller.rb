@@ -202,6 +202,8 @@ class Admin::PlayersController < AdminController
     total = @q.result.unscope(:order, :group).count('distinct players.id')
     @pagy, @instances = pagy(@q.result, count: total)
 
+    @player_type = params[:player_type] || 'batter'
+    @view = params[:view] || 'stats'
     @levels = Level.all.select_order
     @statuses = Status.all.select_order
     @positions = Position.all.select_order
