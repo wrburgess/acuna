@@ -1,4 +1,14 @@
-import { application } from "../../controllers/application"
+// Import and register all the admin controllers
+
+import { application } from "../application"
+
+// Import controllers
+import PlayerTypeController from "./player_type_controller"
+import ColumnViewController from "./column_view_controller"
+
+// Register controllers
+application.register("player-type", PlayerTypeController)
+application.register("column-view", ColumnViewController)
 
 import TomSelectController from "./tom_select_controller"
 application.register("tom-select", TomSelectController)

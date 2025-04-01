@@ -14,7 +14,17 @@ class Admin::PlayersController < AdminController
   def dashboard
     authorize(policy_class)
 
-    @q = controller_class
+    # Set player_type from params or default to 'batter'
+    @player_type = params[:player_type] || 'batter'
+
+    # Apply player_type filter to the base query
+    base_query = controller_class
+    if @player_type.present?
+      # If player_type parameter exists, add it to the query
+      base_query = base_query.where(player_type: @player_type)
+    end
+
+    @q = base_query
          .select([
            'players.id AS player_id',
            'players.player_type',

@@ -4,18 +4,19 @@
       <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Views</div>
       <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
         <% q_params = params[:q]&.to_unsafe_h || {} %>
+        <% player_type = params[:player_type] || 'batter' %>
         <li class="nav-item">
-          <%= link_to "Stats", dashboard_admin_players_path(view: :stats, q: q_params), 
+          <%= link_to "Stats", dashboard_admin_players_path(view: :stats, q: q_params, player_type: player_type), 
               class: "nav-link #{'active' if !params[:view] || params[:view] == 'stats'}", 
               data: { column_view_target: "link" } %>
         </li>
         <li class="nav-item">
-          <%= link_to "Scoring", dashboard_admin_players_path(view: :scoring, q: q_params), 
+          <%= link_to "Scoring", dashboard_admin_players_path(view: :scoring, q: q_params, player_type: player_type), 
               class: "nav-link #{'active' if params[:view] == 'scoring'}", 
               data: { column_view_target: "link" } %>
         </li>
         <li class="nav-item">
-          <%= link_to "Scouting", dashboard_admin_players_path(view: :scouting, q: q_params), 
+          <%= link_to "Scouting", dashboard_admin_players_path(view: :scouting, q: q_params, player_type: player_type), 
               class: "nav-link #{'active' if params[:view] == 'scouting'}", 
               data: { column_view_target: "link" } %>
         </li>

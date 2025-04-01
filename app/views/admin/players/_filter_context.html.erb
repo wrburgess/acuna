@@ -1,20 +1,20 @@
 <div class="card mb-3">
   <div class="card-body py-2">
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center" data-controller="player-type">
       <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Type</div>
       <ul class="nav nav-pills nav-fill me-3" style="flex: 1;">
         <% q_params = params[:q]&.to_unsafe_h || {} %>
-        <% url_params = request.query_parameters.except("player_type") %>
+        <% url_params = request.query_parameters.except("player_type").merge(q: q_params) %>
         <li class="nav-item">
           <a href="<%= dashboard_admin_players_path(url_params.merge(player_type: 'batter')) %>" 
-            class="nav-link <%= @player_type != 'pitcher' ? 'active' : '' %>" 
+            class="nav-link <%= params[:player_type] == 'batter' || params[:player_type].nil? ? 'active' : '' %>" 
             data-player-type-target="typeLink" 
             data-action="click->player-type#switchType"
             data-type="batter">Batter</a>
         </li>
         <li class="nav-item">
           <a href="<%= dashboard_admin_players_path(url_params.merge(player_type: 'pitcher')) %>" 
-            class="nav-link <%= @player_type == 'pitcher' ? 'active' : '' %>" 
+            class="nav-link <%= params[:player_type] == 'pitcher' ? 'active' : '' %>" 
             data-player-type-target="typeLink" 
             data-action="click->player-type#switchType"
             data-type="pitcher">Pitcher</a>
