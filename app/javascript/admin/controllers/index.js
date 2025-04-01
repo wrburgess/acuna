@@ -11,3 +11,6 @@ application.register("tracking-list-player", TrackingListPlayerController)
 
 import PlayerSearchController from "./player_search_controller"
 application.register("player-search", PlayerSearchController)
+
+import PlayerTypeController from "./player_type_controller"
+application.register("player-type", PlayerTypeController)

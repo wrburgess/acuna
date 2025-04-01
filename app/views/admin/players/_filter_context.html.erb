@@ -7,14 +7,14 @@
         <% url_params = request.query_parameters.except("player_type") %>
         <li class="nav-item">
           <a href="<%= dashboard_admin_players_path(url_params.merge(player_type: 'batter')) %>" 
-            class="nav-link <%= @player_type != 'pitcher' ? 'active' : '' %>" 
+            class="nav-link <%= params[:player_type] != 'pitcher' ? 'active' : '' %>" 
             data-player-type-target="typeLink" 
             data-action="click->player-type#switchType"
             data-type="batter">Batter</a>
         </li>
         <li class="nav-item">
           <a href="<%= dashboard_admin_players_path(url_params.merge(player_type: 'pitcher')) %>" 
-            class="nav-link <%= @player_type == 'pitcher' ? 'active' : '' %>" 
+            class="nav-link <%= params[:player_type] == 'pitcher' ? 'active' : '' %>" 
             data-player-type-target="typeLink" 
             data-action="click->player-type#switchType"
             data-type="pitcher">Pitcher</a>

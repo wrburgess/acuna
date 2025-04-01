@@ -14,6 +14,9 @@ class Admin::PlayersController < AdminController
   def dashboard
     authorize(policy_class)
 
+    # Default player_type to "batter" if not provided
+    params[:player_type] ||= 'batter'
+
     @q = controller_class
          .select([
            'players.id AS player_id',
@@ -197,6 +200,9 @@ class Admin::PlayersController < AdminController
            'statuses.id', 'statuses.abbreviation', 'statuses.weight'
          ].join(', '))
          .ransack(params[:q])
+
+    # Filter by player_type
+    @q.player_type_eq = params[:player_type]
 
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
     total = @q.result.unscope(:order, :group).count('distinct players.id')

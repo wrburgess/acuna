@@ -43,15 +43,15 @@
     <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", class: :base)) { |instance| instance.status&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", class: :base)) { |instance| instance.status&.abbreviation } %>
 
-    <% # if batter %>
-    <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS", class: :scoring)) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
-    <% table.with_column(sort_link([:admin, @q], :bat_hits, "H", class: :stats)) { |instance| format_stat(instance.bat_hits, :hundreths) } %>
-    <% table.with_column(sort_link([:admin, @q], :bat_bat_ctrl, "BCTL", class: :scouting)) { |instance| format_stat(instance.bat_bat_ctrl, :hundreths) } %>
-
-    <% # if pitcher %>
-    <% table.with_column(sort_link([:admin, @q], :pit_qs, "QS", class: :scoring)) { |instance| format_stat(instance.pit_qs, :integer) } %>
-    <% table.with_column(sort_link([:admin, @q], :pit_inn, "INN", class: :stats)) { |instance| format_stat(instance.pit_inn, :integer) } %>
-    <% table.with_column(sort_link([:admin, @q], :pit_control_pres, "CNTL", class: :scouting)) { |instance| format_stat(instance.pit_control_pres, :integer) } %>
+    <% if params[:player_type] == "batter" %>
+      <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS", class: :scoring)) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
+      <% table.with_column(sort_link([:admin, @q], :bat_hits, "H", class: :stats)) { |instance| format_stat(instance.bat_hits, :hundreths) } %>
+      <% table.with_column(sort_link([:admin, @q], :bat_bat_ctrl, "BCTL", class: :scouting)) { |instance| format_stat(instance.bat_bat_ctrl, :hundreths) } %>
+    <% elsif params[:player_type] == "pitcher" %>
+      <% table.with_column(sort_link([:admin, @q], :pit_qs, "QS", class: :scoring)) { |instance| format_stat(instance.pit_qs, :integer) } %>
+      <% table.with_column(sort_link([:admin, @q], :pit_inn, "INN", class: :stats)) { |instance| format_stat(instance.pit_inn, :integer) } %>
+      <% table.with_column(sort_link([:admin, @q], :pit_control_pres, "CNTL", class: :scouting)) { |instance| format_stat(instance.pit_control_pres, :integer) } %>
+    <% end %>
   <% end %>
 
   <%= render Admin::IndexPager::Component.new(pagy: @pagy, instance: @instance) %>
