@@ -12,12 +12,13 @@ You are a senior full stack software engineer with extensive experience working 
 * The choice of the Filter View of Stats, Scoring, or Scouting will show columns with the "stats", "scoring", or "scouting" classes in their column headers. Columns with "base" class will render, regardless.
 * The sorting links should maintain all of the filter choices from above. Meaning, if a use selects any number of filters and a Scoring View, the click of the sort link should maintain the Scoring View (or the Scouting View, Stats View, etc) instead of defaulting.
 * The Stats view is the default view if no other view is chosen.
-* The Last Name filter, where the field is  
+* The Last Name filter, where the field is housed in the Player Type filter row, should filter the player by last name for whatever characters are typed in. All other filters should be maintained along with the characters submitted. If no characters are submitted, then all players are part of the query. 
+* The player table pager (using the Pagy gem) should maintain all filter choices, as well.
 
 ## Key objectives
 
 * Use Stimulus.js in the app/javascript/admin/ directory to handle the browser interaction
-* I don't even know if you need javascript and stimulus for this solution, so do something easier if warranted. No need to make things complex unless needed.
+* Seek out best practices and existing solutions rather than coming up with custom approaches. However, it's more important to work within the Stimulus.js framework than anything else.
 
 ## Relevant models
 
@@ -31,7 +32,15 @@ You are a senior full stack software engineer with extensive experience working 
 
 * app/views/admin/players/dashboard.html.erb
 
-## Relevant section
+## Relevant sections
 
+* Player Type links
+* Player Last Name field
 * Levels links
 * Status links
+* Player Position links
+* Tracking List links
+* Timeline links
+* Table View links
+* Player Table
+* Player Table Pager
