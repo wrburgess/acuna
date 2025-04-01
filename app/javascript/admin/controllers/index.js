@@ -14,3 +14,6 @@ application.register("player-search", PlayerSearchController)
 
 import PlayerTypeController from "./player_type_controller"
 application.register("player-type", PlayerTypeController)
+
+import PlayerLevelController from "./player_level_controller"
+application.register("player-level", PlayerLevelController)

@@ -9,12 +9,15 @@ You are a senior full stack software engineer with extensive experience working 
 * app/views/admin/players/_filter_levels.html.erb
 * app/controllers/admin/players_controller.rb
 * app/models/player.rb
+* app/models/level.rb
+* app/prompts/player_level_filter_feature.md
 
 ## Filter Target Behavior
 
 * When a user clicks on a Level link, such as MLB, AAA, AA, etc, the player table records should filter based on the ransack argument
 * When a user clicks on a Level link, it should keep the context of other searches, like Player Type and Player Last Name
-* When a user clicks on a Level All option, it should remove the Level argument from the filtering, but retain the other filters in place, such as Player Type and Player Last Name
+* When a user clicks on a Level All option, it should remove the Level argument from the filtering, but **retain the other filters in place*, such as Player Type and Player Last Name
+* Down the road, we will be adding other filters, like Status, Position, and Lists. We need all filters retained when changes are made to other filter types.
 
 ## Key objectives
 

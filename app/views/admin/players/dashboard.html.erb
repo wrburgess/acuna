@@ -38,10 +38,10 @@
       <% end %>
     <% end %>
     <% table.with_column(sort_link([:admin, @q], :last_name_cont, "Player", class: :base, default_order: :asc)) { |instance| link_to(instance.full_description, profile_admin_player_path(id: instance.player_id)) } %>
-    <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", class: :base)) { |instance| instance.level&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", class: :base)) { |instance| instance.roster&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL", class: :base)) { |instance| instance.level&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", class: :base)) { |instance| instance.status&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", class: :base)) { |instance| instance.status&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", class: :base)) { |instance| instance.age } %>
 
     <% if params[:player_type] == "batter" %>
       <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS", class: :scoring)) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
