@@ -204,6 +204,9 @@ class Admin::PlayersController < AdminController
     # Filter by player_type
     @q.player_type_eq = params[:player_type]
 
+    # Filter by last_name_cont if provided
+    @q.last_name_cont = params.dig(:q, :last_name_cont) if params.dig(:q, :last_name_cont).present?
+
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
     total = @q.result.unscope(:order, :group).count('distinct players.id')
     @pagy, @instances = pagy(@q.result, count: total)
