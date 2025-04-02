@@ -10,7 +10,7 @@
 
 <%= render Admin::PageContainer::Component.new do %> 
   <!-- Player Context Filter Navigation -->
-  <%= render partial: "filter_context", locals: { params: params, player_type: @player_type } %>
+  <%= render partial: "filter_player_type", locals: { params: params, player_type: @player_type } %>
 
   <!-- Level Filter Navigation -->
   <%= render partial: "filter_levels", locals: { params: params, levels: @levels } %>

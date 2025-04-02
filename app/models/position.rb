@@ -7,6 +7,7 @@ class Position < ApplicationRecord
   has_many :players
 
   scope :select_order, -> { order(weight: :asc) }
+  scope :by_player_type, ->(player_type) { where(player_type: player_type) }
 
   def self.ransackable_attributes(*)
     %w[

@@ -213,7 +213,7 @@ class Admin::PlayersController < AdminController
 
     @levels = Level.all.select_order
     @statuses = Status.all.select_order
-    @positions = Position.all.select_order
+    @positions = Position.by_player_type(params[:player_type]).select_order
     @timelines = Timeline.all.select_order
     @tracking_lists = current_user.tracking_lists
     @instance = controller_class.new
