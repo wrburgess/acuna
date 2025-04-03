@@ -24,11 +24,11 @@
   <!-- Tracking List Filter Navigation -->
   <%= render partial: "filter_tracking_lists", locals: { params: params, tracking_lists: @tracking_lists } %>
 
-  <!-- Timeline Filter Navigation -->
-  <%= render partial: "filter_timelines", locals: { params: params, timelines: @timelines } %>
+  <!-- Timeline Select Navigation -->
+  <%= render partial: "select_timelines", locals: { params: params, timelines: @timelines } %>
 
   <!-- View Filter Navigation -->
-  <%= render partial: "filter_views", locals: { params: params } %>
+  <%= render partial: "select_views", locals: { params: params } %>
 
   <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
     <% table.with_column("Track") do |instance| %>
@@ -37,7 +37,7 @@
         <%= render Admin::TrackingListButton::Component.new(instance:, tracking_list:, is_tracked:) %>
       <% end %>
     <% end %>
-    <% table.with_column(sort_link([:admin, @q], :last_name_cont, "Player", class: :base, default_order: :asc)) { |instance| link_to(instance.full_description, profile_admin_player_path(id: instance.player_id)) } %>
+    <% table.with_column(sort_link([:admin, @q], :last_name_cont, "Player",  default_order: :asc, class: :base)) { |instance| link_to(instance.full_description, profile_admin_player_path(id: instance.player_id)) } %>
     <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", class: :base)) { |instance| instance.roster&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL", class: :base)) { |instance| instance.level&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", class: :base)) { |instance| instance.status&.abbreviation } %>
