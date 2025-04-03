@@ -1,6 +1,6 @@
 You are a senior full stack software engineer with extensive experience working with Ruby on Rails, Stimulus.js, and Hotwire.
 
-* The objective is to allow a user to switch between different columns on the table
+* The objective is to allow a user to switch between viewing different columns on the table
 * The columns are identified with the link attribute of view: [value] or, for example, view: :stat
 * The "base" value is always shown on the table
 * The "stats" value is the default when the page loads the first time or when the user clicks on the Stats link in the View menu
@@ -26,33 +26,12 @@ You are a senior full stack software engineer with extensive experience working 
 
 * app/views/admin/players/dashboard.html.erb
 
-## Example Sort Link
+## Example Sort Link Rendered
 
 ```ruby
-<th class="py-1"><%= sort_link([:admin, @q], :hard_hit, "HH%", view: :scouting) %></th>
-```
+sort_link([:admin, @q], :roster_name, "ROS", view: :base)
 
-## View Links
-
-```ruby
-<!-- Views Filter Navigation -->
-<div class="card mb-3">
-  <div class="card-body py-2">
-    <div class="d-flex align-items-center" data-controller="column-view">
-      <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Views</div>
-      <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
-        <% q_params = params[:q]&.to_unsafe_h || {} %>
-        <li class="nav-item">
-          <%= link_to "Stats", dashboard_admin_players_path(view: :stats, q: q_params) %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Scoring", dashboard_admin_players_path(view: :scoring, q: q_params) %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Scouting", dashboard_admin_players_path(view: :scouting, q: q_params) %>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+## renders to:
+##
+## <th><a view="base" class="sort_link " href="/admin/players/dashboard?view=base">ROS</a></th>
 ```
