@@ -16,6 +16,7 @@ class Admin::PlayersController < AdminController
 
     # Default player_type to "batter" if not provided
     params[:player_type] ||= 'batter'
+    params[:timeline_id] ||= Timeline.find_by(default: true).id
 
     @q = controller_class
          .select([
@@ -30,6 +31,8 @@ class Admin::PlayersController < AdminController
            'players.level_id',
            'players.status_id',
            'players.age',
+
+           'stats.timeline_id AS stats_timeline_id',
 
            'scouting_profiles.risk',
            'scouting_profiles.eta',
@@ -187,8 +190,8 @@ class Admin::PlayersController < AdminController
          .joins('LEFT JOIN teams ON teams.id = players.team_id')
          .joins('LEFT JOIN levels ON levels.id = players.level_id')
          .joins('LEFT JOIN statuses ON statuses.id = players.status_id')
-         .joins('LEFT JOIN stats ON stats.player_id = players.id AND stats.timeline_id = 1')
-         .joins('LEFT JOIN scouting_profiles ON scouting_profiles.player_id = players.id AND scouting_profiles.timeline_id = 1')
+         .joins("LEFT JOIN stats ON stats.player_id = players.id AND stats.timeline_id = #{params[:timeline_id]}")
+         .joins("LEFT JOIN scouting_profiles ON scouting_profiles.player_id = players.id AND scouting_profiles.timeline_id = #{params[:timeline_id]}")
          .joins('LEFT JOIN tracking_list_players ON tracking_list_players.player_id = players.id')
          .group([
            'players.id',
@@ -214,7 +217,7 @@ class Admin::PlayersController < AdminController
     @levels = Level.all.select_order
     @statuses = Status.all.select_order
     @positions = Position.by_player_type(params[:player_type]).select_order
-    @timelines = Timeline.all.select_order
+    @timelines = Timeline.non_default.select_order
     @tracking_lists = current_user.tracking_lists
     @instance = controller_class.new
   end

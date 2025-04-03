@@ -41,7 +41,8 @@
     <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", class: :base)) { |instance| instance.roster&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL", class: :base)) { |instance| instance.level&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", class: :base)) { |instance| instance.status&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", class: :base)) { |instance| instance.age } %>
+    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", class: :base)) { |instance| instance.age.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :stats_timeline_id, "TIME", class: :base)) { |instance| instance.stats_timeline_id.to_s } %>
 
     <% if params[:player_type] == "batter" %>
       <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS", class: :scoring)) { |instance| format_stat(instance.bat_ops, :hundreths) } %>

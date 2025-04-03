@@ -2,9 +2,14 @@ module Maintenance
   class SeedPlayerDataTask < MaintenanceTasks::Task
     no_collection
 
+    attribute :abbreviation, :string, default: 'YTD'
+    attribute :from_scratch, :boolean, default: false
+
     def process
-      Stat.destroy_all
-      ScoutingProfile.destroy_all
+      if from_scratch
+        Stat.destroy_all
+        ScoutingProfile.destroy_all
+      end
 
       # Track progress statistics
       stats_created = 0
@@ -66,8 +71,8 @@ module Maintenance
     private
 
     def create_or_update_stats(player)
-      # Use Timeline with ID 1
-      timeline = Timeline.find(1)
+      # Use Timeline with abbreviation = attribute[abbreviation]
+      timeline = Timeline.find_by(abbreviation:)
       stat = Stat.find_or_initialize_by(player_id: player.id, timeline_id: timeline.id)
       is_new_record = stat.new_record?
 

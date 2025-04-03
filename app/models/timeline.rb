@@ -9,6 +9,7 @@ class Timeline < ApplicationRecord
   has_many :scouting_profiles
 
   scope :select_order, -> { order(weight: :asc) }
+  scope :non_default, -> { where(default: false) }
 
   def self.ransackable_attributes(*)
     %w[

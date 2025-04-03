@@ -20,3 +20,6 @@ application.register("player-level", PlayerLevelController)
 
 import PlayerStatusController from "./player_status_controller"
 application.register("player-status", PlayerStatusController)
+
+import TimelineController from "./timeline_controller"
+application.register("timeline", TimelineController)
