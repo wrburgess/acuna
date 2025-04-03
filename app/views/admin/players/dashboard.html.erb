@@ -37,21 +37,29 @@
         <%= render Admin::TrackingListButton::Component.new(instance:, tracking_list:, is_tracked:) %>
       <% end %>
     <% end %>
-    <% table.with_column(sort_link([:admin, @q], :last_name_cont, "Player", default_order: :asc, view: :base)) { |instance| link_to(instance.full_description, profile_admin_player_path(id: instance.player_id)) } %>
-    <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS", view: :base)) { |instance| instance.roster&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL", view: :base)) { |instance| instance.level&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS", view: :base)) { |instance| instance.status&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE", view: :base)) { |instance| instance.age.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :stats_timeline_id, "TIME", view: :base)) { |instance| instance.stats_timeline_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :last_name_cont, "Player", default_order: :asc)) { |instance| link_to(instance.full_description, profile_admin_player_path(id: instance.player_id)) } %>
+    <% table.with_column(sort_link([:admin, @q], :roster_name, "ROS")) { |instance| instance.roster&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL")) { |instance| instance.level&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS")) { |instance| instance.status&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE")) { |instance| instance.age.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :stats_timeline_id, "TIME")) { |instance| instance.stats_timeline_id.to_s } %>
 
     <% if params[:player_type] == "batter" %>
-      <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS", view: :scoring)) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
-      <% table.with_column(sort_link([:admin, @q], :bat_hits, "H", view: :stats)) { |instance| format_stat(instance.bat_hits, :hundreths) } %>
-      <% table.with_column(sort_link([:admin, @q], :bat_bat_ctrl, "BCTL", view: :scouting)) { |instance| format_stat(instance.bat_bat_ctrl, :hundreths) } %>
+      <% if params[:view] == "scoring" %>
+        <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS")) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
+      <% elsif params[:view] == "stats" %>
+        <% table.with_column(sort_link([:admin, @q], :bat_hits, "H")) { |instance| format_stat(instance.bat_hits, :hundreths) } %>
+      <% elsif params[:view] == "scouting" %>
+        <% table.with_column(sort_link([:admin, @q], :bat_bat_ctrl, "BCTL")) { |instance| format_stat(instance.bat_bat_ctrl, :hundreths) } %>
+      <% end %>
     <% elsif params[:player_type] == "pitcher" %>
-      <% table.with_column(sort_link([:admin, @q], :pit_qs, "QS", view: :scoring)) { |instance| format_stat(instance.pit_qs, :integer) } %>
-      <% table.with_column(sort_link([:admin, @q], :pit_inn, "INN", view: :stats)) { |instance| format_stat(instance.pit_inn, :integer) } %>
-      <% table.with_column(sort_link([:admin, @q], :pit_control_pres, "CNTL", view: :scouting)) { |instance| format_stat(instance.pit_control_pres, :integer) } %>
+      <% if params[:view] == "scoring" %>
+        <% table.with_column(sort_link([:admin, @q], :pit_qs, "QS")) { |instance| format_stat(instance.pit_qs, :integer) } %>
+      <% elsif params[:view] == "stats" %>
+        <% table.with_column(sort_link([:admin, @q], :pit_inn, "INN")) { |instance| format_stat(instance.pit_inn, :integer) } %>
+      <% elsif params[:view] == "scouting" %>
+        <% table.with_column(sort_link([:admin, @q], :pit_control_pres, "CNTL")) { |instance| format_stat(instance.pit_control_pres, :integer) } %>
+      <% end %>
     <% end %>
   <% end %>
 

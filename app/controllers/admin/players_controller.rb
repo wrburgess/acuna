@@ -14,7 +14,7 @@ class Admin::PlayersController < AdminController
   def dashboard
     authorize(policy_class)
 
-    # Default player_type to "batter" if not provided
+    params[:view] ||= 'stats' # Default view to "stats"
     params[:player_type] ||= 'batter'
     params[:timeline_id] ||= Timeline.find_by(default: true).id
 

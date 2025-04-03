@@ -23,3 +23,6 @@ application.register("player-status", PlayerStatusController)
 
 import TimelineController from "./timeline_controller"
 application.register("timeline", TimelineController)
+
+import ColumnViewController from "./column_view_controller"
+application.register("column-view", ColumnViewController)
