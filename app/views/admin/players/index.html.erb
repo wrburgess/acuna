@@ -9,69 +9,30 @@
 %>
 
 <%= render Admin::PageContainer::Component.new do %> 
-  <div class="card mb-3">
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table table-sm table-hover">
-          <thead>
-            <tr class="bg-light">
-              <th><%= sort_link([:admin, @q], :first_name, "First Name", default_order: :asc) %></th>
-              <th><%= sort_link([:admin, @q], :middle_name, "Middle Name", default_order: :asc) %></th>
-              <th><%= sort_link([:admin, @q], :last_name, "Last Name", default_order: :asc) %></th>
-              <th><%= sort_link([:admin, @q], :name_suffix, "Suffix", default_order: :asc) %></th>
-              <th><%= sort_link([:admin, @q], :player_type, "Player Type") %></th>
-              <th><%= sort_link([:admin, @q], :position, "Position") %></th>
-              <th><%= sort_link([:admin, @q], :team_id, "Team") %></th>
-              <th><%= sort_link([:admin, @q], :level, "Level") %></th>
-              <th><%= sort_link([:admin, @q], :status, "Status") %></th>
-              <th class="text-end">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @instances.each do |instance| %>
-              <tr>
-                <td><%= instance.first_name %></td>
-                <td><%= instance.middle_name %></td>
-                <td><%= instance.last_name %></td>
-                <td><%= instance.name_suffix %></td>
-                <td><%= instance.player_type %></td>
-                <td><%= instance.position %></td>
-                <td>
-                  <% if instance.team %>
-                    <%= link_to instance.team.name, admin_team_path(instance.team) %>
-                  <% else %>
-                    <span class="text-muted">Free Agent</span>
-                  <% end %>
-                </td>
-                <td><%= instance.level&.abbreviation %></td>
-                <td><%= instance.status&.abbreviation %></td>
-                <td class="text-end">
-                  <div class="btn-group btn-group-sm">
-                    <%= link_to "View", admin_player_path(instance), class: "btn btn-primary" %>
-                    <%= link_to "Edit", edit_admin_player_path(instance), class: "btn btn-secondary" %>
-                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                      <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      <li><%= button_to "Delete", admin_player_path(instance), method: :delete, class: "dropdown-item text-danger", data: { confirm: "Are you sure you want to delete this player?" } %></li>
-                      <% if instance.archived_at? %>
-                        <li><%= button_to "Unarchive", unarchive_admin_player_path(instance), method: :patch, class: "dropdown-item" %></li>
-                      <% else %>
-                        <li><%= button_to "Archive", archive_admin_player_path(instance), method: :patch, class: "dropdown-item" %></li>
-                      <% end %>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+  <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
+    <% table.with_column(sort_link([:admin, @q], :id, "ID")) { |instance| instance.id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :first_name, "First")) { |instance| instance.first_name } %>
+    <% table.with_column(sort_link([:admin, @q], :middle_name, "Middle")) { |instance| instance.middle_name } %>
+    <% table.with_column(sort_link([:admin, @q], :last_name, "Last", default_order: :asc)) { |instance| instance.last_name } %>
+    <% table.with_column(sort_link([:admin, @q], :name_suffix, "Suffix")) { |instance| instance.name_suffix } %>
+    <% table.with_column(sort_link([:admin, @q], :player_type, "Type")) { |instance| instance.player_type } %>
+    <% table.with_column(sort_link([:admin, @q], :position, "Position")) { |instance| instance.position } %>
+    <% table.with_column(sort_link([:admin, @q], :eligible_positions, "Eligible")) { |instance| instance.eligible_positions.join(", ") } %>
+    <% table.with_column(sort_link([:admin, @q], :team_name, "Team")) { |instance| instance.team&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :level_weight, "Level")) { |instance| instance.level&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :status_weight, "Status")) { |instance| instance.status&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :age, "Age")) { |instance| instance.age.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :bats, "Bats")) { |instance| instance.bats.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :throws, "Thrw")) { |instance| instance.throws } %>
+    <% table.with_column(sort_link([:admin, @q], :height, "Ht")) { |instance| instance.height } %>
+    <% table.with_column(sort_link([:admin, @q], :weight, "Wt")) { |instance| instance.weight } %>
+    <% table.with_column("Actions") do |instance| %>
+      <%= render Admin::ActionButton::Component.new(operation: :show, instance: instance, button_classes: "me-3", icon_classes: :none) %>
+      <%= render Admin::ActionButton::Component.new(operation: :edit, instance: instance, button_classes: :none, icon_classes: :none) %>
+    <% end %>
+  <% end %>
 
-  <!-- Pagination Controls -->
-  <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
+  <%= render Admin::IndexPager::Component.new(pagy: @pagy, instance: @instance) %>
 
   <%= render Admin::FilterCard::Component.new do %>
     <%= simple_form_for [:admin, @q], url: admin_players_path, html: { method: :get }, wrapper: :floating_labels_form do |f| %>
