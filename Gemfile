@@ -25,7 +25,7 @@ gem 'maintenance_tasks', '2.11.0'
 gem 'pagy', '9.3.4'
 gem 'pg', '1.5.9'
 gem 'pghero', '3.6.2'
-gem 'pretender', '0.5.0'
+gem 'pretender', '0.6.0'
 gem 'propshaft', '1.1.0'
 gem 'puma', '6.6.0'
 gem 'pundit', '2.5.0'
@@ -49,11 +49,11 @@ group :development, :test do
 end
 
 group :development do
-  gem 'brakeman', '7.0.0', require: false
-  gem 'bullet', '8.0.1'
+  gem 'brakeman', '7.0.1', require: false
+  gem 'bullet', '8.0.3'
   gem 'bundler-audit', '0.9.2', require: false
   gem 'lookbook', '2.3.8'
-  gem 'rubocop', '1.75.1', require: false
+  gem 'rubocop', '1.75.2', require: false
   gem 'squasher', '0.8.0'
   gem 'web-console', '4.2.1'
 end

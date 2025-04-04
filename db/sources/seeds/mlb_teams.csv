@@ -1,31 +1,38 @@
-Location,Nickname,Abbreviation,Alt Abbreviation
-Arizona,Diamondbacks,ARI,AZ
-Atlanta,Braves,ATL,
-Baltimore,Orioles,BAL,
-Boston,Red Sox,BOS,
-Chicago,Cubs,CHC,
-Chicago,White Sox,CHW,
-Cincinnati,Reds,CIN,
-Cleveland,Guardians,CLE,
-Colorado,Rockies,COL,
-Detroit,Tigers,DET,
-Houston,Astros,HOU,
-Kansas City,Royals,KC,KCR
-Los Angeles,Angels,LAA,
-Los Angeles,Dodgers,LAD,
-Miami,Marlins,MIA,FLA
-Milwaukee,Brewers,MIL,MIL
-Minnesota,Twins,MIN,
-New York,Mets,NYM,
-New York,Yankees,NYY,
-Oakland,Athletics,OAK,ATH
-Philadelphia,Phillies,PHI,PHI
-Pittsburgh,Pirates,PIT,PIT
-San Diego,Padres,SD,SDP
-San Francisco,Giants,SF,SFG
-Seattle,Mariners,SEA,SEA
-St. Louis,Cardinals,STL,STL
-Tampa Bay,Rays,TB,TBR
-Texas,Rangers,TEX,TEX
-Toronto,Blue Jays,TOR,TOR
-Washington,Nationals,WSH,WAS
+Location,Nickname,Abbreviation,League,Alt Abbreviation
+Arizona,Diamondbacks,ARI,MLB,AZ
+Atlanta,Braves,ATL,MLB,
+Baltimore,Orioles,BAL,MLB,
+Boston,Red Sox,BOS,MLB,
+Chicago,Cubs,CHC,MLB,
+Chicago,White Sox,CHW,MLB,
+Cincinnati,Reds,CIN,MLB,
+Cleveland,Guardians,CLE,MLB,
+Colorado,Rockies,COL,MLB,
+Detroit,Tigers,DET,MLB,
+Houston,Astros,HOU,MLB,
+Kansas City,Royals,KC,MLB,KCR
+Los Angeles,Angels,LAA,MLB,
+Los Angeles,Dodgers,LAD,MLB,
+Miami,Marlins,MIA,MLB,FLA
+Milwaukee,Brewers,MIL,MLB,MIL
+Minnesota,Twins,MIN,MLB,
+New York,Mets,NYM,MLB,
+New York,Yankees,NYY,MLB,
+Oakland,Athletics,OAK,MLB,ATH
+Philadelphia,Phillies,PHI,MLB,PHI
+Pittsburgh,Pirates,PIT,MLB,PIT
+San Diego,Padres,SD,MLB,SDP
+San Francisco,Giants,SF,MLB,SFG
+Seattle,Mariners,SEA,MLB,SEA
+St. Louis,Cardinals,STL,MLB,STL
+Tampa Bay,Rays,TB,MLB,TBR
+Texas,Rangers,TEX,MLB,TEX
+Toronto,Blue Jays,TOR,MLB,TOR
+Washington,Nationals,WSH,MLB,WAS
+Nippon,Pro Baseball,NPB,NPB,
+USA,High School,PREP,PREP,
+NCAA,College,NCAA,NCAA,
+Korea,Baseball Organization,KOR,KOR,
+Chinese,Pro Baseball,CPBL,CPBL,
+Dominican,Summer League,DSL,DSL,
+Other,Other,N/A,N/A,

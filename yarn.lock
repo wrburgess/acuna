@@ -444,10 +444,10 @@ __metadata:
     "@hotwired/stimulus": "npm:3.2.2"
     "@hotwired/turbo-rails": "npm:8.0.13"
     "@popperjs/core": "npm:2.11.8"
-    bootstrap: "npm:5.3.3"
+    bootstrap: "npm:5.3.4"
     bootstrap-icons: "npm:1.11.3"
     esbuild: "npm:0.25.2"
-    sass: "npm:1.86.0"
+    sass: "npm:1.86.3"
     tom-select: "npm:2.4.3"
   languageName: unknown
   linkType: soft
@@ -503,12 +503,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap@npm:5.3.3":
-  version: 5.3.3
-  resolution: "bootstrap@npm:5.3.3"
+"bootstrap@npm:5.3.4":
+  version: 5.3.4
+  resolution: "bootstrap@npm:5.3.4"
   peerDependencies:
     "@popperjs/core": ^2.11.8
-  checksum: 10c0/bb68ca7b763977b9cce40cb5b8c676ae19a716d2f5d15009fa7bdbcec9dea426968e3cb748fbed7592fbf10edd7c749aea841c2920996a7c1aa5e0a6e2d4c2ad
+  checksum: 10c0/47000ac406d2b4d2d7e2f3e52d1b927f3a5fa82910bd86cada78ae8e0e0fd85c6d21a9161bf4c8f7e528b0f7d7c8b3cde1790ae04c6702a6b63c77671ad67227
   languageName: node
   linkType: hard
 
@@ -1198,9 +1198,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:1.86.0":
-  version: 1.86.0
-  resolution: "sass@npm:1.86.0"
+"sass@npm:1.86.3":
+  version: 1.86.3
+  resolution: "sass@npm:1.86.3"
   dependencies:
     "@parcel/watcher": "npm:^2.4.1"
     chokidar: "npm:^4.0.0"
@@ -1211,7 +1211,7 @@ __metadata:
       optional: true
   bin:
     sass: sass.js
-  checksum: 10c0/921caea1fd8a450d4a986e5570ce13c4ca7b2a57da390811add3d2087ad8f46f53b34652ddcb237d8bdaad49c560b8d6eee130c733c787d058bc5a71a914c139
+  checksum: 10c0/ba819a0828f732adf7a94cd8ca017bce92bc299ffb878836ed1da80a30612bfbbf56a5e42d6dff3ad80d919c2025afb42948fc7b54a7bc61a9a2d58e1e0c558a
   languageName: node
   linkType: hard
 
