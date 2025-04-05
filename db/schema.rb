@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_31_013911) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_05_212532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -251,6 +251,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_31_013911) do
     t.string "middle_name"
     t.text "name_suffix"
     t.string "player_type"
+    t.string "playerid"
+    t.string "mlbamid"
+    t.string "nameascii"
     t.index ["level_id"], name: "index_players_on_level_id"
     t.index ["roster_id"], name: "index_players_on_roster_id"
     t.index ["status_id"], name: "index_players_on_status_id"
@@ -366,6 +369,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_31_013911) do
     t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "playerid"
+    t.string "mlbamid"
+    t.string "nameascii"
     t.index ["player_id"], name: "index_scouting_profiles_on_player_id"
     t.index ["timeline_id"], name: "index_scouting_profiles_on_timeline_id"
   end
@@ -419,6 +425,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_31_013911) do
     t.decimal "control_pres", precision: 10, scale: 3
     t.decimal "arm_pres", precision: 10, scale: 3
     t.bigint "timeline_id"
+    t.string "playerid"
+    t.string "mlbamid"
+    t.string "nameascii"
     t.index ["player_id"], name: "index_scouting_reports_on_player_id"
     t.index ["scout_id"], name: "index_scouting_reports_on_scout_id"
     t.index ["timeline_id"], name: "index_scouting_reports_on_timeline_id"
@@ -518,6 +527,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_31_013911) do
     t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "playerid"
+    t.string "mlbamid"
+    t.string "nameascii"
     t.index ["opponent_id"], name: "index_stats_on_opponent_id"
     t.index ["player_id"], name: "index_stats_on_player_id"
     t.index ["team_id"], name: "index_stats_on_team_id"
