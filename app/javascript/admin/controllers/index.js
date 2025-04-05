@@ -18,6 +18,9 @@ application.register("player-type", PlayerTypeController)
 import PlayerLevelController from "./player_level_controller"
 application.register("player-level", PlayerLevelController)
 
+import PlayerRosterController from "./player_roster_controller"
+application.register("player-roster", PlayerRosterController)
+
 import PlayerStatusController from "./player_status_controller"
 application.register("player-status", PlayerStatusController)
 

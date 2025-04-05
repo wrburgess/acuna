@@ -1,0 +1,27 @@
+<div class="card mb-3" data-controller="player-roster">
+  <div class="card-body py-2">
+    <div class="d-flex align-items-center">
+      <div class="filter-title me-3 fw-bold text-secondary" style="min-width: 120px;">Roster</div>
+      <ul class="nav nav-pills nav-fill flex-grow-1 mb-0">
+        <li class="nav-item">
+          <%= link_to "All", "#", 
+                class: "nav-link #{'active' unless params[:q] && params[:q][:roster_id_eq]}",
+                data: { 
+                  action: "click->player-roster#switchRoster",
+                  roster_id: "all"
+                } %>
+        </li>
+        <% @rosters.each do |roster| %>
+          <li class="nav-item">
+            <%= link_to roster.abbreviation, "#", 
+                  class: "nav-link #{'active' if params[:q] && params[:q][:roster_id_eq].to_i == roster.id}",
+                  data: { 
+                    action: "click->player-roster#switchRoster",
+                    roster_id: roster.id
+                  } %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

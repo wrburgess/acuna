@@ -17,9 +17,12 @@
 
   <!-- Status Filter Navigation -->
   <%= render partial: "filter_statuses", locals: { params: params, statuses: @statuses } %>
- 
+
   <!-- Position Filter Navigation -->
   <%= render partial: "filter_positions", locals: { params: params, positions: @positions } %>
+
+  <!-- Roster Filter Navigation -->
+  <%= render partial: "filter_rosters", locals: { params: params, rosters: @rosters } %>
 
   <!-- Tracking List Filter Navigation -->
   <%= render partial: "filter_tracking_lists", locals: { params: params, tracking_lists: @tracking_lists } %>

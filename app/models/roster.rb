@@ -6,6 +6,8 @@ class Roster < ApplicationRecord
   validates :name, presence: true
   validates :abbreviation, presence: true
 
+  scope :select_order, -> { order(abbreviation: :asc) }
+
   def self.ransackable_attributes(*)
     %w[
       abbreviation
