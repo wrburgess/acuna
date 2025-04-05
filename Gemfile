@@ -49,7 +49,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'brakeman', '7.0.1', require: false
+  gem 'brakeman', '7.0.2', require: false
   gem 'bullet', '8.0.3'
   gem 'bundler-audit', '0.9.2', require: false
   gem 'lookbook', '2.3.8'
@@ -67,7 +67,7 @@ group :test do
   gem 'rspec-json_expectations', '2.2.0'
   gem 'rspec_junit_formatter', '0.6.0'
   gem 'rspec-longrun', '3.1.0'
-  gem 'selenium-webdriver', '4.30.1'
+  gem 'selenium-webdriver', '4.31.0'
   gem 'shoulda-matchers', '6.4.0'
   gem 'timecop', '0.9.10'
   gem 'vcr', '6.3.1'
