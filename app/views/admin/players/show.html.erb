@@ -3,6 +3,13 @@
 <%= render Admin::PageContainer::Component.new do %>
   <%= render Admin::TableForShow::Component.new(title: 'Player Data') do |table| %>
     <% table.with_row(name: "ID", value: @instance.id) %>
+    <% table.with_row(name: "MLBAMID", value: @instance.mlbamid) %>
+    <% table.with_row(name: "FANGRAPHS ID", value: @instance.fangraphsid) %>
+    <% table.with_row(name: "FANTRAX ID", value: @instance.fantraxid) %>
+    <% table.with_row(name: "NFBC ID", value: @instance.nfbcid) %>
+    <% table.with_row(name: "RAZZBALL ID", value: @instance.razzballid) %>
+    <% table.with_row(name: "FG NAME", value: @instance.nameascii_fg) %>
+    <% table.with_row(name: "CBS NAME", value: @instance.nameascii_cbs) %>
     <% table.with_row(name: "Full Name", value: @instance.name) %>
     <% table.with_row(name: "First Name", value: @instance.first_name) %>
     <% table.with_row(name: "Middle Name", value: @instance.middle_name) %>

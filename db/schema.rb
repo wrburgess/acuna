@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_05_212532) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_05_215810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -530,6 +530,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_05_212532) do
     t.string "playerid"
     t.string "mlbamid"
     t.string "nameascii"
+    t.decimal "bat_singles", precision: 10, scale: 3, comment: "batting - total singles"
+    t.decimal "bat_barrel_pct", precision: 10, scale: 3, comment: "batting - barrel percentage"
+    t.decimal "bat_hard_hit_pct", precision: 10, scale: 3, comment: "batting - hard hit percentage"
+    t.decimal "bat_k_pct", precision: 10, scale: 3, comment: "batting - strikeout percentage"
     t.index ["opponent_id"], name: "index_stats_on_opponent_id"
     t.index ["player_id"], name: "index_stats_on_player_id"
     t.index ["team_id"], name: "index_stats_on_team_id"

@@ -29,53 +29,57 @@ class Player < ApplicationRecord
 
   def self.ransackable_attributes(*)
     %w[
+      ab
+      age
       archived_at
+      bat_ctrl
+      bavg
+      bb
+      bb_pct
       created_at
+      cs
+      errs
+      eta
       first_name
-      middle_name
+      fld_proj
+      game_pwr_proj
+      hard_hit
+      hits
+      hr
       id
+      k
+      k_pct
       last_name
       level_id
+      middle_name
+      mlbamid
       name_suffix
+      nameascii_cbs
+      nameascii_fg
       notes
+      nsb
+      obp
+      ops
+      pa
+      pit_sel
+      player_level_weight
+      player_status_weight
       player_type
+      playerid
       position
+      raw_pwr_proj
+      rbi
+      risk
       roster_id
+      runs
+      sb
+      slg
+      spd_proj
       status_id
       team_id
       updated_at
-      age
-      hr
-      ops
-      rbi
-      runs
-      nsb
-      errs
-      wrc_plus
-      pa
-      ab
-      hits
-      bb
-      bb_pct
-      k
-      k_pct
-      sb
-      cs
-      bavg
-      obp
-      slg
       war
-      risk
-      eta
-      game_pwr_proj
-      raw_pwr_proj
-      spd_proj
-      fld_proj
-      pit_sel
-      bat_ctrl
-      hard_hit
-      player_status_weight
-      player_level_weight
+      wrc_plus
     ]
   end
 
@@ -118,5 +122,9 @@ class Player < ApplicationRecord
 
   def full_description
     "#{name}, #{team&.abbreviation} (#{eligible_positions.join(', ')})"
+  end
+
+  def dynamic_name_ascii
+    [first_name, middle_name, last_name, name_suffix].reject(&:blank?).join(' ')
   end
 end

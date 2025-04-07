@@ -9,6 +9,8 @@
 * https://natstat.com/
 * https://docs.google.com/document/d/1Q41-Pd0y1exehqKDVp0WD4h1AcROK3BQjuqOicWlxJk/edit?tab=t.0
 * https://www.thedynastydugout.com/p/beck-s-2025-top-100-prospects
+* https://razzball.com/mlbamids/
+* https://www.smartfantasybaseball.com/tools/
 
 ## References
 

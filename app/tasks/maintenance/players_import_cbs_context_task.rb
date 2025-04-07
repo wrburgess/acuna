@@ -101,7 +101,8 @@ module Maintenance
         end
 
         # Check if player already exists (match by normalized first_name, last_name, and team)
-        player = Player.find_by(first_name: first_name, last_name: last_name)
+        player = Player.find_by(nameascii_cbs: [first_name, middle_name, last_name, name_suffix].reject(&:blank?).join(' ')) ||
+                 Player.find_by(first_name: first_name, last_name: last_name)
 
         if player
           Rails.logger.info("Updating existing player: #{first_name} #{last_name} with position: #{primary_position}")
@@ -112,7 +113,8 @@ module Maintenance
             position: primary_position,
             player_type: player_type,
             team: team,
-            roster: roster
+            roster: roster,
+            nameascii_cbs: [first_name, middle_name, last_name, name_suffix].reject(&:blank?).join(' ')
           )
         else
           Rails.logger.info("Creating new player: #{first_name} #{last_name} with position: #{primary_position}")
@@ -125,7 +127,8 @@ module Maintenance
             eligible_positions: eligible_positions, # Save as an array
             position: primary_position,
             team: team,
-            roster: roster
+            roster: roster,
+            nameascii_cbs: [first_name, middle_name, last_name, name_suffix].reject(&:blank?).join(' ')
           )
         end
 
