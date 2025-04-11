@@ -4,10 +4,6 @@
         <% unless instance.new_record? %>
           <%= f.input :id, readonly: true, wrapper: :floating_label_form %>
         <% end %>
-        <%= f.input :mlbam_id, wrapper: :floating_label_form %>
-        <%= f.input :playerid, wrapper: :floating_label_form %>
-        <%= f.input :fangraphs_name, wrapper: :floating_label_form %>
-        <%= f.input :cbs_name, wrapper: :floating_label_form %>
         <%= f.input :first_name, wrapper: :floating_label_form %>
         <%= f.input :middle_name, wrapper: :floating_label_form %>
         <%= f.input :last_name, wrapper: :floating_label_form %>
@@ -18,6 +14,31 @@
         <%= f.association :roster, wrapper: :floating_label_form %>
         <%= f.input :status_id, collection: Status.all, include_blank: true, wrapper: :floating_label_form %>
         <%= f.input :level_id, collection: Level.all, include_blank: true, wrapper: :floating_label_form %>
+        <%= f.input :bp_id, wrapper: :floating_label_form %>
+        <%= f.input :bref_id, wrapper: :floating_label_form %>
+        <%= f.input :cbs_id, wrapper: :floating_label_form %>
+        <%= f.input :cbs_name, wrapper: :floating_label_form %>
+        <%= f.input :espn_id, wrapper: :floating_label_form %>
+        <%= f.input :espn_name, wrapper: :floating_label_form %>
+        <%= f.input :fangraphs_id, wrapper: :floating_label_form %>
+        <%= f.input :fangraphs_name, wrapper: :floating_label_form %>
+        <%= f.input :fantrax_id, wrapper: :floating_label_form %>
+        <%= f.input :fantrax_name, wrapper: :floating_label_form %>
+        <%= f.input :mlb_id, wrapper: :floating_label_form %>
+        <%= f.input :mlb_name, wrapper: :floating_label_form %>
+        <%= f.input :mlbam_id, wrapper: :floating_label_form %>
+        <%= f.input :mlbam_name, wrapper: :floating_label_form %>
+        <%= f.input :nfbc_id, wrapper: :floating_label_form %>
+        <%= f.input :nfbc_name, wrapper: :floating_label_form %>
+        <%= f.input :razzball_id, wrapper: :floating_label_form %>
+        <%= f.input :razzball_name, wrapper: :floating_label_form %>
+        <%= f.input :retro_id, wrapper: :floating_label_form %>
+        <%= f.input :rotowire_id, wrapper: :floating_label_form %>
+        <%= f.input :rotowire_name, wrapper: :floating_label_form %>
+        <%= f.input :sfbb_id, wrapper: :floating_label_form %>
+        <%= f.input :sfbb_name, wrapper: :floating_label_form %>
+        <%= f.input :yahoo_id, wrapper: :floating_label_form %>
+        <%= f.input :yahoo_name, wrapper: :floating_label_form %>
         <%= f.input :notes, as: :text, wrapper: :floating_label_form %>
       </div>
     </div><!-- row -->

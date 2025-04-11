@@ -1,6 +1,6 @@
 class AddPlayerIdCbs < ActiveRecord::Migration[8.0]
   def change
-    add_column :players, :active, :boolean, default: true
+    add_column :players, :active, :boolean
     add_column :players, :bref_id, :string
     add_column :players, :cbs_id, :string
     add_column :players, :cbs_name, :string

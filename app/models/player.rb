@@ -32,7 +32,7 @@ class Player < ApplicationRecord
       ab
       age
       archived_at
-      baseball_prospects_id
+      bp_id
       bat_ctrl
       bavg
       bb
@@ -85,12 +85,15 @@ class Player < ApplicationRecord
       razzball_id
       razzball_name
       rbi
+      retro_id
       risk
       roster_id
       rotowire_id
       rotowire_name
       runs
       sb
+      sfbb_id
+      sfbb_name
       slg
       spd_proj
       status_id
@@ -113,6 +116,12 @@ class Player < ApplicationRecord
       tracking_lists
     ]
   end
+
+  # ransacker :id do
+  #   Arel::Nodes::SqlLiteral.new(
+  #     "regexp_replace(to_char(\"#{table_name}\".\"id\", '99999999'), ' ', '', 'g')"
+  #   )
+  # end
 
   # Stats ransackers
   %w[hr ops rbi runs nsb errs pa ab hits bb bb_pct k k_pct sb cs bavg obp slg war wrc_plus].each do |stat|

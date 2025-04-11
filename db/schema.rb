@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_05_225543) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_11_164235) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -239,7 +239,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_05_225543) do
     t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "fg_id"
     t.decimal "age", precision: 10, scale: 3
     t.string "height"
     t.string "weight"
@@ -252,9 +251,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_05_225543) do
     t.text "name_suffix"
     t.string "player_type"
     t.string "playerid"
-    t.string "mlbamid"
-    t.string "nameascii"
-    t.boolean "active", default: true
+    t.boolean "active"
     t.string "bref_id"
     t.string "cbs_id"
     t.string "cbs_name"
@@ -277,10 +274,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_05_225543) do
     t.string "sfbb_name"
     t.string "yahoo_id"
     t.string "yahoo_name"
+    t.string "bp_id"
+    t.string "mlbam_id"
+    t.string "mlbam_name"
+    t.index ["bp_id"], name: "index_players_on_bp_id", unique: true
+    t.index ["bref_id"], name: "index_players_on_bref_id", unique: true
+    t.index ["cbs_id"], name: "index_players_on_cbs_id", unique: true
+    t.index ["espn_id"], name: "index_players_on_espn_id", unique: true
+    t.index ["fangraphs_id"], name: "index_players_on_fangraphs_id", unique: true
+    t.index ["fantrax_id"], name: "index_players_on_fantrax_id", unique: true
     t.index ["level_id"], name: "index_players_on_level_id"
+    t.index ["mlb_id"], name: "index_players_on_mlb_id", unique: true
+    t.index ["mlbam_id"], name: "index_players_on_mlbam_id", unique: true
+    t.index ["nfbc_id"], name: "index_players_on_nfbc_id", unique: true
+    t.index ["razzball_id"], name: "index_players_on_razzball_id", unique: true
+    t.index ["retro_id"], name: "index_players_on_retro_id", unique: true
     t.index ["roster_id"], name: "index_players_on_roster_id"
+    t.index ["rotowire_id"], name: "index_players_on_rotowire_id", unique: true
+    t.index ["sfbb_id"], name: "index_players_on_sfbb_id", unique: true
     t.index ["status_id"], name: "index_players_on_status_id"
     t.index ["team_id"], name: "index_players_on_team_id"
+    t.index ["yahoo_id"], name: "index_players_on_yahoo_id", unique: true
   end
 
   create_table "positions", force: :cascade do |t|
@@ -392,9 +406,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_05_225543) do
     t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "playerid"
-    t.string "mlbamid"
-    t.string "nameascii"
     t.index ["player_id"], name: "index_scouting_profiles_on_player_id"
     t.index ["timeline_id"], name: "index_scouting_profiles_on_timeline_id"
   end
@@ -448,9 +459,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_05_225543) do
     t.decimal "control_pres", precision: 10, scale: 3
     t.decimal "arm_pres", precision: 10, scale: 3
     t.bigint "timeline_id"
-    t.string "playerid"
-    t.string "mlbamid"
-    t.string "nameascii"
     t.index ["player_id"], name: "index_scouting_reports_on_player_id"
     t.index ["scout_id"], name: "index_scouting_reports_on_scout_id"
     t.index ["timeline_id"], name: "index_scouting_reports_on_timeline_id"
@@ -471,7 +479,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_05_225543) do
     t.bigint "team_id"
     t.bigint "opponent_id"
     t.bigint "timeline_id"
-    t.string "mlbam_id"
     t.string "game_number"
     t.datetime "game_date"
     t.string "game_location"
@@ -550,9 +557,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_05_225543) do
     t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "playerid"
-    t.string "mlbamid"
-    t.string "nameascii"
     t.decimal "bat_singles", precision: 10, scale: 3, comment: "batting - total singles"
     t.decimal "bat_barrel_pct", precision: 10, scale: 3, comment: "batting - barrel percentage"
     t.decimal "bat_hard_hit_pct", precision: 10, scale: 3, comment: "batting - hard hit percentage"

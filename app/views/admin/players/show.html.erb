@@ -3,14 +3,6 @@
 <%= render Admin::PageContainer::Component.new do %>
   <%= render Admin::TableForShow::Component.new(title: 'Player Data') do |table| %>
     <% table.with_row(name: "ID", value: @instance.id) %>
-    <% table.with_row(name: "MLBAM ID", value: @instance.mlbam_id) %>
-    <% table.with_row(name: "FG ID", value: @instance.fangraphs_id) %>
-    <% table.with_row(name: "FG NAME", value: @instance.fangraphs_name) %>
-    <% table.with_row(name: "CBS ID", value: @instance.cbs_id) %>
-    <% table.with_row(name: "CBS NAME", value: @instance.cbs_name) %>
-    <% table.with_row(name: "FANTRAX ID", value: @instance.fantrax_id) %>
-    <% table.with_row(name: "NFBC ID", value: @instance.nfbc_id) %>
-    <% table.with_row(name: "RAZZBALL ID", value: @instance.razzball_id) %>
     <% table.with_row(name: "Full Name", value: @instance.name) %>
     <% table.with_row(name: "First Name", value: @instance.first_name) %>
     <% table.with_row(name: "Middle Name", value: @instance.middle_name) %>
@@ -22,6 +14,31 @@
     <% table.with_row(name: "Roster", value: @instance.roster&.name) %>
     <% table.with_row(name: "Status", value: @instance.status&.name || "Not specified") %>
     <% table.with_row(name: "Level", value: @instance.level&.name || "Not specified") %>
+    <% table.with_row(name: "BP ID", value: @instance.bp_id) %>
+    <% table.with_row(name: "BREF ID", value: @instance.bref_id) %>
+    <% table.with_row(name: "CBS ID", value: @instance.cbs_id) %>
+    <% table.with_row(name: "CBS NAME", value: @instance.cbs_name) %>
+    <% table.with_row(name: "ESPN ID", value: @instance.espn_id) %>
+    <% table.with_row(name: "ESPN NAME", value: @instance.espn_name) %>
+    <% table.with_row(name: "FG ID", value: @instance.fangraphs_id) %>
+    <% table.with_row(name: "FG NAME", value: @instance.fangraphs_name) %>
+    <% table.with_row(name: "FANTRAX ID", value: @instance.fantrax_id) %>
+    <% table.with_row(name: "FANTRAX NAME", value: @instance.fantrax_name) %>
+    <% table.with_row(name: "MLB ID", value: @instance.mlb_id) %>
+    <% table.with_row(name: "MLB NAME", value: @instance.mlb_name) %>
+    <% table.with_row(name: "MLBAM ID", value: @instance.mlbam_id) %>
+    <% table.with_row(name: "MLBAM NAME", value: @instance.mlbam_name) %>
+    <% table.with_row(name: "NFBC ID", value: @instance.nfbc_id) %>
+    <% table.with_row(name: "NFBC NAME", value: @instance.nfbc_name) %>
+    <% table.with_row(name: "RAZZBALL ID", value: @instance.razzball_id) %>
+    <% table.with_row(name: "RAZZBALL NAME", value: @instance.razzball_name) %>
+    <% table.with_row(name: "RETRO ID", value: @instance.retro_id) %>
+    <% table.with_row(name: "ROTOWIRE ID", value: @instance.rotowire_id) %>
+    <% table.with_row(name: "ROTOWIRE NAME", value: @instance.rotowire_name) %>
+    <% table.with_row(name: "SFBB ID", value: @instance.sfbb_id) %>
+    <% table.with_row(name: "SFBB NAME", value: @instance.sfbb_name) %>
+    <% table.with_row(name: "YAHOO ID", value: @instance.yahoo_id) %>
+    <% table.with_row(name: "YAHOO NAME", value: @instance.yahoo_name) %>
     <% table.with_row(name: "Notes", value: @instance.notes) %>
     <% table.with_row(name: "Archived at", value: default_date_format(@instance.archived_at)) %>
   <% end %>

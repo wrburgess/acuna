@@ -5,7 +5,7 @@ class Admin::PlayersController < AdminController
 
   def index
     authorize(policy_class)
-    @q = controller_class.ransack(params[:q])
+    @q = controller_class.includes(:team, :level, :status, :roster, :team).ransack(params[:q])
     @q.sorts = controller_class.default_sort if @q.sorts.empty?
     @pagy, @instances = pagy(@q.result)
     @instance = controller_class.new
@@ -394,8 +394,9 @@ class Admin::PlayersController < AdminController
     params.require(:player).permit(
       :age,
       :archived_at,
-      :baseball_prospects_id,
       :birthdate,
+      :bp_id,
+      :bref_id,
       :cbs_id,
       :cbs_name,
       :espn_id,
@@ -404,7 +405,7 @@ class Admin::PlayersController < AdminController
       :fangraphs_name,
       :fantrax_id,
       :fantrax_name,
-      :first__name,
+      :first_name,
       :last_name,
       :level_id,
       :middle_name,
@@ -421,9 +422,12 @@ class Admin::PlayersController < AdminController
       :position,
       :razzball_id,
       :razzball_name,
+      :retro_id,
       :roster_id,
       :rotowire_id,
       :rotowire_name,
+      :sfbb_id,
+      :sfbb_name,
       :status_id,
       :team_id,
       :yahoo_id,
@@ -435,8 +439,9 @@ class Admin::PlayersController < AdminController
     params.require(:player).permit(
       :age,
       :archived_at,
-      :baseball_prospects_id,
       :birthdate,
+      :bp_id,
+      :bref_id,
       :cbs_id,
       :cbs_name,
       :espn_id,
@@ -445,7 +450,7 @@ class Admin::PlayersController < AdminController
       :fangraphs_name,
       :fantrax_id,
       :fantrax_name,
-      :first__name,
+      :first_name,
       :last_name,
       :level_id,
       :middle_name,
@@ -462,9 +467,12 @@ class Admin::PlayersController < AdminController
       :position,
       :razzball_id,
       :razzball_name,
+      :retro_id,
       :roster_id,
       :rotowire_id,
       :rotowire_name,
+      :sfbb_id,
+      :sfbb_name,
       :status_id,
       :team_id,
       :yahoo_id,

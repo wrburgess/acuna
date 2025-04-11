@@ -11,14 +11,6 @@
 <%= render Admin::PageContainer::Component.new do %> 
   <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
     <% table.with_column(sort_link([:admin, @q], :id, "ID")) { |instance| instance.id.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :sfbb_id, "SFBB ID")) { |instance| instance.sfbb_id.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :mlbamid, "MLB ID")) { |instance| instance.mlbamid.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :playerid, "PLAYER ID")) { |instance| instance.playerid.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :fangraphs_id, "FG ID")) { |instance| instance.fangraphs_id.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :cbs_id, "CBS ID")) { |instance| instance.cbs_id.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :espn_id, "ESPN ID")) { |instance| instance.espn_id.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :nfbc_id, "NFBC ID")) { |instance| instance.nfbc_id.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :yahoo_id, "YAHOO ID")) { |instance| instance.yahoo_id.to_s } %>
     <% table.with_column(sort_link([:admin, @q], :first_name, "First")) { |instance| instance.first_name } %>
     <% table.with_column(sort_link([:admin, @q], :middle_name, "Middle")) { |instance| instance.middle_name } %>
     <% table.with_column(sort_link([:admin, @q], :last_name, "Last", default_order: :asc)) { |instance| instance.last_name } %>
@@ -34,6 +26,20 @@
     <% table.with_column(sort_link([:admin, @q], :throws, "Thrw")) { |instance| instance.throws.to_s } %>
     <% table.with_column(sort_link([:admin, @q], :height, "Ht")) { |instance| instance.height.to_s } %>
     <% table.with_column(sort_link([:admin, @q], :weight, "Wt")) { |instance| instance.weight.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :bp_id, "BP")) { |instance| instance.bp_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :bref_id, "BREF")) { |instance| instance.bref_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :cbs_id, "CBS")) { |instance| instance.cbs_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :espn_id, "ESPN")) { |instance| instance.espn_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :fangraphs_id, "FG")) { |instance| instance.fangraphs_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :fantrax_id, "FTRX")) { |instance| instance.fantrax_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :mlb_id, "MLB")) { |instance| instance.mlb_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :mlbam_id, "MLBAM")) { |instance| instance.mlbam_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :nfbc_id, "NFBC")) { |instance| instance.nfbc_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :razzball_id, "RZZB")) { |instance| instance.razzball_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :retro_id, "RTRO")) { |instance| instance.retro_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :rotowire_id, "ROTO")) { |instance| instance.rotowire_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :sfbb_id, "SFBB")) { |instance| instance.sfbb_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :yahoo_id, "YHOO")) { |instance| instance.yahoo_id.to_s } %>
     <% table.with_column(sort_link([:admin, @q], :active, "Active")) { |instance| instance.active.to_s } %>
     <% table.with_column(sort_link([:admin, @q], :created_at, "Created")) { |instance| default_date_format(instance.created_at) } %>
     <% table.with_column("Actions") do |instance| %>
@@ -47,21 +53,26 @@
   <%= render Admin::FilterCard::Component.new do %>
     <%= simple_form_for [:admin, @q], url: admin_players_path, html: { method: :get }, wrapper: :floating_labels_form do |f| %>
       <%= f.input :id_eq, label: "ID", placeholder: "ID equals" %>
-      <%= f.input :mlbamid_eq, label: "MLBAMID", placeholder: "MLBAMID equals" %>
-      <%= f.input :mlbamid_eq, label: "MLB Name", placeholder: "MLB Name equals" %>
-      <%= f.input :playerid_eq, label: "PLAYERID", placeholder: "PLAYERID equals" %>
-      <%= f.input :fangraphs_id_eq, label: "FG ID", placeholder: "FG ID equals" %>
-      <%= f.input :fangraphs_name_eq, label: "FG Name", placeholder: "FG Name equals" %>
-      <%= f.input :cbs_id_eq, label: "CBS ID", placeholder: "CBS ID equals" %>
-      <%= f.input :cbs_name_eq, label: "CBS Name", placeholder: "CBS Name equals" %>
-      <%= f.input :cbs_id_eq, label: "CBS ID", placeholder: "CBS ID equals" %>
-      <%= f.input :cbs_name_eq, label: "CBS Name", placeholder: "CBS Name equals" %>
+      <%= f.input :bp_id_cont, label: "BP ID", placeholder: "BP ID contains" %>
+      <%= f.input :bref_id_cont, label: "BREF ID", placeholder: "BREF ID contains" %>
+      <%= f.input :cbs_id_cont, label: "CBS ID", placeholder: "CBS ID contains" %>
+      <%= f.input :espn_id_cont, label: "ESPN ID", placeholder: "ESPN ID contains" %>
+      <%= f.input :fangraphs_id_cont, label: "FG ID", placeholder: "FG ID contains" %>
+      <%= f.input :fantrax_id_cont, label: "FTRX ID", placeholder: "FTRX ID contains" %>
+      <%= f.input :mlb_id_cont, label: "MLB ID", placeholder: "MLB ID contains" %>
+      <%= f.input :mlbam_id_cont, label: "MLBAM ID", placeholder: "MLBAM ID contains" %>
+      <%= f.input :nfbc_id_cont, label: "NFBC ID", placeholder: "NFBC ID contains" %>
+      <%= f.input :razzball_id_cont, label: "RAZZBALL ID", placeholder: "RAZZBALL ID contains" %>
+      <%= f.input :retro_id_cont, label: "RETRO ID", placeholder: "RETRO ID contains" %>
+      <%= f.input :rotowire_id_cont, label: "ROTOWIRE ID", placeholder: "ROTOWIRE ID contains" %>
+      <%= f.input :sfbb_id_cont, label: "SFBB ID", placeholder: "SFBB ID contains" %>
+      <%= f.input :yahoo_id_cont, label: "YAHOO ID", placeholder: "YAHOO ID contains" %>
       <%= f.input :first_name_cont, label: "First Name", placeholder: "First Name contains" %>
       <%= f.input :last_name_cont, label: "Last Name", placeholder: "Last Name contains" %>
       <%= f.input :player_type_cont, label: "Player Type", placeholder: "Player Type contains" %>
-      <%= f.input :position_eq, label: "Position", placeholder: "Position equals" %>
-      <%= f.input :team_id_eq, collection: Team.all, label: "Team", include_blank: "Any" %>
-      <%= f.input :roster_id_eq, collection: Roster.all, label: "Roster", include_blank: "Any" %>
+      <%= f.input :position_cont, label: "Position", placeholder: "Position contains" %>
+      <%= f.input :team_id_cont, collection: Team.all, label: "Team", include_blank: "Any" %>
+      <%= f.input :roster_id_cont, collection: Roster.all, label: "Roster", include_blank: "Any" %>
       <%= f.input :archived_at_not_null, as: :boolean, label: "Archived?", wrapper: :custom_boolean_switch %>
       
       <%= render Admin::FormButton::Component.new(operation: :filter) %>
