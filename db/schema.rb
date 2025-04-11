@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_05_215810) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_05_225543) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -254,6 +254,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_05_215810) do
     t.string "playerid"
     t.string "mlbamid"
     t.string "nameascii"
+    t.boolean "active", default: true
+    t.string "bref_id"
+    t.string "cbs_id"
+    t.string "cbs_name"
+    t.string "espn_id"
+    t.string "espn_name"
+    t.string "fangraphs_id"
+    t.string "fangraphs_name"
+    t.string "fantrax_id"
+    t.string "fantrax_name"
+    t.string "mlb_id"
+    t.string "mlb_name"
+    t.string "nfbc_id"
+    t.string "nfbc_name"
+    t.string "razzball_id"
+    t.string "razzball_name"
+    t.string "retro_id"
+    t.string "rotowire_id"
+    t.string "rotowire_name"
+    t.string "sfbb_id"
+    t.string "sfbb_name"
+    t.string "yahoo_id"
+    t.string "yahoo_name"
     t.index ["level_id"], name: "index_players_on_level_id"
     t.index ["roster_id"], name: "index_players_on_roster_id"
     t.index ["status_id"], name: "index_players_on_status_id"

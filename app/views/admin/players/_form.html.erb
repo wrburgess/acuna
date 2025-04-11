@@ -4,10 +4,10 @@
         <% unless instance.new_record? %>
           <%= f.input :id, readonly: true, wrapper: :floating_label_form %>
         <% end %>
-        <%= f.input :mlbamid, wrapper: :floating_label_form %>
+        <%= f.input :mlbam_id, wrapper: :floating_label_form %>
         <%= f.input :playerid, wrapper: :floating_label_form %>
-        <%= f.input :nameascii_fg, wrapper: :floating_label_form %>
-        <%= f.input :nameascii_cbs, wrapper: :floating_label_form %>
+        <%= f.input :fangraphs_name, wrapper: :floating_label_form %>
+        <%= f.input :cbs_name, wrapper: :floating_label_form %>
         <%= f.input :first_name, wrapper: :floating_label_form %>
         <%= f.input :middle_name, wrapper: :floating_label_form %>
         <%= f.input :last_name, wrapper: :floating_label_form %>

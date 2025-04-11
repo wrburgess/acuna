@@ -25,17 +25,17 @@ module Maintenance
       # Process each row in the file
       rows.each_with_index do |row, _|
         # Map player attributes
-        nameascii = row['NameASCII'].to_s.strip
+        fangraphs_name = row['NameASCII'].to_s.strip
         playerid = row['PlayerID'].to_s.strip
-        mlbamid = row['MLBAMID'].to_s.strip
+        mlbam_id = row['MLBAMID'].to_s.strip
         name = row['Name'].to_s.strip
 
-        player = Player.find_by(mlbamid: mlbamid) ||
-                 Player.find_by(nameascii_fg: nameascii) ||
+        player = Player.find_by(mlbam_id: mlbam_id) ||
+                 Player.find_by(fangraphs_name: fangraphs_name) ||
                  Player.find_by(playerid: playerid)
 
         unless player
-          unmatched_players << { name: name, nameascii: nameascii, playerid: playerid, mlbamid: mlbamid }
+          unmatched_players << { name: name, fangraphs_name: fangraphs_name, playerid: playerid, mlbam_id: mlbam_id }
           next
         end
 
@@ -75,9 +75,9 @@ module Maintenance
           bat_k_pct: row['K%'],
           bat_barrel_pct: row['Barrel%'],
           bat_hard_hit_pct: row['HardHit%'],
-          mlbamid: mlbamid,
+          mlbam_id: mlbam_id,
           playerid: playerid,
-          nameascii_fg: nameascii
+          fangraphs_name: fangraphs_name
         )
 
         if stat.new_record?
@@ -124,9 +124,9 @@ module Maintenance
           bat_k_pct: 0,
           bat_barrel_pct: 0,
           bat_hard_hit_pct: 0,
-          mlbamid: player.mlbamid,
+          mlbam_id: player.mlbam_id,
           playerid: player.playerid,
-          nameascii_fg: player.nameascii
+          fangraphs_name: player.fangraphs_name
         )
         total_blank_created += 1
       end
@@ -134,7 +134,7 @@ module Maintenance
       # Log unmatched players
       Rails.logger.info("Unmatched players: #{unmatched_players.size}")
       unmatched_players.each do |unmatched|
-        Rails.logger.info("  Name: #{unmatched[:name]}, NameASCII: #{unmatched[:nameascii]}, PlayerID: #{unmatched[:playerid]}, MLBAMID: #{unmatched[:mlbamid]}")
+        Rails.logger.info("  Name: #{unmatched[:name]}, FangraphsName: #{unmatched[:fangraphs_name]}, PlayerID: #{unmatched[:playerid]}, MLBAM_ID: #{unmatched[:mlbam_id]}")
       end
 
       # Log results

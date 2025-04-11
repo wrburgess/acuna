@@ -11,10 +11,14 @@
 <%= render Admin::PageContainer::Component.new do %> 
   <%= render Admin::TableForIndex::Component.new(data: @instances) do |table| %>
     <% table.with_column(sort_link([:admin, @q], :id, "ID")) { |instance| instance.id.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :mlbamid, "MLBID")) { |instance| instance.mlbamid.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :playerid, "PLAYERID")) { |instance| instance.playerid.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :nameascii_fg, "FGID")) { |instance| instance.nameascii_fg.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :nameascii_cbs, "CBSID")) { |instance| instance.nameascii_cbs.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :sfbb_id, "SFBB ID")) { |instance| instance.sfbb_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :mlbamid, "MLB ID")) { |instance| instance.mlbamid.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :playerid, "PLAYER ID")) { |instance| instance.playerid.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :fangraphs_id, "FG ID")) { |instance| instance.fangraphs_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :cbs_id, "CBS ID")) { |instance| instance.cbs_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :espn_id, "ESPN ID")) { |instance| instance.espn_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :nfbc_id, "NFBC ID")) { |instance| instance.nfbc_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :yahoo_id, "YAHOO ID")) { |instance| instance.yahoo_id.to_s } %>
     <% table.with_column(sort_link([:admin, @q], :first_name, "First")) { |instance| instance.first_name } %>
     <% table.with_column(sort_link([:admin, @q], :middle_name, "Middle")) { |instance| instance.middle_name } %>
     <% table.with_column(sort_link([:admin, @q], :last_name, "Last", default_order: :asc)) { |instance| instance.last_name } %>
@@ -27,9 +31,11 @@
     <% table.with_column(sort_link([:admin, @q], :status_weight, "Status")) { |instance| instance.status&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :age, "Age")) { |instance| instance.age.to_s } %>
     <% table.with_column(sort_link([:admin, @q], :bats, "Bats")) { |instance| instance.bats.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :throws, "Thrw")) { |instance| instance.throws } %>
-    <% table.with_column(sort_link([:admin, @q], :height, "Ht")) { |instance| instance.height } %>
-    <% table.with_column(sort_link([:admin, @q], :weight, "Wt")) { |instance| instance.weight } %>
+    <% table.with_column(sort_link([:admin, @q], :throws, "Thrw")) { |instance| instance.throws.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :height, "Ht")) { |instance| instance.height.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :weight, "Wt")) { |instance| instance.weight.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :active, "Active")) { |instance| instance.active.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :created_at, "Created")) { |instance| default_date_format(instance.created_at) } %>
     <% table.with_column("Actions") do |instance| %>
       <%= render Admin::ActionButton::Component.new(operation: :show, instance: instance, button_classes: "me-3", icon_classes: :none) %>
       <%= render Admin::ActionButton::Component.new(operation: :edit, instance: instance, button_classes: :none, icon_classes: :none) %>
@@ -42,9 +48,14 @@
     <%= simple_form_for [:admin, @q], url: admin_players_path, html: { method: :get }, wrapper: :floating_labels_form do |f| %>
       <%= f.input :id_eq, label: "ID", placeholder: "ID equals" %>
       <%= f.input :mlbamid_eq, label: "MLBAMID", placeholder: "MLBAMID equals" %>
+      <%= f.input :mlbamid_eq, label: "MLB Name", placeholder: "MLB Name equals" %>
       <%= f.input :playerid_eq, label: "PLAYERID", placeholder: "PLAYERID equals" %>
-      <%= f.input :nameascii_fg_eq, label: "FG ID", placeholder: "FG ID equals" %>
-      <%= f.input :nameascii_cbs_eq, label: "CBS ID", placeholder: "CBS ID equals" %>
+      <%= f.input :fangraphs_id_eq, label: "FG ID", placeholder: "FG ID equals" %>
+      <%= f.input :fangraphs_name_eq, label: "FG Name", placeholder: "FG Name equals" %>
+      <%= f.input :cbs_id_eq, label: "CBS ID", placeholder: "CBS ID equals" %>
+      <%= f.input :cbs_name_eq, label: "CBS Name", placeholder: "CBS Name equals" %>
+      <%= f.input :cbs_id_eq, label: "CBS ID", placeholder: "CBS ID equals" %>
+      <%= f.input :cbs_name_eq, label: "CBS Name", placeholder: "CBS Name equals" %>
       <%= f.input :first_name_cont, label: "First Name", placeholder: "First Name contains" %>
       <%= f.input :last_name_cont, label: "Last Name", placeholder: "Last Name contains" %>
       <%= f.input :player_type_cont, label: "Player Type", placeholder: "Player Type contains" %>

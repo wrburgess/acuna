@@ -32,14 +32,25 @@ class Player < ApplicationRecord
       ab
       age
       archived_at
+      baseball_prospects_id
       bat_ctrl
       bavg
       bb
       bb_pct
+      birthdate
+      bref_id
+      cbs_id
+      cbs_name
       created_at
       cs
       errs
+      espn_id
+      espn_name
       eta
+      fangraphs_id
+      fangraphs_name
+      fantrax_id
+      fantrax_name
       first_name
       fld_proj
       game_pwr_proj
@@ -52,10 +63,13 @@ class Player < ApplicationRecord
       last_name
       level_id
       middle_name
-      mlbamid
+      mlb_id
+      mlb_name
+      mlbam_id
+      mlbam_name
       name_suffix
-      nameascii_cbs
-      nameascii_fg
+      nfbc_id
+      nfbc_name
       notes
       nsb
       obp
@@ -68,9 +82,13 @@ class Player < ApplicationRecord
       playerid
       position
       raw_pwr_proj
+      razzball_id
+      razzball_name
       rbi
       risk
       roster_id
+      rotowire_id
+      rotowire_name
       runs
       sb
       slg
@@ -80,6 +98,8 @@ class Player < ApplicationRecord
       updated_at
       war
       wrc_plus
+      yahoo_id
+      yahoo_name
     ]
   end
 
