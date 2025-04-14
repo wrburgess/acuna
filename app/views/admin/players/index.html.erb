@@ -19,10 +19,11 @@
     <% table.with_column(sort_link([:admin, @q], :position, "Position")) { |instance| instance.position } %>
     <% table.with_column(sort_link([:admin, @q], :eligible_positions, "Eligible")) { |instance| instance.eligible_positions.join(", ") } %>
     <% table.with_column(sort_link([:admin, @q], :team_name, "Team")) { |instance| instance.team&.abbreviation } %>
+    <% table.with_column(sort_link([:admin, @q], :roster_name, "Roster")) { |instance| instance.roster&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :level_weight, "Level")) { |instance| instance.level&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :status_weight, "Status")) { |instance| instance.status&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :age, "Age")) { |instance| instance.age.to_s } %>
-    <% table.with_column(sort_link([:admin, @q], :birthdate, "Bday")) { |instance| default_date_format(instance.birthdate) } %>
+    <% table.with_column(sort_link([:admin, @q], :birthdate, "Birthdate")) { |instance| default_date_format(instance.birthdate) } %>
     <% table.with_column(sort_link([:admin, @q], :bats, "Bats")) { |instance| instance.bats.to_s } %>
     <% table.with_column(sort_link([:admin, @q], :throws, "Thrw")) { |instance| instance.throws.to_s } %>
     <% table.with_column(sort_link([:admin, @q], :height, "Ht")) { |instance| instance.height.to_s } %>

@@ -14,6 +14,8 @@ module Maintenance
       processed_count = 0
 
       CSV.foreach(file_path, headers: true).with_index(1) do |row, row_number|
+        next if row['ACTIVE'] == 'N' || row['ACTIVE'].blank?
+
         # Map CSV headers to player attributes
         player_attributes = {
           bp_id: row['BPID'],
@@ -54,6 +56,8 @@ module Maintenance
                  Player.find_by(yahoo_id: player_attributes[:yahoo_id]) ||
                  Player.find_by(espn_id: player_attributes[:espn_id])
 
+        team = Team.find_by(abbreviation: row['TEAM']) || Team.find_by(abbreviation: 'N/A')
+
         if player.nil?
           # Split CBS name into first_name, middle_name, last_name, and name_suffix
           cbs_name_parts = player_attributes[:cbs_name].to_s.strip.split(' ')
@@ -64,10 +68,19 @@ module Maintenance
 
           # Use the POS column for the position attribute if it's not P or OF
           position = row['POS'].to_s.strip
+
+          player_type = if %w[P SP RP].include?(position)
+                          'pitcher'
+                        else
+                          'batter'
+                        end
+
           position = nil if %w[P OF].include?(position)
 
           # Create a new player record
           player = Player.new(
+            team: team,
+            player_type: player_type,
             first_name: first_name,
             middle_name: middle_name,
             last_name: last_name,

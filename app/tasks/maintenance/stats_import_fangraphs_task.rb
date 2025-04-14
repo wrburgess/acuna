@@ -1,16 +1,18 @@
-require 'roo'
+require 'csv'
 
 module Maintenance
   class StatsImportFangraphsTask < MaintenanceTasks::Task
     no_collection
 
-    attribute :file_name, :string, default: 'stats_fangraphs_batting_ytd_2025.xlsx'
+    attribute :file_name, :string, default: 'stats_fangraphs_batting_ytd_2025.csv'
     attribute :timeline_abbreviation, :string, default: 'YTD'
 
     def process
-      # Load the xlsx file using roo
-      workbook = Roo::Excelx.new(Rails.root.join('db', 'sources', 'stats', file_name))
-      rows = workbook.sheet(0).parse(headers: true)
+      file_path = Rails.root.join('db', 'sources', 'stats', file_name)
+      raise "File not found: #{file_path}" unless File.exist?(file_path)
+
+      # Load the CSV file
+      rows = CSV.read(file_path, headers: true, encoding: 'bom|utf-8')
 
       # Retrieve the Timeline record
       timeline = Timeline.find_by(abbreviation: timeline_abbreviation)

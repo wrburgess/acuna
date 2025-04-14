@@ -10,12 +10,12 @@ gem 'rails', '8.0.2'
 # gem install debug
 
 gem 'awesome_print', '1.9.2'
-gem 'blazer', '3.2.1'
+gem 'blazer', '3.3.0'
 gem 'bootsnap', '1.18.4', require: false
 gem 'caxlsx', '4.2.0'
 gem 'caxlsx_rails', '0.6.4'
 gem 'cssbundling-rails', '1.4.3'
-gem 'csv', '3.3.3'
+gem 'csv', '3.3.4'
 gem 'devise', '4.9.4'
 gem 'faker', '3.5.1'
 gem 'good_job', '4.9.3'
