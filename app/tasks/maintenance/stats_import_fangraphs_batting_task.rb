@@ -1,7 +1,7 @@
 require 'csv'
 
 module Maintenance
-  class StatsImportFangraphsTask < MaintenanceTasks::Task
+  class StatsImportFangraphsBattingTask < MaintenanceTasks::Task
     no_collection
 
     attribute :file_name, :string, default: 'stats_fangraphs_batting_ytd_2025.csv'
@@ -34,12 +34,20 @@ module Maintenance
 
         player = Player.find_by(fangraphs_id: fangraphs_id) ||
                  Player.find_by(mlbam_id: mlbam_id) ||
-                 Player.find_by(fangraphs_name: fangraphs_name) ||
+                 Player.find_by(fangraphs_name: fangraphs_name)
 
-                 unless player
-                   unmatched_players << { name: name, fangraphs_name: fangraphs_name, fangraphs_id: fangraphs_id, mlbam_id: mlbam_id }
-                   next
-                 end
+        unless player
+          unmatched_players << { name: name, fangraphs_name: fangraphs_name, fangraphs_id: fangraphs_id, mlbam_id: mlbam_id }
+          player = Player.create(
+            first_name: row['NameASCII'].split(' ').first,
+            last_name: row['NameASCII'].split(' ').drop(1).join(' '),
+            mlbam_id: row['MLBAMID'],
+            fangraphs_id: row['PlayerId'],
+            fangraphs_name: row['NameASCII'],
+            player_type: 'batter',
+            active: true,
+          )
+        end
 
         # Find or initialize the stat record
         stat = player.stats.find_or_initialize_by(timeline: timeline)

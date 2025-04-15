@@ -119,6 +119,9 @@ class Admin::PlayersController < AdminController
 
            'stats.pit_gs',
            'stats.pit_inn',
+           'stats.pit_pitches',
+           'stats.pit_strikes',
+           'stats.pit_balls',
            'stats.pit_cg',
            'stats.pit_tbf',
            'stats.pit_qs',

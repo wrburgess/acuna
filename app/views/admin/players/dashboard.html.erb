@@ -50,6 +50,11 @@
     <% if params[:player_type] == "batter" %>
       <% if params[:view] == "scoring" %>
         <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS")) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
+        <% table.with_column(sort_link([:admin, @q], :bat_hrs, "HR")) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
+        <% table.with_column(sort_link([:admin, @q], :bat_runs, "R")) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
+        <% table.with_column(sort_link([:admin, @q], :bat_rbi, "RBI")) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
+        <% table.with_column(sort_link([:admin, @q], :bat_nsb, "NSB")) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
+        <% table.with_column(sort_link([:admin, @q], :bat_errors, "E")) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
       <% elsif params[:view] == "stats" %>
         <% table.with_column(sort_link([:admin, @q], :bat_hits, "H")) { |instance| format_stat(instance.bat_hits, :integer) } %>
         <% table.with_column(sort_link([:admin, @q], :bat_singles, "1B")) { |instance| format_stat(instance.bat_singles, :integer) } %>
@@ -63,8 +68,15 @@
     <% elsif params[:player_type] == "pitcher" %>
       <% if params[:view] == "scoring" %>
         <% table.with_column(sort_link([:admin, @q], :pit_qs, "QS")) { |instance| format_stat(instance.pit_qs, :integer) } %>
+        <% table.with_column(sort_link([:admin, @q], :pit_k_9, "K/9")) { |instance| format_stat(instance.pit_k_9, :hundreths) } %>
+        <% table.with_column(sort_link([:admin, @q], :pit_era, "ERA")) { |instance| format_stat(instance.pit_era, :hundreths) } %>
+        <% table.with_column(sort_link([:admin, @q], :pit_whip, "WHIP")) { |instance| format_stat(instance.pit_whip, :hundreths) } %>
+        <% table.with_column(sort_link([:admin, @q], :pit_saves, "NR")) { |instance| format_stat(instance.pit_saves, :hundreths) } %>
       <% elsif params[:view] == "stats" %>
         <% table.with_column(sort_link([:admin, @q], :pit_inn, "INN")) { |instance| format_stat(instance.pit_inn, :integer) } %>
+        <% table.with_column(sort_link([:admin, @q], :pit_pitches, "PIT")) { |instance| format_stat(instance.pit_pitches, :integer) } %>
+        <% table.with_column(sort_link([:admin, @q], :pit_strikes, "STK")) { |instance| format_stat(instance.pit_strikes, :integer) } %>
+        <% table.with_column(sort_link([:admin, @q], :pit_balls, "BALL")) { |instance| format_stat(instance.pit_balls, :integer) } %>
       <% elsif params[:view] == "scouting" %>
         <% table.with_column(sort_link([:admin, @q], :pit_control_pres, "CNTL")) { |instance| format_stat(instance.pit_control_pres, :integer) } %>
       <% end %>

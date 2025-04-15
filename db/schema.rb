@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_11_164235) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_15_041050) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -561,6 +561,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_11_164235) do
     t.decimal "bat_barrel_pct", precision: 10, scale: 3, comment: "batting - barrel percentage"
     t.decimal "bat_hard_hit_pct", precision: 10, scale: 3, comment: "batting - hard hit percentage"
     t.decimal "bat_k_pct", precision: 10, scale: 3, comment: "batting - strikeout percentage"
+    t.decimal "pit_games", precision: 10, scale: 3, comment: "pitching - total games"
+    t.decimal "pit_runs", precision: 10, scale: 3, comment: "pitching - total runs against"
+    t.decimal "pit_earned_runs", precision: 10, scale: 3, comment: "pitching - total earned runs against"
+    t.decimal "pit_pitches", precision: 10, scale: 3, comment: "pitching - total pitches thrown"
+    t.decimal "pit_balls", precision: 10, scale: 3, comment: "pitching - total balls thrown"
+    t.decimal "pit_strikes", precision: 10, scale: 3, comment: "pitching - total strikes thrown"
+    t.decimal "pit_war", precision: 10, scale: 3, comment: "pitching - wins above replacement"
+    t.decimal "pit_hbp", precision: 10, scale: 3, comment: "pitching - total hit by pitch"
+    t.decimal "pit_shutouts", precision: 10, scale: 3, comment: "pitching - total shutouts"
     t.index ["opponent_id"], name: "index_stats_on_opponent_id"
     t.index ["player_id"], name: "index_stats_on_player_id"
     t.index ["team_id"], name: "index_stats_on_team_id"
