@@ -5,7 +5,7 @@ module Maintenance
     no_collection
 
     attribute :file_name, :string, default: 'stats_fangraphs_batting_ytd_2025.csv'
-    attribute :timeline_abbreviation, :string, default: 'YTD'
+    attribute :timeline_abbreviation, :string, default: '2025'
 
     def process
       file_path = Rails.root.join('db', 'sources', 'stats', file_name)
@@ -28,18 +28,18 @@ module Maintenance
       rows.each_with_index do |row, _|
         # Map player attributes
         fangraphs_name = row['NameASCII'].to_s.strip
-        playerid = row['PlayerID'].to_s.strip
+        fangraphs_id = row['PlayerId'].to_s.strip
         mlbam_id = row['MLBAMID'].to_s.strip
         name = row['Name'].to_s.strip
 
-        player = Player.find_by(mlbam_id: mlbam_id) ||
+        player = Player.find_by(fangraphs_id: fangraphs_id) ||
+                 Player.find_by(mlbam_id: mlbam_id) ||
                  Player.find_by(fangraphs_name: fangraphs_name) ||
-                 Player.find_by(playerid: playerid)
 
-        unless player
-          unmatched_players << { name: name, fangraphs_name: fangraphs_name, playerid: playerid, mlbam_id: mlbam_id }
-          next
-        end
+                 unless player
+                   unmatched_players << { name: name, fangraphs_name: fangraphs_name, fangraphs_id: fangraphs_id, mlbam_id: mlbam_id }
+                   next
+                 end
 
         # Find or initialize the stat record
         stat = player.stats.find_or_initialize_by(timeline: timeline)
@@ -50,9 +50,10 @@ module Maintenance
           bat_hr: row['HR'],
           bat_runs: row['R'],
           bat_rbi: row['RBI'],
+          bat_sf: row['SF'],
           bat_sb: row['SB'],
           bat_cs: row['CS'],
-          bat_nsb: (row['SB'] - row['CS']),
+          bat_nsb: (row['SB'].to_i - row['CS'].to_i),
           bat_pa: row['PA'],
           bat_ab: row['AB'],
           bat_avg: row['AVG'],
@@ -62,6 +63,7 @@ module Maintenance
           bat_singles: row['1B'],
           bat_doubles: row['2B'],
           bat_triples: row['3B'],
+          bat_xbh: (row['2B'].to_i + row['3B'].to_i + row['HR'].to_i),
           bat_gdp: row['GDP'],
           bat_hbp: row['HBP'],
           bat_iso: row['ISO'],
@@ -76,10 +78,7 @@ module Maintenance
           bat_wsb: row['wSB'],
           bat_k_pct: row['K%'],
           bat_barrel_pct: row['Barrel%'],
-          bat_hard_hit_pct: row['HardHit%'],
-          mlbam_id: mlbam_id,
-          playerid: playerid,
-          fangraphs_name: fangraphs_name
+          bat_hard_hit_pct: row['HardHit%']
         )
 
         if stat.new_record?
@@ -125,10 +124,7 @@ module Maintenance
           bat_wsb: 0,
           bat_k_pct: 0,
           bat_barrel_pct: 0,
-          bat_hard_hit_pct: 0,
-          mlbam_id: player.mlbam_id,
-          playerid: player.playerid,
-          fangraphs_name: player.fangraphs_name
+          bat_hard_hit_pct: 0
         )
         total_blank_created += 1
       end
@@ -136,7 +132,7 @@ module Maintenance
       # Log unmatched players
       Rails.logger.info("Unmatched players: #{unmatched_players.size}")
       unmatched_players.each do |unmatched|
-        Rails.logger.info("  Name: #{unmatched[:name]}, FangraphsName: #{unmatched[:fangraphs_name]}, PlayerID: #{unmatched[:playerid]}, MLBAM_ID: #{unmatched[:mlbam_id]}")
+        Rails.logger.info("  Name: #{unmatched[:name]}, FangraphsName: #{unmatched[:fangraphs_name]}, fangraphs_id: #{unmatched[:fangraphs_id]}, MLBAM_ID: #{unmatched[:mlbam_id]}")
       end
 
       # Log results

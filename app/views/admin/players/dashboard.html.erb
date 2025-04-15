@@ -51,7 +51,12 @@
       <% if params[:view] == "scoring" %>
         <% table.with_column(sort_link([:admin, @q], :bat_ops, "OPS")) { |instance| format_stat(instance.bat_ops, :hundreths) } %>
       <% elsif params[:view] == "stats" %>
-        <% table.with_column(sort_link([:admin, @q], :bat_hits, "H")) { |instance| format_stat(instance.bat_hits, :hundreths) } %>
+        <% table.with_column(sort_link([:admin, @q], :bat_hits, "H")) { |instance| format_stat(instance.bat_hits, :integer) } %>
+        <% table.with_column(sort_link([:admin, @q], :bat_singles, "1B")) { |instance| format_stat(instance.bat_singles, :integer) } %>
+        <% table.with_column(sort_link([:admin, @q], :bat_doubles, "2B")) { |instance| format_stat(instance.bat_doubles, :integer) } %>
+        <% table.with_column(sort_link([:admin, @q], :bat_triples, "3B")) { |instance| format_stat(instance.bat_triples, :integer) } %>
+        <% table.with_column(sort_link([:admin, @q], :bat_hr, "HR")) { |instance| format_stat(instance.bat_hr, :integer) } %>
+        <% table.with_column(sort_link([:admin, @q], :bat_xbh, "XBH")) { |instance| format_stat(instance.bat_xbh, :integer) } %>
       <% elsif params[:view] == "scouting" %>
         <% table.with_column(sort_link([:admin, @q], :bat_bat_ctrl, "BCTL")) { |instance| format_stat(instance.bat_bat_ctrl, :hundreths) } %>
       <% end %>
