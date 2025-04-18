@@ -5,8 +5,8 @@ module Maintenance
   class ScoutingReportImportFangraphsScoutTask < MaintenanceTasks::Task
     no_collection
 
-    attribute :timeline, :string, default: '2025'
-    attribute :file_name, :string, default: 'fangraphs-the-board-scout.csv'
+    attribute :timeline_abbrev, :string, default: '2025'
+    attribute :file_name, :string, default: 'fangraphs_scouting_reports_batters.csv'
 
     def process
       # Track progress statistics
@@ -18,12 +18,19 @@ module Maintenance
       unmatched_players = []
 
       # Process CSV file
-      file_path = "preseason_2025/#{file_name}"
+      file_path = Rails.root.join('db', 'sources', 'scouting_reports', file_name)
       Rails.logger.info("Starting import of Fangraphs scouting reports from #{file_path}")
       csv_path = Rails.root.join('db', 'sources', file_path)
 
       unless File.exist?(csv_path)
         Rails.logger.error("Error: File not found at #{csv_path}")
+        return
+      end
+
+      # Retrieve timeline
+      timeline = Timeline.find_by(abbreviation: timeline_abbrev)
+      unless timeline
+        Rails.logger.error('Error: Timeline not found')
         return
       end
 
@@ -43,51 +50,64 @@ module Maintenance
 
         begin
           # Extract player full name and split into first/last
-          full_name = sanitize_text(row['full_name'].to_s.strip)
-          name_parts = split_full_name(full_name)
-          first_name = name_parts[:first_name]
-          last_name = name_parts[:last_name]
+          full_name = row['Name']
+          first_name = full_name.split(' ').first
+          last_name = full_name.split(' ')[1..].join(' ')
 
           # Extract other fields
-          position = sanitize_text(row['pos'].to_s.strip)
-          team_abbr = sanitize_text(row['team'].to_s.strip)
-          overall_ranking = row['overall_ranking'].to_i
-          team_ranking = row['team_ranking'].to_i
-          fg_id = row['fg_id'].to_s.strip
+          position = row['Pos'].to_s.strip
+          team_abbr = row['Org'].to_s.strip
+          overall_ranking = row['Top 100'].to_i
+          team_ranking = row['Org Rk'].to_i
+          fangraphs_id = row['PlayerId'].to_s.strip
 
           # Get tool grades
-          hit_pres = row['hit_pres'].to_s.strip
-          hit_proj = row['hit_proj'].to_s.strip
-          pit_sel = row['pit_sel'].to_s.strip
-          bat_ctrl = row['bat_ctrl'].to_s.strip
-          game_pwr_pres = row['game_pwr_pres'].to_s.strip
-          game_pwr_proj = row['game_pwr_proj'].to_s.strip
-          raw_pwr_pres = row['raw_pwr_pres'].to_s.strip
-          raw_pwr_proj = row['raw_pwr_proj'].to_s.strip
-          spd_pres = row['spd_pres'].to_s.strip
-          spd_proj = row['spd_proj'].to_s.strip
-          fld_pres = row['fld_pres'].to_s.strip
-          fld_proj = row['fld_proj'].to_s.strip
-          hard_hit = row['hard_hit'].to_s.strip
-          future_value = row['future_value'].to_s.strip
+          hit_pres = row['Hit']&.split('/')&.first.to_s.strip
+          hit_proj = row['Hit']&.split('/')&.last.to_s.strip
+          pit_sel = row['Pitch Sel'].to_s.strip
+          bat_ctrl = row['Bat Ctrl'].to_s.strip
+          game_pwr_pres = row['Game Pwr']&.split('/')&.first.to_s.strip
+          game_pwr_proj = row['Game Pwr']&.split('/')&.last.to_s.strip
+          raw_pwr_pres = row['Raw Pwr']&.split('/')&.first.to_s.strip
+          raw_pwr_proj = row['Raw Pwr']&.split('/')&.last.to_s.strip
+          spd_pres = row['Spd']&.split('/')&.first.to_s.strip
+          spd_proj = row['Spd']&.split('/')&.last.to_s.strip
+          fld_pres = row['Fld']&.split('/')&.first.to_s.strip
+          fld_proj = row['Fld']&.split('/')&.last.to_s.strip
+          hard_hit = row['Hard Hit%'].to_s.strip
 
-          # Skip blank rows
-          if first_name.blank? || last_name.blank?
-            Rails.logger.info("Skipping blank row ##{total_processed}")
-            next
-          end
+          sits = row['Sits'].to_s.strip
+          tops = row['Tops'].to_s.strip
+          fastball_pres = row['FB']&.split('/')&.first.to_s.strip
+          fastball_proj = row['FB']&.split('/')&.last.to_s.strip
+          slider_pres = row['SL']&.split('/')&.first.to_s.strip
+          slider_proj = row['SL']&.split('/')&.last.to_s.strip
+          changeup_pres = row['CH']&.split('/')&.first.to_s.strip
+          changeup_proj = row['CH']&.split('/')&.last.to_s.strip
+          curveball_pres = row['CB']&.split('/')&.first.to_s.strip
+          curveball_proj = row['CB']&.split('/')&.last.to_s.strip
+          command_pres = row['CMD']&.split('/')&.first.to_s.strip
+          command_proj = row['CMD']&.split('/')&.last.to_s.strip
+
+          future_value = row['FV'].to_s.strip
 
           Rails.logger.info("Processing: #{first_name} #{last_name} (#{position})")
 
           # Find player with normalized name matching
-          player = find_player_by_normalized_name(first_name, last_name)
+          player = Player.find_by(fangraphs_name: full_name) || Player.find_by(fangraphs_id: fangraphs_id)
 
           if player
             Rails.logger.info("Matched: #{first_name} #{last_name} (ID: #{player.id})")
             players_matched += 1
           else
             # Create new player if no match found
-            player = create_player(first_name, last_name, position, team_abbr)
+            player = Player.create(
+              first_name:,
+              last_name:,
+              position:,
+              fangraphs_id:,
+              fangraphs_name: full_name
+            )
             Rails.logger.info("Created new player: #{first_name} #{last_name} (ID: #{player.id})")
             players_created += 1
             unmatched_players << "#{first_name} #{last_name}"
@@ -97,37 +117,27 @@ module Maintenance
           scouting_report = ScoutingReport.find_or_initialize_by(
             player_id: player.id,
             scout_id: scout.id,
-            timeline: timeline
+            timeline: timeline,
+            reported_at: Time.zone.now,
+            overall_ranking:,
+            team_ranking:,
+            hit_pres:,
+            hit_proj:,
+            pit_sel:,
+            bat_ctrl:,
+            game_pwr_pres:,
+            game_pwr_proj:,
+            raw_pwr_pres:,
+            raw_pwr_proj:,
+            spd_pres:,
+            spd_proj:,
+            fld_pres:,
+            fld_proj:,
+            hard_hit:,
+            future_value:,
+            sits:,
+            tops:
           )
-
-          # Set basic attributes
-          scouting_report.overall_ranking = overall_ranking
-          scouting_report.team_ranking = team_ranking if scouting_report.respond_to?(:team_ranking=)
-          scouting_report.reported_at = Time.zone.now
-
-          # Set Fangraphs-specific attributes
-          scouting_report.future_value = future_value if scouting_report.respond_to?(:future_value=)
-
-          # Set hitting tool attributes
-          scouting_report.hit_pres = hit_pres if scouting_report.respond_to?(:hit_pres=)
-          scouting_report.hit_proj = hit_proj if scouting_report.respond_to?(:hit_proj=)
-          scouting_report.pit_sel = pit_sel if scouting_report.respond_to?(:pit_sel=)
-          scouting_report.bat_ctrl = bat_ctrl if scouting_report.respond_to?(:bat_ctrl=)
-
-          # Set power tool attributes
-          scouting_report.pwr_pres = game_pwr_pres if scouting_report.respond_to?(:pwr_pres=)
-          scouting_report.pwr_proj = game_pwr_proj if scouting_report.respond_to?(:pwr_proj=)
-          scouting_report.power_pres = raw_pwr_pres if scouting_report.respond_to?(:power_pres=)
-          scouting_report.power_proj = raw_pwr_proj if scouting_report.respond_to?(:power_proj=)
-
-          # Set speed and fielding attributes
-          scouting_report.spd_pres = spd_pres if scouting_report.respond_to?(:spd_pres=)
-          scouting_report.spd_proj = spd_proj if scouting_report.respond_to?(:spd_proj=)
-          scouting_report.fld_pres = fld_pres if scouting_report.respond_to?(:fld_pres=)
-          scouting_report.fld_proj = fld_proj if scouting_report.respond_to?(:fld_proj=)
-
-          # Set additional attributes
-          scouting_report.hard_hit = hard_hit if scouting_report.respond_to?(:hard_hit=)
 
           if scouting_report.save
             scouting_reports_created += 1
@@ -187,70 +197,6 @@ module Maintenance
         # Assume first name is the first part, and last name is all remaining parts
         { first_name: parts[0], last_name: parts[1..-1].join(' ') + suffix }
       end
-    end
-
-    def sanitize_text(text)
-      return '' if text.nil?
-
-      # Fix common encoding issues
-      text = text.encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
-
-      # Fix special character sequences
-      text = text.gsub('‚Äô', "'")   # Fix apostrophes
-      text = text.gsub('‚Äú', '"')   # Fix opening quotes
-      text = text.gsub('‚Äù', '"')   # Fix closing quotes
-      text = text.gsub('‚Ä¶', '...') # Fix ellipsis
-      text = text.gsub('‚Äî', '-')   # Fix em dash
-      text = text.gsub('‚Äì', '-')   # Fix en dash
-
-      # Additional replacements for common problematic characters
-      text = text.gsub('Ã±', 'ñ')     # Fix Spanish n with tilde
-      text = text.gsub('Ã¡', 'á')     # Fix a with accent
-      text = text.gsub('Ã©', 'é')     # Fix e with accent
-      text = text.gsub('Ã­', 'í')     # Fix i with accent
-      text = text.gsub('Ã³', 'ó')     # Fix o with accent
-      text.gsub('Ãº', 'ú') # Fix u with accent
-    end
-
-    def normalize_text(text)
-      # First sanitize the text to fix encoding issues
-      text = sanitize_text(text)
-      # Then remove accents and convert to lowercase
-      I18n.transliterate(text.to_s.downcase)
-    end
-
-    def find_player_by_normalized_name(first_name, last_name)
-      normalized_first = normalize_text(first_name)[0..4] # First 5 chars
-      normalized_last = normalize_text(last_name)[0..6]   # First 7 chars
-
-      Player.all.find do |player|
-        normalized_player_first = normalize_text(player.first_name)[0..4]
-        normalized_player_last = normalize_text(player.last_name)[0..6]
-
-        normalized_first == normalized_player_first && normalized_last == normalized_player_last
-      end
-    end
-
-    def create_player(first_name, last_name, position, team_abbr)
-      # Find team from abbreviation
-      team = Team.find_by(abbreviation: team_abbr)
-
-      # Use FA roster if team not found
-      roster = Roster.find_by(abbreviation: 'FA')
-
-      # Create the player
-      player = Player.new(
-        first_name: first_name,
-        last_name: last_name,
-        position: position,
-        status: 'prospect'
-      )
-
-      # Assign to roster if found
-      player.roster = roster if roster
-
-      player.save!
-      player
     end
   end
 end

@@ -10,7 +10,6 @@ class ScoutingReport < ApplicationRecord
   has_many :scouting_profiles, through: :scouting_profile_reports
 
   validates :reported_at, presence: true
-  validates :report_date, presence: true
 
   scope :select_order, -> { order(reported_at: :desc) }
 
@@ -49,7 +48,6 @@ class ScoutingReport < ApplicationRecord
       pwr_pres
       pwr_proj
       reported_at
-      report_date
       risk
       spd_pres
       spd_proj

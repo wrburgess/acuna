@@ -31,6 +31,7 @@ class Admin::PlayersController < AdminController
            'players.level_id',
            'players.status_id',
            'players.age',
+           'players.birthdate',
 
            'stats.timeline_id AS stats_timeline_id',
 
@@ -207,6 +208,7 @@ class Admin::PlayersController < AdminController
            'levels.id', 'levels.abbreviation', 'levels.weight',
            'statuses.id', 'statuses.abbreviation', 'statuses.weight'
          ].join(', '))
+         .where('players.active IS TRUE')
          .ransack(params[:q])
 
     # Filter by player_type

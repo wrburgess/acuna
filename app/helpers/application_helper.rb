@@ -51,4 +51,15 @@ module ApplicationHelper
       val.to_s
     end
   end
+
+  def years_until_today(date)
+    return 0 if date.nil?
+    return 0 unless date.is_a?(Date)
+    return 0 if date > Date.today
+
+    today = Date.today
+    years_difference = today.year - date.year
+    years_difference -= 1 if today < date + years_difference.years
+    years_difference.to_i.to_s
+  end
 end

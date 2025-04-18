@@ -44,8 +44,7 @@
     <% table.with_column(sort_link([:admin, @q], :roster_abbreviation, "ROS")) { |instance| instance.roster&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_level_weight, "LEVEL")) { |instance| instance.level&.abbreviation } %>
     <% table.with_column(sort_link([:admin, @q], :player_status_weight, "STATUS")) { |instance| instance.status&.abbreviation } %>
-    <% table.with_column(sort_link([:admin, @q], :player_status_weight, "AGE")) { |instance| format_stat(instance.age, :integer) } %>
-    <% table.with_column(sort_link([:admin, @q], :stats_timeline_id, "TIME")) { |instance| instance.stats_timeline_id.to_s } %>
+    <% table.with_column(sort_link([:admin, @q], :birthdate, "AGE")) { |instance| years_until_today(instance.birthdate) } %>
 
     <% if params[:player_type] == "batter" %>
       <% if params[:view] == "scoring" %>

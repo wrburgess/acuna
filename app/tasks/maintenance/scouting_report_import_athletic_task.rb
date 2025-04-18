@@ -5,7 +5,7 @@ module Maintenance
   class ScoutingReportImportAthleticTask < MaintenanceTasks::Task
     no_collection
 
-    attribute :timeline, :string, default: '2025'
+    attribute :timeline_abbrev, :string, default: '2025'
     attribute :file_name, :string, default: 'keith_law_scouting_reports.csv'
 
     def process
@@ -18,12 +18,19 @@ module Maintenance
       unmatched_players = []
 
       # Process CSV file
-      file_path = "preseason_2025/#{file_name}"
+      file_path = Rails.root.join('db', 'sources', 'scouting_reports', file_name)
       Rails.logger.info("Starting import of The Athletic scouting reports from #{file_path}")
       csv_path = Rails.root.join('db', 'sources', file_path)
 
       unless File.exist?(csv_path)
         Rails.logger.error("Error: File not found at #{csv_path}")
+        return
+      end
+
+      # Retrieve timeline
+      timeline = Timeline.find_by(abbreviation: timeline_abbrev)
+      unless timeline
+        Rails.logger.error('Error: Timeline not found')
         return
       end
 
