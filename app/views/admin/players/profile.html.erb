@@ -4,7 +4,7 @@
     <div class="col-md-6 mb-4">
       <div class="card h-100">
         <div class="card-header bg-primary text-white">
-          <h4>Roman Anthony, RF, BOS</h4>
+          <h4><%= @instance.full_description %></h4>
         </div>
         <div class="card-body">          
           <!-- Status and Metrics -->
@@ -13,11 +13,11 @@
               <tbody>
                 <tr>
                   <th scope="row" style="width: 30%">Roster</th>
-                  <td>Wrigleyville Fielders</td>
+                  <td><%= @instance.roster&.name %></td>
                 </tr>
                 <tr>
                   <th scope="row">Team</th>
-                  <td>Boston Red Sox</td>
+                  <td><%= @instance.team&.name %></td>
                 </tr>
                 <tr>
                   <th scope="row">Acquired</th>
@@ -25,23 +25,23 @@
                 </tr>
                 <tr>
                   <th scope="row">Current Level</th>
-                  <td>AAA</td>
+                  <td><%= @instance.level&.name %></td>
                 </tr>
                 <tr>
                   <th scope="row">ETA / Risk</th>
-                  <td>2025 / HIGH</td>
+                  <td><%= @profile.eta %> / <%= @profile.risk %></td>
                 </tr>
                 <tr>
                   <th scope="row">Age / Ht / Wt</th>
-                  <td>19 / 6'2" / 170lbs</td>
+                  <td><%= format_stat(@instance.age, :integer) %> / <%= @instance.height %> / <%= @instance.weight %></td>
                 </tr>
                 <tr>
                   <th scope="row">Hits / Throws</th>
-                  <td>Right / Left</td>
+                  <td><%= @instance.bats %> / <%= @instance.throws %></td>
                 </tr>
                 <tr>
                   <th scope="row">TJ Surgery</th>
-                  <td>2023-01-02</td>
+                  <td><%= default_date_format(@profile.tj_at) %></td>
                 </tr>
               </tbody>
             </table>
@@ -95,42 +95,21 @@
         </div>
         <div class="card-body">
           <div class="accordion" id="analysisAccordion">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                  Law 25/03: "Sasaki cemented a legacy while he was still in high school. There was a stretch when he was asked to throw nearly 500 pitches..."
-                </button>
-              </h2>
-              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#analysisAccordion">
-                <div class="accordion-body">
-                  Sasaki cemented a legacy while he was still in high school. There was a stretch when he was asked to throw nearly 500 pitches in a week's time during the prestigious Koshien tournament. He has a fastball that can touch 101 mph and has sat 97-99 in shorter bursts. The pitch, which he throws from a three-quarters arm slot, features modest arm-side run and, when thrown to the top of the zone, ride through the zone. He complements the fastball with a splitter that features significant vertical drop due to his release point, sitting in the high-80s. The pitch plays in the zone as a strike and can generate whiffs below the zone. The third offering is a low-80s slider with vertical tilt that he commands well within the zone.
+            <% @reports.each_with_index do |report, index| %>
+              <% el_name = "collapse_#{index}"%>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#<%= el_name %>" aria-expanded="true" aria-controls="<%= el_name %>">
+                    <%= report.scout.last_name %> <%= report.reported_at.strftime('%m/%y') %>: <%= report.body&.truncate(50) %>
+                  </button>
+                </h2>
+                <div id="<%= el_name %>" class="accordion-collapse collapse <%= index == 0 ? 'show' : '' %>" aria-labelledby="headingOne" data-bs-parent="#analysisAccordion">
+                  <div class="accordion-body">
+                    <%= report.body %>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  McDaniel 25/03: "In high school, Anthony presented clubs with a risky but exciting combination of present raw power and long-term power projection, but..."
-                </button>
-              </h2>
-              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#analysisAccordion">
-                <div class="accordion-body">
-                  In high school, Anthony presented clubs with a risky but exciting combination of present raw power and long-term power projection, but the hit tool needed some work. Anthony has shown glimpses of being able to lift the ball, but his best trait is his high-end exit velocity, with a max EV of 109 mph. His minor league track record includes an encouraging rise, from a 66 wRC+ in Low-A to 102 in High-A, and then a 142 in a half-season at Double-A. He also has hit nine homers in 160 AFL at-bats over two autumns and posted solid walk rates in 2023, particularly at Double-A.
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  Longenhagen 25/03: "Because his fastball is so well-located, it plays as an out pitch even though it doesn't have exceptional velocity or movement..."
-                </button>
-              </h2>
-              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#analysisAccordion">
-                <div class="accordion-body">
-                  Because his fastball is so well-located, it plays as an out pitch even though it doesn't have exceptional velocity or movement. Gray sits 92-95 and touches 96 mph, and the pitch has a little bit of tail. But that tail is suppressed because Gray is typically working east/west with his heater, living at the edges of the zone rather than elevating. He has a full repertoire of secondaries, headlined by a hellacious overhand curveball in the low-80s. It's a hammer with significant depth and often buckles hitters. Gray commands it with consistency, which is abnormal for pitchers with this sort of arm slot and curveball shape.
-                </div>
-              </div>
-            </div>
+            <% end %>
           </div>
         </div>
       </div>
@@ -148,29 +127,37 @@
               <thead class="bg-light">
                 <tr>
                   <th scope="col">Metric</th>
-                  <th scope="col">KL</th>
-                  <th scope="col">KM</th>
-                  <th scope="col">EL</th>
+                  <th scope="col">FG</th>
+                  <th scope="col">ESPN</th>
+                  <th scope="col">ATH</th>
+                  <th scope="col">BA</th>
+                  <th scope="col">CBS</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <th scope="row">Overall</th>
-                  <td>15</td>
-                  <td>11</td>
-                  <td>11</td>
+                  <td><%= format_stat(@profile.fg_overall_rank, :integer) %></td>
+                  <td><%= format_stat( @profile.espn_overall_rank, :integer) %></td>
+                  <td><%= format_stat(@profile.ath_overall_rank, :integer) %></td>
+                  <td><%= format_stat(@profile.ba_overall_rank, :integer) %></td>
+                  <td><%= format_stat(@profile.cbs_overall_rank, :integer) %></td>
                 </tr>
                 <tr>
                   <th scope="row">Team</th>
-                  <td>3</td>
-                  <td>1</td>
-                  <td>1</td>
+                  <td><%= format_stat(@profile.fg_team_rank, :integer) %></td>
+                  <td><%= format_stat( @profile.espn_team_rank, :integer) %></td>
+                  <td><%= format_stat(@profile.ath_team_rank, :integer) %></td>
+                  <td><%= format_stat(@profile.ba_team_rank, :integer) %></td>
+                  <td><%= format_stat(@profile.cbs_team_rank, :integer) %></td>
                 </tr>
                 <tr>
                   <th scope="row">FV</th>
-                  <td>55</td>
-                  <td>60</td>
-                  <td>55</td>
+                  <td><%= format_stat(@profile.fg_future_value, :integer) %></td>
+                  <td><%= format_stat( @profile.espn_future_value, :integer) %></td>
+                  <td><%= format_stat(@profile.ath_future_value, :integer) %></td>
+                  <td><%= format_stat(@profile.ba_future_value, :integer) %></td>
+                  <td><%= format_stat(@profile.cbs_future_value, :integer) %></td>
                 </tr>
               </tbody>
             </table>

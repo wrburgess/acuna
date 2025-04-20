@@ -360,8 +360,11 @@ class Admin::PlayersController < AdminController
   def profile
     authorize(policy_class)
 
-    @instance = controller_class.includes(:scouting_reports).find(params[:id])
-    @scouting_reports = @instance.scouting_reports
+    timeline = params[:timeline_id] ? Timeline.find(params[:timeline_id]) : Timeline.find_by(default: true)
+    @instance = controller_class.includes(:roster, :team, :level, :stats, :scouting_reports, :scouting_profiles).find(params[:id])
+    @stats = @instance.stats
+    @reports = @instance.scouting_reports.includes(:scout)
+    @profile = ScoutingProfile.find_by(player_id: @instance.id, timeline: timeline)
   end
 
   def search

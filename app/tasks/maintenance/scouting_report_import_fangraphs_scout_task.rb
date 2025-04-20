@@ -75,6 +75,7 @@ module Maintenance
           fld_pres = row['Fld']&.split('/')&.first.to_s.strip
           fld_proj = row['Fld']&.split('/')&.last.to_s.strip
           hard_hit = row['Hard Hit%'].to_s.strip
+          tj_at = row['TJ Date'].to_s.strip
 
           sits = row['Sits'].to_s.strip
           tops = row['Tops'].to_s.strip
@@ -136,7 +137,18 @@ module Maintenance
             hard_hit:,
             future_value:,
             sits:,
-            tops:
+            tops:,
+            tj_at:,
+            fastball_pres:,
+            fastball_proj:,
+            slider_pres:,
+            slider_proj:,
+            changeup_pres:,
+            changeup_proj:,
+            curveball_pres:,
+            curveball_proj:,
+            command_pres:,
+            command_proj:,
           )
 
           if scouting_report.save
