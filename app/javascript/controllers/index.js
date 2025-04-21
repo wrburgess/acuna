@@ -6,4 +6,7 @@ import { application } from "./application"
 import ColumnViewController from "./column_view_controller"
 application.register("column-view", ColumnViewController)
 
+import CommentsController from "./admin/comments_controller"
+application.register("comments", CommentsController)
+
 // Import and register other controllers as needed...

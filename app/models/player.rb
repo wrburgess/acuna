@@ -1,6 +1,7 @@
 class Player < ApplicationRecord
   include Archivable
   include Loggable
+  include Commentable
 
   validates :last_name, presence: true
   validates :first_name, presence: true

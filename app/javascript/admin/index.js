@@ -12,8 +12,9 @@ window.Stimulus = application
 // Import Bootstrap JS
 import "bootstrap"
 
-// Import admin-specific controllers
-import "./controllers"
+// Import and register admin-specific controllers
+import CommentsController from "./comments_controller"
+application.register("comments", CommentsController)
 
 // Log that admin JS is loaded
 // console.log("Admin JavaScript bundle loaded")

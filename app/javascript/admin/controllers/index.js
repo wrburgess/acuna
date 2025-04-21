@@ -29,3 +29,6 @@ application.register("timeline", TimelineController)
 
 import ColumnViewController from "./column_view_controller"
 application.register("column-view", ColumnViewController)
+
+import CommentsController from "./comments_controller"
+application.register("comments", CommentsController)

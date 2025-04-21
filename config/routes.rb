@@ -104,5 +104,14 @@ Rails.application.routes.draw do
         post :stop_impersonating
       end
     end
+
+    resources :comments, concerns: [:archivable, :collection_exportable] do
+      collection do
+        post :create_for_player
+      end
+      member do
+        patch :update_comment
+      end
+    end
   end
 end

@@ -361,7 +361,7 @@ class Admin::PlayersController < AdminController
     authorize(policy_class)
 
     timeline = params[:timeline_id] ? Timeline.find(params[:timeline_id]) : Timeline.find_by(default: true)
-    @instance = controller_class.includes(:roster, :team, :level, :stats, :scouting_reports, :scouting_profiles).find(params[:id])
+    @instance = controller_class.includes(:roster, :team, :level, :stats, :scouting_reports, :scouting_profiles, :comments).find(params[:id])
     @stats = @instance.stats
     @reports = @instance.scouting_reports.includes(:scout)
     @profile = ScoutingProfile.find_by(player_id: @instance.id, timeline: timeline)
