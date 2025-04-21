@@ -51,6 +51,8 @@ module Maintenance
             bat_spd_proj: fangraphs_report.spd_proj,
             bat_fld_pres: fangraphs_report.fld_pres,
             bat_fld_proj: fangraphs_report.fld_proj,
+            bat_arm_pres: fangraphs_report.arm_pres,
+            bat_arm_proj: fangraphs_report.arm_proj,
             pit_control_pres: fangraphs_report.control_pres,
             pit_control_proj: fangraphs_report.control_proj,
             pit_command_pres: fangraphs_report.command_pres,

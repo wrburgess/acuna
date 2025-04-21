@@ -156,4 +156,12 @@ class Player < ApplicationRecord
   def dynamic_name_ascii
     [first_name, middle_name, last_name, name_suffix].reject(&:blank?).join(' ')
   end
+
+  def batter?
+    player_type == 'batter'
+  end
+
+  def pitcher?
+    player_type == 'pitcher'
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_19_232350) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_20_231002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -409,6 +409,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_232350) do
     t.string "sits"
     t.string "tops"
     t.datetime "tj_at"
+    t.decimal "bat_arm_pres", precision: 10, scale: 3
+    t.decimal "bat_arm_proj", precision: 10, scale: 3
     t.index ["player_id"], name: "index_scouting_profiles_on_player_id"
     t.index ["timeline_id"], name: "index_scouting_profiles_on_timeline_id"
   end
@@ -464,6 +466,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_232350) do
     t.bigint "timeline_id"
     t.string "sits"
     t.string "tops"
+    t.decimal "bat_arm_pres", precision: 10, scale: 3
+    t.decimal "bat_arm_proj", precision: 10, scale: 3
     t.index ["player_id"], name: "index_scouting_reports_on_player_id"
     t.index ["scout_id"], name: "index_scouting_reports_on_scout_id"
     t.index ["timeline_id"], name: "index_scouting_reports_on_timeline_id"
@@ -575,6 +579,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_232350) do
     t.decimal "pit_war", precision: 10, scale: 3, comment: "pitching - wins above replacement"
     t.decimal "pit_hbp", precision: 10, scale: 3, comment: "pitching - total hit by pitch"
     t.decimal "pit_shutouts", precision: 10, scale: 3, comment: "pitching - total shutouts"
+    t.decimal "bat_bb_pct", precision: 10, scale: 3, comment: "batting - walk percentage"
     t.index ["opponent_id"], name: "index_stats_on_opponent_id"
     t.index ["player_id"], name: "index_stats_on_player_id"
     t.index ["team_id"], name: "index_stats_on_team_id"
