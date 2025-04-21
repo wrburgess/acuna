@@ -424,7 +424,7 @@
     <h2>Comments</h2>
 
     <div id="comments-list">
-      <% @player.comments.active.each do |comment| %>
+      <% @instance.comments.active.each do |comment| %>
         <div class="comment">
           <div class="comment-header">
             <span class="author-initials"><%= comment.user.initials %></span>
@@ -443,7 +443,7 @@
     </div>
 
     <div id="new-comment-form">
-      <%= form_with model: [@player, Admin::Comment.new], local: true do |form| %>
+      <%= form_with model: [@instance, Comment.new], url: polymorphic_path([:admin, @instance]), local: true do |form| %>
         <div class="form-group">
           <%= form.text_area :body, placeholder: "Add a comment..." %>
         </div>

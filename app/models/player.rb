@@ -15,6 +15,7 @@ class Player < ApplicationRecord
   has_many :scouting_reports, dependent: :destroy
   has_many :tracking_list_players, dependent: :destroy
   has_many :tracking_lists, through: :tracking_list_players
+  has_many :comments, as: :commentable, class_name: 'Comment', dependent: :destroy
 
   scope :select_order, -> { order(url_type: :asc) }
   scope :by_status, ->(status) { where(status: status) }
