@@ -1,7 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
+import { Turbo } from "@hotwired/turbo-rails"
 
 export default class extends Controller {
-  static targets = ["list", "form", "commentBody", "editForm", "editCommentBody"]
+  static targets = ["list", "form", "commentBody"]
 
   connect() {
     console.log("Comments controller connected")
@@ -16,7 +17,8 @@ export default class extends Controller {
       method: 'POST',
       body: formData,
       headers: {
-        "Accept": "text/vnd.turbo-stream.html"
+        "Accept": "text/vnd.turbo-stream.html",
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
       }
     })
     .then(response => response.text())
@@ -24,46 +26,91 @@ export default class extends Controller {
       Turbo.renderStreamMessage(html)
       this.commentBodyTarget.value = ''
     })
+    .catch(error => {
+      console.error("Error submitting comment:", error)
+    })
   }
 
   editComment(event) {
     const commentId = event.currentTarget.dataset.commentId
     const commentBody = event.currentTarget.dataset.commentBody
-    const editForm = document.getElementById(`edit-comment-form-${commentId}`)
-    const commentDisplay = document.getElementById(`comment-display-${commentId}`)
     
-    document.getElementById(`edit-comment-body-${commentId}`).value = commentBody
-    editForm.classList.remove('d-none')
+    // First make sure we can find the elements we need
+    const editFormContainer = document.getElementById(`edit-comment-form-${commentId}`)
+    const commentDisplay = document.getElementById(`comment-display-${commentId}`)
+    const textArea = document.getElementById(`edit-comment-body-${commentId}`)
+    
+    if (!editFormContainer || !commentDisplay || !textArea) {
+      console.error("Could not find required elements for editing")
+      return
+    }
+    
+    // Set the current comment text in the textarea
+    textArea.value = commentBody
+    
+    // Show the edit form and hide the display
+    editFormContainer.classList.remove('d-none')
     commentDisplay.classList.add('d-none')
   }
 
   cancelEdit(event) {
     const commentId = event.currentTarget.dataset.commentId
-    const editForm = document.getElementById(`edit-comment-form-${commentId}`)
+    const editFormContainer = document.getElementById(`edit-comment-form-${commentId}`)
     const commentDisplay = document.getElementById(`comment-display-${commentId}`)
     
-    editForm.classList.add('d-none')
-    commentDisplay.classList.remove('d-none')
+    if (editFormContainer && commentDisplay) {
+      editFormContainer.classList.add('d-none')
+      commentDisplay.classList.remove('d-none')
+    }
   }
 
   updateComment(event) {
     event.preventDefault()
-    const commentId = event.currentTarget.dataset.commentId
-    const form = document.getElementById(`edit-comment-form-${commentId}`)
+    
+    // Find the form - this works whether the action is on the form or a button inside it
+    const form = event.currentTarget.tagName === 'FORM' ? 
+                event.currentTarget : 
+                event.currentTarget.closest('form')
+    
+    if (!form || !(form instanceof HTMLFormElement)) {
+      console.error("Cannot find valid form element")
+      return
+    }
+    
+    const commentId = form.dataset.commentId
+    
+    // Create FormData with the form element
     const formData = new FormData(form)
     
     fetch(form.action, {
       method: 'PATCH',
       body: formData,
       headers: {
-        "Accept": "text/vnd.turbo-stream.html"
+        "Accept": "text/vnd.turbo-stream.html",
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
       }
     })
-    .then(response => response.text())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+      return response.text()
+    })
     .then(html => {
       Turbo.renderStreamMessage(html)
-      form.classList.add('d-none')
-      document.getElementById(`comment-display-${commentId}`).classList.remove('d-none')
+      
+      // Hide the form and show the display
+      const editFormContainer = document.getElementById(`edit-comment-form-${commentId}`)
+      const commentDisplay = document.getElementById(`comment-display-${commentId}`)
+      
+      if (editFormContainer && commentDisplay) {
+        editFormContainer.classList.add('d-none')
+        commentDisplay.classList.remove('d-none')
+      }
+    })
+    .catch(error => {
+      console.error("Error updating comment:", error)
+      alert("Failed to update comment. Please try again.")
     })
   }
 
