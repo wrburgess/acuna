@@ -74,6 +74,12 @@ Rails.application.routes.draw do
         get :dashboard
         get :search
       end
+
+      resources :comments, only: [:index, :show, :create, :update] do
+        member do
+          patch :archive
+        end
+      end
     end
 
     resources :positions, concerns: [:archivable, :copyable, :collection_exportable]

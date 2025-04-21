@@ -1,6 +1,7 @@
 class ScoutingReport < ApplicationRecord
   include Archivable
   include Loggable
+  include Commentable
 
   belongs_to :scout
   belongs_to :player
