@@ -64,6 +64,12 @@ Rails.application.routes.draw do
     end
 
     resources :data_logs, only: [:index, :show], concerns: :collection_exportable
+    resources :comments, concerns: [:archivable, :collection_exportable] do
+      collection do
+        get 'player/:player_id', to: 'comments#player_comments', as: :player
+        post 'player/:player_id', to: 'comments#create_player_comment', as: :create_player
+      end
+    end
     resources :levels, concerns: [:archivable, :copyable, :collection_exportable]
     resources :players, concerns: [:archivable, :copyable, :collection_exportable, :member_exportable] do
       member do

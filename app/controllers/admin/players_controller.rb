@@ -365,6 +365,8 @@ class Admin::PlayersController < AdminController
     @stats = @instance.stats
     @reports = @instance.scouting_reports.includes(:scout)
     @profile = ScoutingProfile.find_by(player_id: @instance.id, timeline: timeline)
+    @comments = @instance.comments.actives.select_order
+    @new_comment = @instance.comments.new(user: current_user)
   end
 
   def search
