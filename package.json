@@ -5,8 +5,8 @@
     "@popperjs/core": "2.11.8",
     "bootstrap": "5.3.5",
     "bootstrap-icons": "1.11.3",
-    "esbuild": "0.25.2",
-    "sass": "1.86.3",
+    "esbuild": "0.25.3",
+    "sass": "1.87.0",
     "tom-select": "2.4.3"
   },
   "name": "acuna",
@@ -18,5 +18,5 @@
     "watch:css": "sass --watch ./app/assets/stylesheets/admin.scss:./app/assets/builds/admin.css ./app/assets/stylesheets/public.scss:./app/assets/builds/public.css --no-source-map --load-path=node_modules"
   },
   "version": "1.0.0",
-  "packageManager": "yarn@4.8.1"
+  "packageManager": "yarn@4.9.1"
 }
