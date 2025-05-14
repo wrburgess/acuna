@@ -4,9 +4,9 @@
     "@hotwired/turbo-rails": "8.0.13",
     "@popperjs/core": "2.11.8",
     "bootstrap": "5.3.6",
-    "bootstrap-icons": "1.12.1",
+    "bootstrap-icons": "1.13.1",
     "esbuild": "0.25.4",
-    "sass": "1.87.0",
+    "sass": "1.88.0",
     "tom-select": "2.4.3"
   },
   "name": "acuna",
