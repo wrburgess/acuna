@@ -11,7 +11,7 @@ gem 'rails', '8.0.2'
 
 gem 'awesome_print', '1.9.2'
 gem 'blazer', '3.3.0'
-gem 'bootsnap', '1.18.4', require: false
+gem 'bootsnap', '1.18.6', require: false
 gem 'caxlsx', '4.2.0'
 gem 'caxlsx_rails', '0.6.4'
 gem 'cssbundling-rails', '1.4.3'
@@ -50,10 +50,10 @@ end
 
 group :development do
   gem 'brakeman', '7.0.2', require: false
-  gem 'bullet', '8.0.6'
+  gem 'bullet', '8.0.7'
   gem 'bundler-audit', '0.9.2', require: false
   gem 'lookbook', '2.3.9'
-  gem 'rubocop', '1.75.5', require: false
+  gem 'rubocop', '1.75.6', require: false
   gem 'squasher', '0.8.0'
   gem 'web-console', '4.2.1'
 end
