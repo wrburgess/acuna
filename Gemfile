@@ -17,12 +17,12 @@ gem 'caxlsx_rails', '0.6.4'
 gem 'cssbundling-rails', '1.4.3'
 gem 'csv', '3.3.5'
 gem 'devise', '4.9.4'
-gem 'faker', '3.5.1'
-gem 'good_job', '4.10.2'
+gem 'faker', '3.5.2'
+gem 'good_job', '4.11.1'
 gem 'jbuilder', '2.13.0'
 gem 'jsbundling-rails', '1.3.1'
 gem 'maintenance_tasks', '2.12.0'
-gem 'pagy', '9.3.4'
+gem 'pagy', '9.3.5'
 gem 'pg', '1.5.9'
 gem 'pghero', '3.7.0'
 gem 'pretender', '0.6.0'
@@ -39,7 +39,7 @@ gem 'tzinfo-data', '1.2025.2'
 gem 'view_component', '3.23.2'
 
 group :production, :staging do
-  gem 'honeybadger', '5.28.0'
+  gem 'honeybadger', '5.29.1'
 end
 
 group :development, :test do
@@ -53,7 +53,7 @@ group :development do
   gem 'bullet', '8.0.8'
   gem 'bundler-audit', '0.9.2', require: false
   gem 'lookbook', '2.3.11'
-  gem 'rubocop', '1.77.0', require: false
+  gem 'rubocop', '1.78.0', require: false
   gem 'squasher', '0.8.0'
   gem 'web-console', '4.2.1'
 end
@@ -67,7 +67,7 @@ group :test do
   gem 'rspec-json_expectations', '2.2.0'
   gem 'rspec_junit_formatter', '0.6.0'
   gem 'rspec-longrun', '3.1.0'
-  gem 'selenium-webdriver', '4.33.0'
+  gem 'selenium-webdriver', '4.34.0'
   gem 'shoulda-matchers', '6.5.0'
   gem 'timecop', '0.9.10'
   gem 'vcr', '6.3.1'
