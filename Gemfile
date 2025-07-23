@@ -26,7 +26,7 @@ gem 'pagy', '9.3.5'
 gem 'pg', '1.5.9'
 gem 'pghero', '3.7.0'
 gem 'pretender', '0.6.0'
-gem 'propshaft', '1.2.0'
+gem 'propshaft', '1.2.1'
 gem 'puma', '6.6.0'
 gem 'pundit', '2.5.0'
 gem 'ransack', '4.3.0'
@@ -39,7 +39,7 @@ gem 'tzinfo-data', '1.2025.2'
 gem 'view_component', '3.23.2'
 
 group :production, :staging do
-  gem 'honeybadger', '5.29.1'
+  gem 'honeybadger', '6.0.1'
 end
 
 group :development, :test do
@@ -49,7 +49,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'brakeman', '7.0.2', require: false
+  gem 'brakeman', '7.1.0', require: false
   gem 'bullet', '8.0.8'
   gem 'bundler-audit', '0.9.2', require: false
   gem 'lookbook', '2.3.11'
