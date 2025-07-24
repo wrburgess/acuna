@@ -53,7 +53,7 @@ group :development do
   gem 'bullet', '8.0.8'
   gem 'bundler-audit', '0.9.2', require: false
   gem 'lookbook', '2.3.11'
-  gem 'rubocop', '1.78.0', require: false
+  gem 'rubocop', '1.79.0', require: false
   gem 'squasher', '0.8.0'
   gem 'web-console', '4.2.1'
 end
