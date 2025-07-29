@@ -23,7 +23,7 @@ gem 'jbuilder', '2.13.0'
 gem 'jsbundling-rails', '1.3.1'
 gem 'maintenance_tasks', '2.12.0'
 gem 'pagy', '9.3.5'
-gem 'pg', '1.5.9'
+gem 'pg', '1.6.0'
 gem 'pghero', '3.7.0'
 gem 'pretender', '0.6.0'
 gem 'propshaft', '1.2.1'
@@ -52,7 +52,7 @@ group :development do
   gem 'brakeman', '7.1.0', require: false
   gem 'bullet', '8.0.8'
   gem 'bundler-audit', '0.9.2', require: false
-  gem 'lookbook', '2.3.11'
+  gem 'lookbook', '2.3.12'
   gem 'rubocop', '1.79.0', require: false
   gem 'squasher', '0.8.0'
   gem 'web-console', '4.2.1'
